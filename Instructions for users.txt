@@ -1,0 +1,2 @@
+Vas konfiguracioni fajl je potrebno da ubacite unutar ProviderDatabaseLibrary projekta na sledecu putanju:
+\ProviderDatabaseLibrary\bin\Debug\net8.0\config.txt
