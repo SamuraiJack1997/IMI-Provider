@@ -9,10 +9,10 @@ namespace ProviderDatabaseLibrary.Models
 {
     internal class Client
     {
-        public int ID { get; set; }
-        public string UserName { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        private int ID { get; set; }
+        private string UserName { get; set; }
+        private string Name { get; set; }
+        private string Surname { get; set; }
 
         public Client(int iD, string userName, string name, string surname)
         {

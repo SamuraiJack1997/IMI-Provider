@@ -8,6 +8,7 @@ using System.IO;
 using System.Globalization;
 using ProviderDatabaseLibrary.Models;
 using ProviderDatabaseLibrary.Interfaces;
+using ProviderDatabaseLibrary.Factories;
 
 namespace ProviderDatabaseLibrary
 {
@@ -15,11 +16,13 @@ namespace ProviderDatabaseLibrary
     {
         static void Main(string[] args)
         {
+            
             Client c = new Client(1, "stefan123", "Stefan", "Aleksandric");
             ProviderMySQL provider = new ProviderMySQL();
             Console.WriteLine(provider);
-            Console.WriteLine(c);
+            Console.WriteLine("Kreiran je lokalni user:"+c);
 
+            Console.WriteLine("Klijenti iz baze:");
             IClient db;
             db = ClientFactory.Provider("MySQL");
             List<Client> clients = new List<Client>();

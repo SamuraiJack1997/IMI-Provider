@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Queries;
 
-namespace ProviderDatabaseLibrary
+namespace ProviderDatabaseLibrary.Factories
 {
     internal class ClientFactory
     {

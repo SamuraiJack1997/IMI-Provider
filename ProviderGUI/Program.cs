@@ -1,4 +1,5 @@
 namespace ProviderGUI
+
 {
     internal static class Program
     {

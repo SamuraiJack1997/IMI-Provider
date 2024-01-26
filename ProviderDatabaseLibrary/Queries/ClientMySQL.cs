@@ -36,5 +36,6 @@ namespace ProviderDatabaseLibrary.Queries
             _connection.Close();
             return clients;
         }
+
     }
 }
