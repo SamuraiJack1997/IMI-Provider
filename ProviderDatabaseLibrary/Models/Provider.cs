@@ -37,14 +37,28 @@ namespace ProviderDatabaseLibrary.Models
             this.DatabaseType = DatabaseType;
         }
 
+        public void setName(string Name)
+        {
+            this.Name=Name;
+        }
+
         public string getName()
         {
             return Name;
         }
 
+        public void setConnectionString(string ConnectionString)
+        {
+            this.ConnectionString=ConnectionString;
+        }
         public string getConnectionString()
         {
             return ConnectionString;
+        }
+
+        public void setDatabaseType(string DatabaseType)
+        {
+            this.DatabaseType=DatabaseType;
         }
 
         public string getDatabaseType()
