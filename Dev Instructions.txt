@@ -1,6 +1,6 @@
 Ako radite samo sa ClassLibrary onda postavite da to bude startup project 
 i u properties prebacite na Console App.
 
-Kada komitujete poruke referencirajte issue pomocu #issue_number ali ne pocinjite commit poruku sa referencom.
+Kada komitujete poruke referencirajte issue pomocu #issue_number. Example: commit -m "#issue_number text"
 
 
