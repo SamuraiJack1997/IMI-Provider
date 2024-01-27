@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace ProviderDatabaseLibrary.Models
 {
-    internal class ProviderMySQL
+    //Singleton
+    public class ProviderMySQL
     {
-        private string Name { get; set; }
-        private string ConnectionString { get; set; }
+        private static ProviderMySQL? providerInstance;
 
-        public ProviderMySQL()
+        private string? Name { get; set; }
+        private string? ConnectionString { get; set; }
+
+        private ProviderMySQL() { }
+
+        public static ProviderMySQL Instance
         {
-            //ProviderDatabaseLibrary\bin\Debug\net8.0\config.txt
-            string filePath = "config.txt";
-            string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+            
+            get
+            {
+                if (providerInstance == null)
+                {
+                    providerInstance = new ProviderMySQL();
+                }
+                return providerInstance;
+            }
+        }
 
-            try
-            {
-                string[] lines = File.ReadAllLines(absolutePath);
-
-                Name=lines[0];
-                ConnectionString = lines[1];
-                
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine($"The file {filePath} does not exist.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
+        public void setProviderData(string Name,string ConnectionString)
+        {
+            this.Name = Name;
+            this.ConnectionString = ConnectionString;
         }
 
         public string getName()

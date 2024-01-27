@@ -10,21 +10,17 @@ using System.Threading.Tasks;
 namespace ProviderDatabaseLibrary.Connections
 {
     //Singleton
-    internal class MySqlConnection
+    public class MySqlConnection
     {
-        private static ProviderMySQL provider;
         private static SqlConnection _connection = null;
+
         public static SqlConnection Connection
         {
-
             get
             {
-                if (provider == null)
-                {
-                    provider = new ProviderMySQL();
-                }
+                ProviderMySQL provider=ProviderMySQL.Instance;
                 if (_connection == null)
-                    _connection = new SqlConnection(@""+ provider.getConnectionString() + "");
+                    _connection = new SqlConnection(provider.getConnectionString());
                 return _connection;
             }
         }

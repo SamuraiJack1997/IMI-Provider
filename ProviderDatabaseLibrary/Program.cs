@@ -14,23 +14,27 @@ namespace ProviderDatabaseLibrary
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             
-            Client c = new Client(1, "stefan123", "Stefan", "Aleksandric");
-            ProviderMySQL provider = new ProviderMySQL();
-            Console.WriteLine(provider);
-            Console.WriteLine("Kreiran je lokalni user:"+c);
+            //Postavljanje informacija o bazi u singlton
+            /*
+            ProviderMySQL provider = ProviderMySQL.Instance;
+            provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True");
+            Console.WriteLine(provider.getConnectionString());
 
-            Console.WriteLine("Klijenti iz baze:");
-            IClient db;
-            db = ClientFactory.Provider("MySQL");
+            Console.WriteLine("\nKlijenti iz baze:");
+            //Primer koriscenja Factory pattern-a
+            IProvider db;
+
+            db = ProviderFactory.Provider("MySQL");
             List<Client> clients = new List<Client>();
             clients = db.getAllClients();
-            foreach(var client in clients)
+            foreach (var client in clients)
             {
                 Console.WriteLine(client.ToString());
-            }
+            }*/
+
         }
     }
 }

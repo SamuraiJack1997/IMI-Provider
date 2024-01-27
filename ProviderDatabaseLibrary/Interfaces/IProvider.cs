@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProviderDatabaseLibrary.Interfaces
 {
-    internal interface IClient
+    public interface IProvider
     {
         List<Client> getAllClients();
+        List<Plan> getActivatedClientPlansByClientID(int clientID);
     }
 }

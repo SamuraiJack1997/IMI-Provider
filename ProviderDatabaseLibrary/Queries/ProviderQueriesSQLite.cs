@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace ProviderDatabaseLibrary.Queries
 {
-    internal class ClientSQLite : IClient
+    public class ProviderQueriesSQLite : IProvider
     {
         public List<Client> getAllClients()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Plan> getActivatedClientPlansByClientID(int clientID)
         {
             throw new NotImplementedException();
         }

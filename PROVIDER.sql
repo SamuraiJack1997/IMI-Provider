@@ -102,9 +102,9 @@ from Plans
 
 --DROP TABLE Plans
 
----------CLIENT_PLANS
+---------CLIENT_PLANS_Activated
 
-create table Clients_Plans
+create table Clients_Plans_Activated
 (
 	Client_ID int foreign key references Clients(ID),
 	Plan_ID int foreign key references Plans(ID)
@@ -112,14 +112,31 @@ create table Clients_Plans
 	primary key (Client_ID, Plan_ID)
 )
 
-INSERT INTO [dbo].[Clients_Plans] VALUES (1,1)
-INSERT INTO [dbo].[Clients_Plans] VALUES (2,2)
-INSERT INTO [dbo].[Clients_Plans] VALUES (3,3)
+INSERT INTO [dbo].[Clients_Plans_Activated] VALUES (1,1)
+INSERT INTO [dbo].[Clients_Plans_Activated] VALUES (2,2)
+INSERT INTO [dbo].[Clients_Plans_Activated] VALUES (3,3)
 
 select *
-from Clients_Plans
+from Clients_Plans_Activated
 
---DROP TABLE Clients_Plans
+--DROP TABLE Clients_Plans_Deactivated
+
+create table Clients_Plans_Deactivated
+(
+	Client_ID int foreign key references Clients(ID),
+	Plan_ID int foreign key references Plans(ID)
+
+	primary key (Client_ID, Plan_ID)
+)
+
+INSERT INTO [dbo].[Clients_Plans_Deactivated] VALUES (1,2)
+INSERT INTO [dbo].[Clients_Plans_Deactivated] VALUES (2,3)
+INSERT INTO [dbo].[Clients_Plans_Deactivated] VALUES (3,4)
+
+select *
+from Clients_Plans_Deactivated
+
+--DROP TABLE Clients_Plans_Deactivated
 
 select *
 from TV_Plan
@@ -132,7 +149,9 @@ from Plans
 select *
 from Clients
 select *
-from Clients_Plans
+from Clients_Plans_Activated
+select *
+from Clients_Plans_Deactivated
 
 
 

@@ -7,44 +7,30 @@ using System.Xml.Linq;
 
 namespace ProviderDatabaseLibrary.Models
 {
-    internal class Client
+    public class Client
     {
-        private int ID { get; set; }
-        private string UserName { get; set; }
-        private string Name { get; set; }
-        private string Surname { get; set; }
+        public int ID { get; set; }
+        public string Username { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
 
-        public Client(int iD, string userName, string name, string surname)
+        public List<Plan> ActivatedPlans {  get; set; }
+
+        public List<Plan> DeactivatedPlans { get; set; }
+
+        public Client(int iD, string username, string name, string surname)
         {
             ID = iD;
-            UserName = userName;
+            Username = username;
             Name = name;
             Surname = surname;
-        }
-
-        public int getID()
-        {
-            return ID;
-        }
-
-        public string getUserName()
-        {
-            return UserName;
-        }
-
-        public string getName()
-        {
-            return Name;
-        }
-
-        public string getSurname()
-        {
-            return Surname;
+            ActivatedPlans = new List<Plan>();
+            DeactivatedPlans = new List<Plan>();
         }
 
         public override string? ToString()
         {
-            return "Client(ID:"+ID+" Username:"+UserName+" Name:"+Name+" Surname:"+Surname+")";
+            return "Client(ID:"+ID+" Username:"+ Username + " Name:"+Name+" Surname:"+Surname+")";
         }
     }
 }

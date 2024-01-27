@@ -8,20 +8,18 @@ using ProviderDatabaseLibrary.Queries;
 
 namespace ProviderDatabaseLibrary.Factories
 {
-    internal class ClientFactory
+    public class ProviderFactory
     {
-        public static IClient Provider(string database)
+        public static IProvider Provider(string database)
         {
             switch (database)
             {
                 case "MySQL":
-                    return new ClientMySQL();
-                    break;
+                    return new ProviderQueriesMySQL();
                 case "SQLite":
-                    return new ClientSQLite();
-                    break;
+                    return new ProviderQueriesSQLite();
                 default:
-                    return new ClientMySQL();
+                    return new ProviderQueriesMySQL();
             }
         }
     }
