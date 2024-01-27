@@ -61,6 +61,7 @@ namespace ProviderDatabaseLibrary.Queries
                         reader.IsDBNull(reader.GetOrdinal("Combo_Plan_ID")) ? 0 : int.Parse(reader["Combo_Plan_ID"].ToString())
                     ));
             }
+
             _connection.Close();
             return plans;
         }

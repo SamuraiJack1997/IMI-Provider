@@ -1,26 +1,24 @@
 ﻿using ProviderDatabaseLibrary.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProviderDatabaseLibrary.Connections
 {
-    //Singleton
-    public class MySqlConnection
+    public class ConnectionSQLite
     {
-        private static SqlConnection _connection = null;
+        private static SQLiteConnection _connection = null;
 
-        public static SqlConnection Connection
+        public static SQLiteConnection Connection
         {
             get
             {
-                Provider provider=Provider.Instance;
+                Provider provider = Provider.Instance;
                 if (_connection == null)
-                    _connection = new SqlConnection(provider.getConnectionString());
+                    _connection = new SQLiteConnection(provider.getConnectionString());
                 return _connection;
             }
         }

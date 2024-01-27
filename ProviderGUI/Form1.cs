@@ -9,18 +9,20 @@ namespace ProviderGUI
 {
     public partial class Form1 : Form
     {
-        private IProvider db;
+        private IProvider db;//TODO odabir baze za rad
+        Provider provider = Provider.Instance;
+
         public Form1()
         {
             InitializeComponent();
-            
-            ProviderMySQL provider=ProviderMySQL.Instance;
             //TODO Dodavanje podataka za Provajdera iz config.txt fajla pomocu dijaloga
-            provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True");
-            
+
+            ////ODABIR BAZE
+            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
+            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;","SQLite");
+
             //Primer povlacenja podataka
-            label1.Text = "";
-            db = ProviderFactory.Provider("MySQL");
+            db = ProviderFactory.Provider(provider.getDatabaseType());
             List<Client> clients = new List<Client>();
             clients = db.getAllClients();
             foreach (var client in clients)
@@ -36,8 +38,7 @@ namespace ProviderGUI
 
         private void InitDataGridView1()
         {
-
-            db = ProviderFactory.Provider("MySQL");
+            db = ProviderFactory.Provider(provider.getDatabaseType());
             List<Client> clients = new List<Client>();
             clients = db.getAllClients();
             
@@ -66,23 +67,18 @@ namespace ProviderGUI
 
         private void InitDataGridView2()
         {
-
-            db = ProviderFactory.Provider("MySQL");
+            db = ProviderFactory.Provider(provider.getDatabaseType());
             List<Plan> activatedPlans = new List<Plan>();
-            activatedPlans = db.getActivatedClientPlansByClientID(1);
+            activatedPlans = db.getActivatedClientPlansByClientID(1);//TODO selektovani indeks proslediti
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Name", typeof(string));
             dataTable.Columns.Add("Price", typeof(float));
             dataTable.Columns.Add("Plan_Type",typeof(string));
 
-
-
             // Add some rows to the DataTable
             foreach (var activatedPlan in activatedPlans)
             {
-                
-
                 dataTable.Rows.Add(
                     activatedPlan.Name,
                     activatedPlan.Price,

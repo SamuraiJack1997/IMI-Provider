@@ -7,32 +7,34 @@ using System.Threading.Tasks;
 namespace ProviderDatabaseLibrary.Models
 {
     //Singleton
-    public class ProviderMySQL
+    public class Provider
     {
-        private static ProviderMySQL? providerInstance;
+        private static Provider? providerInstance;
 
         private string? Name { get; set; }
         private string? ConnectionString { get; set; }
+        private string? DatabaseType { get; set; }
 
-        private ProviderMySQL() { }
+        private Provider() { }
 
-        public static ProviderMySQL Instance
+        public static Provider Instance
         {
             
             get
             {
                 if (providerInstance == null)
                 {
-                    providerInstance = new ProviderMySQL();
+                    providerInstance = new Provider();
                 }
                 return providerInstance;
             }
         }
 
-        public void setProviderData(string Name,string ConnectionString)
+        public void setProviderData(string Name,string ConnectionString,string DatabaseType)
         {
             this.Name = Name;
             this.ConnectionString = ConnectionString;
+            this.DatabaseType = DatabaseType;
         }
 
         public string getName()
@@ -45,9 +47,14 @@ namespace ProviderDatabaseLibrary.Models
             return ConnectionString;
         }
 
+        public string getDatabaseType()
+        {
+            return DatabaseType;
+        }
+
         public override string? ToString()
         {
-            return "Provider:"+Name+"\n"+"Connection string:"+ConnectionString;
+            return "Database:"+DatabaseType+" Provider:"+Name+"\n"+"Connection string:"+ConnectionString;
         }
     }
 }
