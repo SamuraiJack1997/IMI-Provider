@@ -18,8 +18,8 @@ namespace ProviderGUI
             //TODO Dodavanje podataka za Provajdera iz config.txt fajla pomocu dijaloga
 
             ////ODABIR BAZE
-            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
-            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;","SQLite");
+            provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
+            //provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;","SQLite");
 
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -82,7 +82,7 @@ namespace ProviderGUI
                 dataTable.Rows.Add(
                     activatedPlan.Name,
                     activatedPlan.Price,
-                    activatedPlan.getPlanName()
+                    activatedPlan.getPlanType()
                     );
             }
 

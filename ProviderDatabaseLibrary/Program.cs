@@ -9,6 +9,7 @@ using System.Globalization;
 using ProviderDatabaseLibrary.Models;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Factories;
+using ProviderDatabaseLibrary.Models.Plans;
 
 namespace ProviderDatabaseLibrary
 {
@@ -16,7 +17,8 @@ namespace ProviderDatabaseLibrary
     {
         public static void Main(string[] args)
         {
-            
+            Plan p = new Combo_Plan(1,"Combo 100",10,0,0,1,100,100,1000);
+            Console.WriteLine(p.ToString());
         }
     }
 }

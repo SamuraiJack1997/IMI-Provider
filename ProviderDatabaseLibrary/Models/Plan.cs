@@ -24,27 +24,31 @@ namespace ProviderDatabaseLibrary.Models
             Combo_Plan_ID = combo_Plan_ID;
         }
 
-        public string getPlanName()
+        public string getPlanType()
         {
-            string PlanName="";
-            if (Internet_Plan_ID == 1)
+            string PlanType="";
+            if (Internet_Plan_ID !=0 && TV_Plan_ID==0 && Combo_Plan_ID==0)
             {
-                PlanName = "Internet Plan";
+                PlanType = "Internet Plan";
             }
-            else if (TV_Plan_ID == 1)
+            else if (Internet_Plan_ID == 0 && TV_Plan_ID !=0 && Combo_Plan_ID == 0)
             {
-                PlanName = "TV Plan";
+                PlanType = "TV Plan";
+            }
+            else if(Internet_Plan_ID == 0 && TV_Plan_ID == 0 && Combo_Plan_ID !=0)
+            {
+                PlanType = "Combo Plan";
             }
             else
             {
-                PlanName = "Combo Plan";
+                PlanType = "Neaktiviran plan";
             }
-            return PlanName;
+            return PlanType;
         }
 
         public override string? ToString()
         {
-            return base.ToString();
+            return "ID plana:"+ID+" Name:"+Name+" Price:"+Price+" Tip plana:"+getPlanType();
         }
     }
 }
