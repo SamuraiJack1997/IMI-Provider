@@ -17,8 +17,16 @@ namespace ProviderDatabaseLibrary
     {
         public static void Main(string[] args)
         {
-            Plan p = new Combo_Plan(1,"Combo 100",10,0,0,1,100,100,1000);
-            Console.WriteLine(p.ToString());
+            IProvider db;
+            Provider provider = Provider.Instance;
+            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
+            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
+            //Primer povlacenja podataka
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            int vrednost=db.insertClient("Filip123", "Filip", "Aleksandric");
+            Console.WriteLine("Vrednost:"+vrednost);
+            int ID = db.getClientIdByUsername("Filip123");
+            Console.WriteLine("ID pronadjen:" + ID);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,6 +75,62 @@ namespace ProviderDatabaseLibrary.Queries
                 _connection.Close();
             }
             return plans;
+        }
+
+        public int insertClient(string username, string name, string surname)
+        {
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string usernameQuery = @"select * from clients where username=@username";
+                SQLiteCommand cmd= new SQLiteCommand(usernameQuery, _connection);
+                cmd.Parameters.AddWithValue("@username", username);
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    string query = @"insert into clients(username,name,surname) values (@username,@name,@surname)";
+                    cmd = new SQLiteCommand(query, _connection);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@surname", surname);
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    reader.Close();
+                    rowsAffected=-1;
+                }
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
+        }
+
+        public int getClientIdByUsername(string username)
+        {
+            _connection.Open();
+            int ID = -1;
+            SQLiteCommand cmd = _connection.CreateCommand();
+            cmd.CommandText = @"select id from clients where username=@username";
+            cmd.Parameters.AddWithValue("@username", username);
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    ID=int.Parse(reader["ID"].ToString());
+                }
+            }
+            finally
+            {
+                reader.Close();
+                _connection.Close();
+            }
+            return ID;
         }
     }
 }

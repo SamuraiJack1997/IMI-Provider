@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,17 +24,23 @@ namespace ProviderDatabaseLibrary.Queries
             String query = @"select * from Clients";
             SqlCommand cmd=new SqlCommand(query, _connection);
             SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                clients.Add(new Client(
-                    int.Parse(reader["ID"].ToString()),
-                    reader["Username"].ToString(),
-                    reader["Name"].ToString(),
-                    reader["Surname"].ToString()
-                    ));
+                while (reader.Read())
+                {
+                    clients.Add(new Client(
+                        int.Parse(reader["ID"].ToString()),
+                        reader["Username"].ToString(),
+                        reader["Name"].ToString(),
+                        reader["Surname"].ToString()
+                        ));
+                }
             }
-            _connection.Close();
+            finally {
+                reader.Close();
+                _connection.Close();
+            }
+
             return clients;
         }
 
@@ -49,21 +56,83 @@ namespace ProviderDatabaseLibrary.Queries
             SqlCommand cmd = new SqlCommand(query, _connection);
             cmd.Parameters.AddWithValue("@clientID", clientID);
             SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                plans.Add(new Plan(
-                        int.Parse(reader["Plan_ID"].ToString()),
-                        reader["Name"].ToString(),
-                        float.Parse(reader["Price"].ToString()),
-                        reader.IsDBNull(reader.GetOrdinal("Internet_Plan_ID")) ? 0 : int.Parse(reader["Internet_Plan_ID"].ToString()),
-                        reader.IsDBNull(reader.GetOrdinal("TV_Plan_ID")) ? 0 : int.Parse(reader["TV_Plan_ID"].ToString()),
-                        reader.IsDBNull(reader.GetOrdinal("Combo_Plan_ID")) ? 0 : int.Parse(reader["Combo_Plan_ID"].ToString())
-                    ));
+                while (reader.Read())
+                {
+                    plans.Add(new Plan(
+                            int.Parse(reader["Plan_ID"].ToString()),
+                            reader["Name"].ToString(),
+                            float.Parse(reader["Price"].ToString()),
+                            reader.IsDBNull(reader.GetOrdinal("Internet_Plan_ID")) ? 0 : int.Parse(reader["Internet_Plan_ID"].ToString()),
+                            reader.IsDBNull(reader.GetOrdinal("TV_Plan_ID")) ? 0 : int.Parse(reader["TV_Plan_ID"].ToString()),
+                            reader.IsDBNull(reader.GetOrdinal("Combo_Plan_ID")) ? 0 : int.Parse(reader["Combo_Plan_ID"].ToString())
+                        ));
+                }
             }
-
-            _connection.Close();
+            finally
+            {
+                reader.Close();
+                _connection.Close();
+            }
+            
             return plans;
+        }
+
+        public int insertClient(string username, string name, string surname)
+        {
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string usernameQuery = @"select * from clients where username=@username";
+                SqlCommand cmd = new SqlCommand(usernameQuery, _connection);
+                cmd.Parameters.AddWithValue("@username", username);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    string query = @"insert into clients(username,name,surname) values (@username,@name,@surname)";
+                    cmd = new SqlCommand(query, _connection);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@surname", surname);
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    reader.Close();
+                    rowsAffected = -1;
+                }
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
+        }
+
+        public int getClientIdByUsername(string username)
+        {
+            _connection.Open();
+            int ID = -1;
+            SqlCommand cmd = _connection.CreateCommand();
+            cmd.CommandText = @"select id from clients where username=@username";
+            cmd.Parameters.AddWithValue("@username", username);
+            SqlDataReader reader = cmd.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    ID = int.Parse(reader["ID"].ToString());
+                }
+            }
+            finally
+            {
+                reader.Close();
+                _connection.Close();
+            }
+            return ID;
         }
     }
 }
