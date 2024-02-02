@@ -19,7 +19,7 @@ namespace ProviderGUI
 
             ////ODABIR BAZE
             //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
-            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;","SQLite");
+            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
 
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -27,7 +27,7 @@ namespace ProviderGUI
             clients = db.getAllClients();
             foreach (var client in clients)
             {
-                label1.Text += client.ToString()+"\n";
+                label1.Text += client.ToString() + "\n";
             }
 
             //poziv funkcije za popunjavanje DataGridView-a
@@ -35,13 +35,13 @@ namespace ProviderGUI
             InitDataGridView2();
 
         }
-
+        
         private void InitDataGridView1()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
             List<Client> clients = new List<Client>();
             clients = db.getAllClients();
-            
+
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Username", typeof(string));
             dataTable.Columns.Add("Name", typeof(string));
@@ -74,7 +74,7 @@ namespace ProviderGUI
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Name", typeof(string));
             dataTable.Columns.Add("Price", typeof(float));
-            dataTable.Columns.Add("Plan_Type",typeof(string));
+            dataTable.Columns.Add("Plan_Type", typeof(string));
 
             // Add some rows to the DataTable
             foreach (var activatedPlan in activatedPlans)
@@ -92,7 +92,5 @@ namespace ProviderGUI
             // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
-
-
     }
 }
