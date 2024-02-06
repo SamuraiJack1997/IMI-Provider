@@ -24,7 +24,7 @@ namespace ProviderGUI
 
             ////ODABIR BAZE
             //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
-            provider.setProviderData("MTS", @"Data Source=C:\Users\filip\OneDrive\Desktop\ds_projekat\PROVIDER.db;", "SQLite");
+            provider.setProviderData("MTS", @"Data Source=C:\Users\Lenovo E590\Desktop\tim-10\PROVIDER.db;", "SQLite");
 
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -90,6 +90,7 @@ namespace ProviderGUI
                     activatedPlan.getPlanType()
                     );
             }
+
 
             // Bind the DataTable to the DataGridView
             dataGridView2.DataSource = dataTable;
