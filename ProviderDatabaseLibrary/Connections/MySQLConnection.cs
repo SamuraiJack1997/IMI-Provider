@@ -20,7 +20,10 @@ namespace ProviderDatabaseLibrary.Connections
             {
                 Provider provider=Provider.Instance;
                 if (_connection == null)
-                    _connection = new SqlConnection(provider.getConnectionString());
+                {   
+                    _connection = new SqlConnection(@"" + provider.getConnectionString() + "");
+
+                }
                 return _connection;
             }
         }

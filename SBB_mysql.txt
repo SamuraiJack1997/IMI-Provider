@@ -1,0 +1,2 @@
+SBB
+Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True

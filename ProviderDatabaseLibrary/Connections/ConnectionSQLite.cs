@@ -18,7 +18,7 @@ namespace ProviderDatabaseLibrary.Connections
             {
                 Provider provider = Provider.Instance;
                 if (_connection == null)
-                    _connection = new SQLiteConnection(provider.getConnectionString());
+                    _connection = new SQLiteConnection(@""+ provider.getConnectionString()+"" );
                 return _connection;
             }
         }
