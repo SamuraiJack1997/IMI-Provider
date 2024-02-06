@@ -1,8 +1,12 @@
-﻿using System;
+﻿using ProviderDatabaseLibrary.ClientMementoCommand.Interfaces;
+using ProviderDatabaseLibrary.ClientMementoCommand.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml.Linq;
 
 namespace ProviderDatabaseLibrary.Models
@@ -32,5 +36,26 @@ namespace ProviderDatabaseLibrary.Models
         {
             return "Client(ID:"+ID+" Username:"+ Username + " Name:"+Name+" Surname:"+Surname+")";
         }
+
+        public ClientMemento CreateClientMemento()
+        {
+            return new ClientMemento(ID, Username, Name, Surname);
+        }
+
+        // Restore state from a memento
+        public void RestoreClientMemento(ClientMemento memento)
+        {
+            ID = memento.ID;
+            Username = memento.Username;
+            Name = memento.Name;
+            Surname = memento.Surname;
+        }
+
+        // Execute a command
+        public void ExecuteClientCommand(IClientCommand command)
+        {
+            command.Execute();
+        }
+
     }
 }
