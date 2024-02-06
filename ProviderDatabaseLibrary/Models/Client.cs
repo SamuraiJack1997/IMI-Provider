@@ -1,5 +1,7 @@
 ﻿using ProviderDatabaseLibrary.ClientMementoCommand.Interfaces;
 using ProviderDatabaseLibrary.ClientMementoCommand.Models;
+using ProviderDatabaseLibrary.Factories;
+using ProviderDatabaseLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace ProviderDatabaseLibrary.Models
         public List<Plan> ActivatedPlans {  get; set; }
 
         public List<Plan> DeactivatedPlans { get; set; }
+
 
         public Client(int iD, string username, string name, string surname)
         {
@@ -48,7 +51,7 @@ namespace ProviderDatabaseLibrary.Models
             ID = memento.ID;
             Username = memento.Username;
             Name = memento.Name;
-            Surname = memento.Surname;
+            Surname = memento.Surname;            
         }
 
         // Execute a command

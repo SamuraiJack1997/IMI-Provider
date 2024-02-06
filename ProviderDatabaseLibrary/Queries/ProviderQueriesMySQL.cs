@@ -169,6 +169,9 @@ namespace ProviderDatabaseLibrary.Queries
             return affectedRows;
         }
 
-
+        public int updateClientByID(int clientID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

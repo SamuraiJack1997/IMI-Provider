@@ -11,8 +11,11 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
 {
     public class UpdateClientCommand : IClientCommand
     {
+        Provider provider = Provider.Instance;
+
         private readonly Client _client;
         private readonly ClientMemento _previousState;
+        
 
         public ClientMemento getPreviousState()
         {
@@ -31,7 +34,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             Console.WriteLine($"Updating client {_client.ID}...");
 
             // For simplicity, let's assume the update operation involves changing the name
-            _client.Name = "UpdatedName";
+            _client.Name = "UpdatedName";            
 
             Console.WriteLine($"Client {_client.ID} updated. New state: {_client}");
         }

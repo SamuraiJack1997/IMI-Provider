@@ -1,4 +1,5 @@
 using ProviderDatabaseLibrary;
+using ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
@@ -12,6 +13,10 @@ namespace ProviderGUI
         private IProvider db;//TODO odabir baze za rad
         Provider provider = Provider.Instance;
 
+        Client c;
+        UpdateClientCommand ucc;
+        InsertClientCommand icc;
+
         public Form1()
         {
             InitializeComponent();
@@ -19,7 +24,7 @@ namespace ProviderGUI
 
             ////ODABIR BAZE
             //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
-            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
+            provider.setProviderData("MTS", @"Data Source=C:\Users\filip\OneDrive\Desktop\ds_projekat\PROVIDER.db;", "SQLite");
 
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -35,7 +40,7 @@ namespace ProviderGUI
             InitDataGridView2();
 
         }
-        
+
         private void InitDataGridView1()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -91,6 +96,34 @@ namespace ProviderGUI
 
             // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            int flag = db.insertClient("user2", "name", "surname");
+            if (flag == 1) InitDataGridView1();
+            else if (flag == -1) label1.Text = "Vec postoji taj username";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            c = new Client(1, "nidza", "nikola", "markovic");
+            
+            //ucc = new UpdateClientCommand(c, c.CreateClientMemento());
+            icc = new InsertClientCommand(c, c.CreateClientMemento());
+            c.ExecuteClientCommand(icc);
+            label1.Text = c.ToString();
+            InitDataGridView1();
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            c.RestoreClientMemento(icc.getPreviousState());
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            db.removeClientByID(c.ID);
+            label2.Text = "staro stanje " + c.ToString();
+            InitDataGridView1();
         }
     }
 }
