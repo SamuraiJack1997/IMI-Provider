@@ -1,2 +1,2 @@
 MTS
-Data Source=D:\Users\Kristina\Documents\GitHub\tim-10\PROVIDER.db
+Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;
