@@ -169,6 +169,53 @@ namespace ProviderDatabaseLibrary.Queries
             return affectedRows;
         }
 
+        public int updateClientByID(int clientID,string username,string name,string surname)
+        {
+            int affectedRows = 0;
+            List<Client> clients = new List<Client>();
+            _connection.Open();
 
+            try
+            {
+            String query = @"select * from clients where ID=@clientID";
+            SqlCommand cmd=new SqlCommand(query, _connection);
+            cmd.Parameters.AddWithValue("@clientID", clientID);
+            SqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    query = @"UPDATE Clients SET Username = @username, Name = @name, Surname = @surname WHERE ID = @clientID";
+                    cmd = new SqlCommand(query, _connection);
+                    cmd.Parameters.AddWithValue("@clientID", clientID);
+                    cmd.Parameters.AddWithValue("@username", clientID);
+                    cmd.Parameters.AddWithValue("@name", clientID);
+                    cmd.Parameters.AddWithValue("@surname", clientID);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        affectedRows = 1;
+                    }
+                    else
+                    {
+                        affectedRows = -1;
+                    }
+                }
+                else
+                {
+                    affectedRows = -1;
+                }
+            }
+            catch
+            {
+                Console.WriteLine($"An error occured while deleting client!");
+                affectedRows = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+            return affectedRows;
+        }
     }
 }

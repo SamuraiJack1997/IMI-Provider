@@ -19,8 +19,8 @@ namespace ProviderDatabaseLibrary.Interfaces
         int getClientIdByUsername(string username);
         //brise klijent za poslati id(vraca -1 ako je neuspesno i >0(broj izbrisanih redova) ako je uspesno)
         int removeClientByID(int clientID);
-        //update klijenta vraca -1 ako je neuspesno i >0 ako je uspesno
-        int updateClientByID(int clientID);
+        //update klijenta vraca -1 ako je neuspesno ili >0 ako je uspesno
+        int updateClientByID(int clientID, string username, string name, string surname);
 
 
     }
