@@ -134,5 +134,41 @@ namespace ProviderDatabaseLibrary.Queries
             }
             return ID;
         }
+
+        public int removeClientByID(int clientID)
+        {
+            int affectedRows = 0;
+            List<Client> clients = new List<Client>();
+            _connection.Open();
+
+            String query = @"delete from clients where id=@clientID";
+            SqlCommand cmd = new SqlCommand(query, _connection);
+            cmd.Parameters.AddWithValue("@clientID", clientID);
+            try
+            {
+                int rowsAffected= cmd.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                {
+                    affectedRows = 1;
+                }
+                else
+                {
+                    affectedRows = -1;
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"An error occured while deleting client!");
+                affectedRows = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+            return affectedRows;
+        }
+
+
     }
 }
