@@ -1,4 +1,6 @@
 using ProviderDatabaseLibrary;
+using ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands;
+using ProviderDatabaseLibrary.ClientMementoCommand.Interfaces;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
@@ -11,7 +13,13 @@ namespace ProviderGUI
     {
         private IProvider db;//TODO odabir baze za rad
         Provider provider = Provider.Instance;
-
+        Client c;
+        List<IClientCommand> clientCommands = new List<IClientCommand>();
+        
+        UpdateClientCommand ucc;
+        
+        //DeleteClientCommand dcc;
+        //InsertClientCommand icc;
         public Form1()
         {
             InitializeComponent();
