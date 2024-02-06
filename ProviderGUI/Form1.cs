@@ -19,7 +19,7 @@ namespace ProviderGUI
 
             ////ODABIR BAZE
             //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
-            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;","SQLite");
+            provider.setProviderData("MTS", @"Data Source=C:\Users\Lenovo E590\Desktop\tim-10\PROVIDER.db;", "SQLite");
 
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
