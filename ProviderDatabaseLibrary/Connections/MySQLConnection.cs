@@ -14,7 +14,6 @@ namespace ProviderDatabaseLibrary.Connections
     public class MySqlConnection
     {
         private static SqlConnection _connection = null;
-        
 
         public static SqlConnection Connection
         {

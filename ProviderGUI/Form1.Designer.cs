@@ -33,6 +33,7 @@
             radioButton1 = new RadioButton();
             button1 = new Button();
             button2 = new Button();
+            label1 = new Label();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -90,11 +91,21 @@
             button2.Text = "Continue...";
             button2.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(310, 97);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 3;
+            label1.Text = "label1";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(264, 181);
+            ClientSize = new Size(474, 305);
+            Controls.Add(label1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(groupBox1);
@@ -103,6 +114,7 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -112,5 +124,6 @@
         private RadioButton radioButton1;
         private Button button1;
         private Button button2;
+        private Label label1;
     }
 }

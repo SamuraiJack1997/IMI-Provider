@@ -11,7 +11,6 @@ namespace ProviderDatabaseLibrary.Connections
     public class ConnectionSQLite
     {
         private static SQLiteConnection _connection = null;
-
         public static SQLiteConnection Connection
         {
             get
