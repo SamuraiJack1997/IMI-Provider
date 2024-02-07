@@ -19,8 +19,8 @@ namespace ProviderDatabaseLibrary
         {
             IProvider db;
             Provider provider = Provider.Instance;
-            //provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
-            provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
+            provider.setProviderData("MTS", @"Data Source=D:/Users/Kristina/Documents/GitHub/tim-10/PROVIDER.db;", "SQLite");
+            provider.setProviderData("SBB", @"Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
             int vrednost=db.insertClient("Filip123", "Filip", "Aleksandric");

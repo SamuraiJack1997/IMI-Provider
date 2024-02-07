@@ -109,6 +109,54 @@ namespace ProviderGUI
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+            int selectedUserId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
+
+            
+            InitDataGridView2(selectedUserId);
+        }
+
+        private void InitDataGridView2(int id)
+        {
+
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            List<Plan> activatedPlans = new List<Plan>();
+            activatedPlans = db.getActivatedClientPlansByClientID(id);
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Name", typeof(string));
+            dataTable.Columns.Add("Price", typeof(float));
+            dataTable.Columns.Add("Plan_Type", typeof(string));
+
+
+
+            // Add some rows to the DataTable
+            foreach (var activatedPlan in activatedPlans)
+            {
+
+
+                dataTable.Rows.Add(
+                    activatedPlan.Name,
+                    activatedPlan.Price
+                    //   activatedPlan.getPlanType
+                    );
+            }
+
+            // Bind the DataTable to the DataGridView
+            dataGridView2.DataSource = dataTable;
+
+            // Optionally, you can customize the DataGridView appearance and behavior
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
         private void button4_Click(object sender, EventArgs e)
         {
             insertClientCommand = clientSingleton.icc;
