@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Reflection.Emit;
 using System.Windows.Forms;
 
@@ -16,8 +17,6 @@ namespace ProviderGUI
     public partial class Form1 : Form
     {
         private IProvider db;
-        private SqlConnection _connectionMySQL;
-        private SQLiteConnection _connectionSQLite;
         Provider provider = Provider.Instance;
         bool fileLoaded = false;
 
@@ -39,15 +38,60 @@ namespace ProviderGUI
         {
             try
             {
-
+                if (provider.getDatabaseType() == "MySQL")
+                {
+                    SqlConnection connection = new SqlConnection();
+                    connection.ConnectionString = provider.getConnectionString();
+                    try
+                    {
+                        connection.Open();
+                        connection.Close();
+                        MessageBox.Show("File successfully loaded. Connection successful.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        button1.Enabled = false;
+                        button1.Text = "Success";
+                        button1.BackColor = Color.Green;
+                        button2.Enabled = true;
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Connection error.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        button1.Enabled = true;
+                        button1.Text = "Try again";
+                        button1.BackColor = Color.Red;
+                        button2.Enabled = false;
+                    }
+                }
+                else if (provider.getDatabaseType() == "SQLite")
+                {
+                    SQLiteConnection connection = new SQLiteConnection();
+                    connection.ConnectionString = provider.getConnectionString();
+                    try
+                    {
+                        connection.Open();
+                        connection.Close();
+                        MessageBox.Show("File successfully loaded. Connection successful.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        button1.Enabled = false;
+                        button1.Text = "Success";
+                        button1.BackColor = Color.Green;
+                        button2.Enabled = true;
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Connection error.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        button1.Enabled = true;
+                        button1.Text = "Try again";
+                        button1.BackColor = Color.Red;
+                        button2.Enabled = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
-
-            }
-            finally 
-            { 
-            
+                MessageBox.Show("Connection error.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button1.Enabled = true;
+                button1.Text = "Try again";
+                button1.BackColor = Color.Red;
+                button2.Enabled = false;
             }
         }
 
@@ -55,18 +99,23 @@ namespace ProviderGUI
         {
             provider.setDatabaseType("MySQL");
             button1.Enabled = true;
-            label1.Text = provider.getConnectionString() + "\n" + provider.getName() + "\n" + provider.getDatabaseType();
+            button1.Text = "Load config file";
+            button1.BackColor = Color.White;
+            button2.Enabled = false;
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             provider.setDatabaseType("SQLite");
             button1.Enabled = true;
-            label1.Text = provider.getConnectionString() + "\n" + provider.getName() + "\n" + provider.getDatabaseType();
+            button1.Text = "Load config file";
+            button1.BackColor = Color.White;
+            button2.Enabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            fileLoaded = false;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             try
             {
@@ -84,25 +133,37 @@ namespace ProviderGUI
                             provider.setName(lines[0]);
                             provider.setConnectionString(lines[1]);
                             fileLoaded = true;
-                            label1.Text = provider.getConnectionString() + "\n" + provider.getName() + "\n" + provider.getDatabaseType();
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Greska prilikom ucitavanja fajla: " + ex.Message + "\nProverite vas konekcioni string!");
+                        MessageBox.Show("Error while loading file: ", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         fileLoaded = false;
                     }
                 }
             }
-            finally {
+            finally
+            {
                 openFileDialog.Dispose();
                 if (fileLoaded)
                 {
                     checkConnection();
                 }
+                else
+                {
+                    MessageBox.Show("File not loaded.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button1.Text = "Try again";
+                    button1.BackColor = Color.Red;
+                }
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            this.Hide();
+            form2.Show();
+        }
     }
 
 }
