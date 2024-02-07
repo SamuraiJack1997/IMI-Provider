@@ -20,14 +20,15 @@ namespace ProviderGUI
         public Form3()
         {
             InitializeComponent();
-            this.Text = provider.getName()+"/Register client:";
+            this.Text = provider.getName() + "/Register client:";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
+
+            /*Form2 form2 = new Form2();
             this.Hide();
-            form2.Show();
+            form2.Show();*/
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -35,6 +36,21 @@ namespace ProviderGUI
             Form2 form2 = new Form2();
             this.Hide();
             form2.Show();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ProviderDatabaseLibrary.Interfaces;
+﻿using ProviderDatabaseLibrary.Factories;
+using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,11 @@ namespace ProviderGUI
         Provider provider = Provider.Instance;
         public Form2()
         {
-            InitializeComponent();
+            InitializeComponent();            
             this.Text = provider.getName();
             button3.Enabled = false;
             button4.Enabled = false;
+            InitDataGridView1();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,5 +46,36 @@ namespace ProviderGUI
             this.Hide();
             form1.Show();
         }
+
+        private void InitDataGridView1()
+        {
+
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            List<Client> clients = new List<Client>();
+            clients = db.getAllClients();
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Username", typeof(string));
+            dataTable.Columns.Add("Name", typeof(string));
+            dataTable.Columns.Add("Surname", typeof(string));
+
+
+            // Add some rows to the DataTable
+            foreach (var client in clients)
+            {
+                dataTable.Rows.Add(
+                    client.Username,
+                    client.Name,
+                    client.Surname
+                    );
+            }
+
+            // Bind the DataTable to the DataGridView
+            dataGridView1.DataSource = dataTable;
+
+            // Optionally, you can customize the DataGridView appearance and behavior
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
     }
 }
