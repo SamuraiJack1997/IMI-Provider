@@ -12,30 +12,29 @@ using System.Windows.Forms;
 
 namespace ProviderGUI
 {
-    public partial class Form2 : Form
+    public partial class Form3 : Form
     {
         private IProvider db;
         Provider provider = Provider.Instance;
-        public Form2()
+
+        public Form3()
         {
             InitializeComponent();
-            this.Text = provider.getName();
-            button3.Enabled = false;
-            button4.Enabled = false;
+            this.Text = provider.getName()+"/Register client:";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form3 form3 = new Form3();
+            Form2 form2 = new Form2();
             this.Hide();
-            form3.Show();
+            form2.Show();
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            Form4 form4 = new Form4();
+            Form2 form2 = new Form2();
             this.Hide();
-            form4.Show();
+            form2.Show();
         }
     }
 }

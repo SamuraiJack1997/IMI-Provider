@@ -27,13 +27,6 @@ namespace ProviderGUI
             button2.Enabled = false;
         }
 
-        private void resetForm()
-        {
-            Form1 NewForm = new Form1();
-            NewForm.Show();
-            this.Dispose(true);
-        }
-
         private void checkConnection()
         {
             try

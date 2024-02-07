@@ -100,7 +100,7 @@
             Controls.Add(button1);
             Controls.Add(groupBox1);
             Name = "Form1";
-            Text = "Select Provider";
+            Text = "Select provider:";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
