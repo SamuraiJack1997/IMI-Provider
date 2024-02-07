@@ -1,129 +1,108 @@
 using ProviderDatabaseLibrary;
 using ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands;
+using ProviderDatabaseLibrary.Connections;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Data.SQLite;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace ProviderGUI
 {
     public partial class Form1 : Form
     {
-        private IProvider db;//TODO odabir baze za rad
+        private IProvider db;
+        private SqlConnection _connectionMySQL;
+        private SQLiteConnection _connectionSQLite;
         Provider provider = Provider.Instance;
-
-        Client c;
-        UpdateClientCommand ucc;
-        InsertClientCommand icc;
+        bool fileLoaded = false;
 
         public Form1()
         {
             InitializeComponent();
-            //TODO Dodavanje podataka za Provajdera iz config.txt fajla pomocu dijaloga
-
-            ////ODABIR BAZE
-            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
-            provider.setProviderData("MTS", @"Data Source=C:\Users\filip\OneDrive\Desktop\ds_projekat\PROVIDER.db;", "SQLite");
-
-            //Primer povlacenja podataka
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            List<Client> clients = new List<Client>();
-            clients = db.getAllClients();
-            foreach (var client in clients)
-            {
-                label1.Text += client.ToString() + "\n";
-            }
-
-            //poziv funkcije za popunjavanje DataGridView-a
-            InitDataGridView1();
-            InitDataGridView2();
-
+            button1.Enabled = false;
+            button2.Enabled = false;
         }
 
-        private void InitDataGridView1()
+        private void resetForm()
         {
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            List<Client> clients = new List<Client>();
-            clients = db.getAllClients();
-
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Username", typeof(string));
-            dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Surname", typeof(string));
-
-
-            // Add some rows to the DataTable
-            foreach (var client in clients)
-            {
-                dataTable.Rows.Add(
-                    client.Username,
-                    client.Name,
-                    client.Surname
-                    );
-            }
-
-            // Bind the DataTable to the DataGridView
-            dataGridView1.DataSource = dataTable;
-
-            // Optionally, you can customize the DataGridView appearance and behavior
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Form1 NewForm = new Form1();
+            NewForm.Show();
+            this.Dispose(true);
         }
 
-        private void InitDataGridView2()
+        private void checkConnection()
         {
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            List<Plan> activatedPlans = new List<Plan>();
-            activatedPlans = db.getActivatedClientPlansByClientID(1);//TODO selektovani indeks proslediti
-
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(float));
-            dataTable.Columns.Add("Plan_Type", typeof(string));
-
-            // Add some rows to the DataTable
-            foreach (var activatedPlan in activatedPlans)
+            try
             {
-                dataTable.Rows.Add(
-                    activatedPlan.Name,
-                    activatedPlan.Price,
-                    activatedPlan.getPlanType()
-                    );
+
             }
+            catch (Exception ex)
+            {
 
-            // Bind the DataTable to the DataGridView
-            dataGridView2.DataSource = dataTable;
+            }
+            finally 
+            { 
+            
+            }
+        }
 
-            // Optionally, you can customize the DataGridView appearance and behavior
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            provider.setDatabaseType("MySQL");
+            button1.Enabled = true;
+            label1.Text = provider.getConnectionString() + "\n" + provider.getName() + "\n" + provider.getDatabaseType();
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            provider.setDatabaseType("SQLite");
+            button1.Enabled = true;
+            label1.Text = provider.getConnectionString() + "\n" + provider.getName() + "\n" + provider.getDatabaseType();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            int flag = db.insertClient("user2", "name", "surname");
-            if (flag == 1) InitDataGridView1();
-            else if (flag == -1) label1.Text = "Vec postoji taj username";
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            try
+            {
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    try
+                    {
+                        string[] lines = File.ReadAllLines(openFileDialog.FileName);
+                        if (lines.Length == 2)
+                        {
+                            provider.setName(lines[0]);
+                            provider.setConnectionString(lines[1]);
+                            fileLoaded = true;
+                            label1.Text = provider.getConnectionString() + "\n" + provider.getName() + "\n" + provider.getDatabaseType();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Greska prilikom ucitavanja fajla: " + ex.Message + "\nProverite vas konekcioni string!");
+                        fileLoaded = false;
+                    }
+                }
+            }
+            finally {
+                openFileDialog.Dispose();
+                if (fileLoaded)
+                {
+                    checkConnection();
+                }
+            }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            c = new Client(1, "nidza", "nikola", "markovic");
-            
-            //ucc = new UpdateClientCommand(c, c.CreateClientMemento());
-            icc = new InsertClientCommand(c, c.CreateClientMemento());
-            c.ExecuteClientCommand(icc);
-            label1.Text = c.ToString();
-            InitDataGridView1();
-        }
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            c.RestoreClientMemento(icc.getPreviousState());
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            db.removeClientByID(c.ID);
-            label2.Text = "staro stanje " + c.ToString();
-            InitDataGridView1();
-        }
     }
+
 }

@@ -11,14 +11,16 @@ namespace ProviderDatabaseLibrary.Connections
     public class ConnectionSQLite
     {
         private static SQLiteConnection _connection = null;
-
         public static SQLiteConnection Connection
         {
             get
             {
                 Provider provider = Provider.Instance;
-                if (_connection == null)
-                    _connection = new SQLiteConnection(provider.getConnectionString());
+                if (_connection == null && provider.getConnectionString()!=null)
+                {
+                    _connection = new SQLiteConnection();
+                    _connection.ConnectionString = provider.getConnectionString();
+                }
                 return _connection;
             }
         }

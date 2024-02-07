@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +19,12 @@ namespace ProviderDatabaseLibrary.Connections
         {
             get
             {
-                Provider provider=Provider.Instance;
-                if (_connection == null)
-                    _connection = new SqlConnection(provider.getConnectionString());
+                Provider provider = Provider.Instance;
+                if (_connection == null && provider.getConnectionString() != null)
+                {
+                    _connection = new SqlConnection();
+                    _connection.ConnectionString = provider.getConnectionString();
+                }
                 return _connection;
             }
         }
