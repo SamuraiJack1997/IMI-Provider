@@ -47,4 +47,3 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
         }
     }
 }
-
