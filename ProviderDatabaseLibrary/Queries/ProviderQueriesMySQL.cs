@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SQLite;
@@ -19,6 +20,9 @@ namespace ProviderDatabaseLibrary.Queries
         public List<Client> getAllClients()
         {
             List<Client> clients = new List<Client>();
+            if(_connection.State == ConnectionState.Open)
+                _connection.Close();
+
             _connection.Open();
 
             String query = @"select * from Clients";
@@ -136,11 +140,10 @@ namespace ProviderDatabaseLibrary.Queries
         }
 
         public int removeClientByID(int clientID)
-        {
-            int affectedRows = 0;
+        {           
+            int affectedRows = 0;                                    
             List<Client> clients = new List<Client>();
             _connection.Open();
-
             String query = @"delete from clients where id=@clientID";
             SqlCommand cmd = new SqlCommand(query, _connection);
             cmd.Parameters.AddWithValue("@clientID", clientID);

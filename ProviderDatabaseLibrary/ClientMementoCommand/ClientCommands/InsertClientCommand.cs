@@ -14,8 +14,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
     public class InsertClientCommand : IClientCommand
     {
         Provider provider = Provider.Instance;
-        private IProvider db;
-             
+        private IProvider db;        
 
         private readonly Client _client;
         private readonly ClientMemento _previousState;
@@ -29,7 +28,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
         public InsertClientCommand(Client client, ClientMemento previousState)
         {            
             _client = client;
-            _previousState = previousState;            
+            _previousState = previousState;                
         }
 
         public void Execute()
@@ -41,8 +40,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             // Inserting clients
             db.insertClient(_client.Username, _client.Name, _client.Surname);
             _client.ID = db.getClientIdByUsername(_client.Username);
-            _previousState.ID = db.getClientIdByUsername(_previousState.Username);
-
+            _previousState.ID = db.getClientIdByUsername(_previousState.Username);            
             Console.WriteLine($"Client {_client.ID} inserted. New state: {_client}");
         }
     }

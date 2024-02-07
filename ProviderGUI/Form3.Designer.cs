@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            txtUsername = new TextBox();
             label1 = new Label();
             label2 = new Label();
-            textBox2 = new TextBox();
+            txtFirstName = new TextBox();
             label3 = new Label();
-            textBox3 = new TextBox();
+            txtLastName = new TextBox();
             button1 = new Button();
             button2 = new Button();
             SuspendLayout();
             // 
-            // textBox1
+            // txtUsername
             // 
-            textBox1.Location = new Point(81, 12);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(208, 23);
-            textBox1.TabIndex = 0;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtUsername.Location = new Point(81, 12);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(208, 23);
+            txtUsername.TabIndex = 0;
+            txtUsername.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 
@@ -64,13 +64,13 @@
             label2.TabIndex = 2;
             label2.Text = "First name:";
             // 
-            // textBox2
+            // txtFirstName
             // 
-            textBox2.Location = new Point(81, 41);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(208, 23);
-            textBox2.TabIndex = 3;
-            textBox2.TextChanged += textBox2_TextChanged;
+            txtFirstName.Location = new Point(81, 41);
+            txtFirstName.Name = "txtFirstName";
+            txtFirstName.Size = new Size(208, 23);
+            txtFirstName.TabIndex = 3;
+            txtFirstName.TextChanged += textBox2_TextChanged;
             // 
             // label3
             // 
@@ -81,13 +81,13 @@
             label3.TabIndex = 4;
             label3.Text = "Last name:";
             // 
-            // textBox3
+            // txtLastName
             // 
-            textBox3.Location = new Point(81, 70);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(208, 23);
-            textBox3.TabIndex = 5;
-            textBox3.TextChanged += textBox3_TextChanged;
+            txtLastName.Location = new Point(81, 70);
+            txtLastName.Name = "txtLastName";
+            txtLastName.Size = new Size(208, 23);
+            txtLastName.TabIndex = 5;
+            txtLastName.TextChanged += textBox3_TextChanged;
             // 
             // button1
             // 
@@ -116,12 +116,12 @@
             ClientSize = new Size(301, 160);
             Controls.Add(button2);
             Controls.Add(button1);
-            Controls.Add(textBox3);
+            Controls.Add(txtLastName);
             Controls.Add(label3);
-            Controls.Add(textBox2);
+            Controls.Add(txtFirstName);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(txtUsername);
             Name = "Form3";
             Text = "Form3";
             ResumeLayout(false);
@@ -130,12 +130,12 @@
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox txtUsername;
         private Label label1;
         private Label label2;
-        private TextBox textBox2;
+        private TextBox txtFirstName;
         private Label label3;
-        private TextBox textBox3;
+        private TextBox txtLastName;
         private Button button1;
         private Button button2;
     }

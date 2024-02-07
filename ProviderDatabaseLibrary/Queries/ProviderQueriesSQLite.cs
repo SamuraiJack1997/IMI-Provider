@@ -3,6 +3,7 @@ using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace ProviderDatabaseLibrary.Queries
         public List<Client> getAllClients()
         {
             List<Client> clients = new List<Client>();
+            if (_connection.State == ConnectionState.Open)
+                _connection.Close();
             _connection.Open();
 
             SQLiteCommand cmd = _connection.CreateCommand();

@@ -65,6 +65,7 @@
             button2.TabIndex = 1;
             button2.Text = "Delete selected client";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // dataGridView1
             // 
@@ -124,7 +125,7 @@
             button3.Size = new Size(91, 43);
             button3.TabIndex = 8;
             button3.Text = "Update selected client";
-            button3.UseVisualStyleBackColor = true;
+            button3.UseVisualStyleBackColor = true;            
             // 
             // button4
             // 
@@ -134,6 +135,7 @@
             button4.TabIndex = 9;
             button4.Text = "Undo changes";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button5
             // 
