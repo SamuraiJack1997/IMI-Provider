@@ -177,11 +177,10 @@ namespace ProviderGUI
                     db = ProviderFactory.Provider(provider.getDatabaseType());
                     string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;                    
                     int clientId = db.getClientIdByUsername(username);
-                    if (clientId == -1) MessageBox.Show("Fail to retrive username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    int result = db.removeClientByID(clientId);
-                    MessageBox.Show(username + " " + clientId + " " + result, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (result > 0)
+                    int result = db.removeClientByID(clientId);                    
+                    if (result >= 0)
                     {
                         MessageBox.Show("Client successfully deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);                                                
                         button4.Enabled = true;                        
