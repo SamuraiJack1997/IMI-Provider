@@ -31,18 +31,19 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             _previousState = previousState;
         }
         
-        public void Execute()
+        public int Execute()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
                         
             Console.WriteLine($"Updating client {_client.ID}...");
 
             _client.ID = db.getClientIdByUsername(_client.Username);
-            db.removeClientByID(_client.ID);
+            int result = db.removeClientByID(_client.ID);
             
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);
 
             Console.WriteLine($"Client {_client.ID} deleted. New state: {_client}");
+            return result;
         }
     }
 }

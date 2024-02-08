@@ -139,8 +139,12 @@ namespace ProviderDatabaseLibrary.Queries
                 else
                 {
                     reader.Close();
-                    rowsAffected = -1;
+                    rowsAffected = 0;
                 }
+            }
+            catch
+            {
+                rowsAffected = -1;
             }
             finally
             {

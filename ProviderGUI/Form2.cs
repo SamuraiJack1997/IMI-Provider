@@ -21,13 +21,11 @@ namespace ProviderGUI
         Provider provider = Provider.Instance;
         ClientSingleton clientSingleton = ClientSingleton.Instance;
         InsertClientCommand insertClientCommand;
-        Client insertedClient;
-        UpdateClientCommand updateClientCommand;
+        Client insertedClient;        
         List<Client> clients;
         List<Plan> plans;
         //DeleteClientCommand deleteClientCommand;
-
-        Client insertedClient;        
+               
         DeleteClientCommand deleteClientCommand;
         Client removedClient;
         bool addedClient = false;

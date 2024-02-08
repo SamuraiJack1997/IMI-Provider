@@ -8,6 +8,6 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.Interfaces
 {
     public interface IClientCommand
     {
-        void Execute();
+        int Execute();
     }
 }
