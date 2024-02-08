@@ -137,8 +137,12 @@ namespace ProviderDatabaseLibrary.Queries
                 else
                 {
                     reader.Close();
-                    rowsAffected=-1;
+                    rowsAffected = 0;
                 }
+            }
+            catch
+            {
+                rowsAffected = -1;
             }
             finally
             {
@@ -172,7 +176,7 @@ namespace ProviderDatabaseLibrary.Queries
 
         public int removeClientByID(int clientID)
         {
-            int affectedRows = 0;
+            int affectedRows = -1;
             List<Client> clients = new List<Client>();
             _connection.Open();
 

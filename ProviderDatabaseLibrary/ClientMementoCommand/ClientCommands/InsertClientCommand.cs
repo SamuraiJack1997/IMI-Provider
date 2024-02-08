@@ -31,17 +31,20 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             _previousState = previousState;                
         }
 
-        public void Execute()
+        public int Execute()
         {
+            
             // Perform the insert operation
             db = ProviderFactory.Provider(provider.getDatabaseType());
+            
             Console.WriteLine($"Inserting client {_client.ID}...");
 
             // Inserting clients
-            db.insertClient(_client.Username, _client.Name, _client.Surname);
+            int result = db.insertClient(_client.Username, _client.Name, _client.Surname);
             _client.ID = db.getClientIdByUsername(_client.Username);
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);            
             Console.WriteLine($"Client {_client.ID} inserted. New state: {_client}");
+            return result;
         }
     }
 }

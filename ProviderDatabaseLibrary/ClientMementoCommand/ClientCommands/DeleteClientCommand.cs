@@ -1,5 +1,7 @@
 ﻿using ProviderDatabaseLibrary.ClientMementoCommand.Interfaces;
 using ProviderDatabaseLibrary.ClientMementoCommand.Models;
+using ProviderDatabaseLibrary.Factories;
+using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -9,9 +11,10 @@ using System.Threading.Tasks;
 
 namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
 {
-    public class UpdateClientCommand : IClientCommand
-    {
+    public class DeleteClientCommand : IClientCommand
+    {                
         Provider provider = Provider.Instance;
+        private IProvider db;
 
         private readonly Client _client;
         private readonly ClientMemento _previousState;
@@ -22,21 +25,25 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             return _previousState;
         }
 
-        public UpdateClientCommand(Client client, ClientMemento previousState)
+        public DeleteClientCommand(Client client, ClientMemento previousState)
         {
             _client = client;
             _previousState = previousState;
         }
         
-        public void Execute()
+        public int Execute()
         {
-            // Perform the update operation
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+                        
             Console.WriteLine($"Updating client {_client.ID}...");
 
-            // For simplicity, let's assume the update operation involves changing the name
-            _client.Name = "UpdatedName";            
+            _client.ID = db.getClientIdByUsername(_client.Username);
+            int result = db.removeClientByID(_client.ID);
+            
+            _previousState.ID = db.getClientIdByUsername(_previousState.Username);
 
-            Console.WriteLine($"Client {_client.ID} updated. New state: {_client}");
+            Console.WriteLine($"Client {_client.ID} deleted. New state: {_client}");
+            return result;
         }
     }
 }

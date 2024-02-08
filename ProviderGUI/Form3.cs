@@ -43,12 +43,22 @@ namespace ProviderGUI
             ClientMemento initialState = c.CreateClientMemento();
 
             InsertClientCommand insertCommand = new InsertClientCommand(c, initialState);
-            insertCommand.Execute();
-            clientSingleton.icc = insertCommand;
-            clientSingleton.client = c;
-            this.DialogResult = DialogResult.OK;
-            this.Close();                                    
-                        
+            int result = insertCommand.Execute();
+            if(result == 0) 
+            {
+                MessageBox.Show("Client with that username already exists.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if(result < 0)
+            {
+                MessageBox.Show("Error while adding client.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if( result > 0) 
+            {
+                clientSingleton.icc = insertCommand;
+                clientSingleton.client = c;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }                                                    
         }
 
         private void button2_Click(object sender, EventArgs e)
