@@ -51,7 +51,7 @@
             // 
             button1.Location = new Point(12, 368);
             button1.Name = "button1";
-            button1.Size = new Size(66, 43);
+            button1.Size = new Size(105, 43);
             button1.TabIndex = 0;
             button1.Text = "Add new client";
             button1.UseVisualStyleBackColor = true;
@@ -59,9 +59,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(84, 368);
+            button2.Location = new Point(123, 368);
             button2.Name = "button2";
-            button2.Size = new Size(96, 43);
+            button2.Size = new Size(107, 43);
             button2.TabIndex = 1;
             button2.Text = "Delete selected client";
             button2.UseVisualStyleBackColor = true;
@@ -121,18 +121,18 @@
             // 
             // button3
             // 
-            button3.Location = new Point(186, 368);
+            button3.Location = new Point(1151, 365);
             button3.Name = "button3";
-            button3.Size = new Size(91, 43);
+            button3.Size = new Size(91, 46);
             button3.TabIndex = 8;
-            button3.Text = "Update selected client";
+            button3.Text = "Add combo plan";
             button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            button4.Location = new Point(293, 368);
+            button4.Location = new Point(1072, 11);
             button4.Name = "button4";
-            button4.Size = new Size(61, 43);
+            button4.Size = new Size(89, 38);
             button4.TabIndex = 9;
             button4.Text = "Undo changes";
             button4.UseVisualStyleBackColor = true;
@@ -140,29 +140,29 @@
             // 
             // button5
             // 
-            button5.Location = new Point(914, 368);
+            button5.Location = new Point(914, 367);
             button5.Name = "button5";
-            button5.Size = new Size(96, 43);
+            button5.Size = new Size(119, 44);
             button5.TabIndex = 10;
             button5.Text = "Activate plan for selected client";
             button5.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            button6.Location = new Point(430, 368);
+            button6.Location = new Point(794, 368);
             button6.Name = "button6";
-            button6.Size = new Size(94, 43);
+            button6.Size = new Size(114, 43);
             button6.TabIndex = 11;
             button6.Text = "Dectivate plan for selected client";
             button6.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
-            button7.Location = new Point(1063, 368);
+            button7.Location = new Point(1039, 365);
             button7.Name = "button7";
-            button7.Size = new Size(93, 43);
+            button7.Size = new Size(106, 46);
             button7.TabIndex = 12;
-            button7.Text = "Add new plan";
+            button7.Text = "Add Internet/TV plan";
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             // 
