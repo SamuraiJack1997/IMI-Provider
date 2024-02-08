@@ -1,20 +1,18 @@
-﻿using System;
+﻿using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ProviderDatabaseLibrary.Models
 {
-    public class Plan
+    public  class Plan
     {
-        private int v1;
-        private string? v2;
-        private string? v3;
-        private string? v4;
-        private string? v5;
-        private string? v6;
-
+   
+        public IPlanImplementation implementation;
         public int ID { get; set; }
         public string Name { get; set; }
         public float Price { get; set; }
@@ -30,8 +28,18 @@ namespace ProviderDatabaseLibrary.Models
             TV_Plan_ID = tV_Plan_ID;
             Combo_Plan_ID = combo_Plan_ID;
         }
+       public Plan(IPlanImplementation implementation, int iD, string name,  int internet_Plan_ID, int tV_Plan_ID, int combo_Plan_ID)
+        {
+            this.implementation = implementation;
+            ID = iD;
+            Name = name;
+            Internet_Plan_ID = internet_Plan_ID;
+            TV_Plan_ID = tV_Plan_ID;
+            Combo_Plan_ID = combo_Plan_ID;
+           
+        }
 
-       
+        
         public string getPlanType()
         {
             string PlanType="";
@@ -58,5 +66,9 @@ namespace ProviderDatabaseLibrary.Models
         {
             return "ID plana:"+ID+" Name:"+Name+" Price:"+Price+" Tip plana:"+getPlanType();
         }
+        public float GetFullPrice()
+        { return 2; }
+        public  void SetPriceStrategy()
+        { }
     }
 }

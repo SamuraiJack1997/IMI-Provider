@@ -10,6 +10,8 @@ using ProviderDatabaseLibrary.Models;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Models.Plans;
+using ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge;
+using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
 
 namespace ProviderDatabaseLibrary
 {
@@ -20,13 +22,35 @@ namespace ProviderDatabaseLibrary
             IProvider db;
             Provider provider = Provider.Instance;
             provider.setProviderData("MTS", @"Data Source=D:/Users/Kristina/Documents/GitHub/tim-10/PROVIDER.db;", "SQLite");
-            provider.setProviderData("SBB", @"Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True","MySQL");
+            provider.setProviderData("SBB", @"Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True", "MySQL");
             //Primer povlacenja podataka
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            int vrednost=db.insertClient("Filip123", "Filip", "Aleksandric");
-            Console.WriteLine("Vrednost:"+vrednost);
+            int vrednost = db.insertClient("Filip123", "Filip", "Aleksandric");
+            Console.WriteLine("Vrednost:" + vrednost);
             int ID = db.getClientIdByUsername("Filip123");
             Console.WriteLine("ID pronadjen:" + ID);
+
+
+
+
+
+            IPlanImplementation tvImplementation = new TvPlanImplementation(4);
+            Plan tvPlan = new TV_Plan(tvImplementation, 0, "ine", 0, 0, 0);
+
+            Console.WriteLine(tvPlan.GetFullPrice());
+
+
+            /* IPlanImplementation internetImplementation = new InternetPlanImplementation(100, 100);
+             Plan internetPlan = new Internet_Plan(internetImplementation, 0, "ine", 0, 0, 0);
+
+              IPlanImplementation comboImp = new ComboPlanImplementation(150, 250, 20);
+              Plan comboPlan = new Combo_Plan(comboImp, 0, "ine", 0, 0, 0);
+
+              Console.WriteLine(internetPlan.GetFullPrice());
+              Console.WriteLine(comboPlan.GetFullPrice());
+
+              Console.ReadKey();
+          */
         }
     }
 }
