@@ -37,12 +37,12 @@ namespace ProviderDatabaseLibrary.Models
 
         public override string? ToString()
         {
-            return "Client(ID:"+ID+" Username:"+ Username + " Name:"+Name+" Surname:"+Surname+")";
+            return "Client(ID:"+ID+" Username:"+ Username + " Name:"+Name+" Surname:"+Surname+")"+"\n"+ActivatedPlans.ToString();
         }
 
         public ClientMemento CreateClientMemento()
         {
-            return new ClientMemento(ID, Username, Name, Surname);
+            return new ClientMemento(ID, Username, Name, Surname,ActivatedPlans);
         }
 
         // Restore state from a memento
@@ -51,7 +51,8 @@ namespace ProviderDatabaseLibrary.Models
             ID = memento.ID;
             Username = memento.Username;
             Name = memento.Name;
-            Surname = memento.Surname;            
+            Surname = memento.Surname;    
+            ActivatedPlans = memento.ActivatedPlans;
         }
 
         // Execute a command

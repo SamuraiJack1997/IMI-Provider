@@ -15,15 +15,13 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
 
         public InternetPlanPriceStrategy(int internetDownload, int internetUpload)
         {
-
             this.downloadSpeed = internetDownload;
             this.uploadSpeed = internetUpload;
-           
         }
 
         public float getPrice()
         {
-            return downloadSpeed * 4 + uploadSpeed * 5; //4 i 5 treba da budu neke globalne vrednosti cene;
+            return downloadSpeed * 4 + uploadSpeed * 5; //TODO add prices per download/upload speed
         }
 
     }

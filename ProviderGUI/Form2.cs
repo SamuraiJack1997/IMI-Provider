@@ -23,9 +23,7 @@ namespace ProviderGUI
         InsertClientCommand insertClientCommand;
         Client insertedClient;        
         List<Client> clients;
-        List<Plan> plans;
-        //DeleteClientCommand deleteClientCommand;
-               
+        List<Plan> plans;           
         DeleteClientCommand deleteClientCommand;
         Client removedClient;
         bool addedClient = false;
@@ -64,6 +62,13 @@ namespace ProviderGUI
             button3.Enabled = false;
             InitDataGridView1();
             InitDataGridView2();
+            if (clients != null)
+            {
+                if (clients[0] != null)
+                {
+                    InitDataGridView3(clients[0].ID);
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -158,9 +163,6 @@ namespace ProviderGUI
             {
                 MessageBox.Show("Please select client row." , "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-
-               
         //    }
         }
 
@@ -177,13 +179,8 @@ namespace ProviderGUI
             dataTable.Columns.Add("Price", typeof(float));
             dataTable.Columns.Add("Plan_Type", typeof(string));
 
-
-
-            // Add some rows to the DataTable
             foreach (var activatedPlan in activatedPlans)
             {
-
-
                 dataTable.Rows.Add(
                     activatedPlan.Name,
                     activatedPlan.Price,
@@ -191,10 +188,7 @@ namespace ProviderGUI
                     );
             }
 
-            // Bind the DataTable to the DataGridView
             dataGridView3.DataSource = dataTable;
-
-            // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
@@ -216,15 +210,10 @@ namespace ProviderGUI
                     );
             }
 
-            // Bind the DataTable to the DataGridView
             dataGridView2.DataSource = dataTable;
-
-            // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
       
-
-
         private void button4_Click(object sender, EventArgs e)
         {
             if(addedClient == true)
@@ -240,11 +229,14 @@ namespace ProviderGUI
             } 
             if(deletedClient == true) 
             {
+
                 deleteClientCommand = clientSingleton.dcc;
                 removedClient = clientSingleton.client;
                 removedClient.RestoreClientMemento(deleteClientCommand.getPreviousState());
                 db = ProviderFactory.Provider(provider.getDatabaseType());
                 db.insertClient(removedClient.Username, removedClient.Name, removedClient.Surname);
+                int clientID =db.getClientIdByUsername(removedClient.Username);
+                //TODO dodaj planove za korisnikov id
                 button4.Enabled = false;
                 refresh();
                 deletedClient = false;
@@ -263,13 +255,12 @@ namespace ProviderGUI
                     string lastName = (string)dataGridView1.SelectedRows[0].Cells[2].Value;
                     int clientId = db.getClientIdByUsername(username);
                     if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                            
+               
                     try
                     {
                         Client c = new Client(0, username, firstName, lastName);
+                        c.ActivatedPlans=db.getActivatedClientPlansByClientID(clientId);
                         ClientMemento initialState = c.CreateClientMemento();
-
                         DeleteClientCommand deleteCommand = new DeleteClientCommand(c, initialState);
                         deleteCommand.Execute();
                         clientSingleton.dcc = deleteCommand;

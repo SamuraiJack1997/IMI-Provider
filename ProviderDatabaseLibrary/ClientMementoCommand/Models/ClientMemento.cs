@@ -18,13 +18,13 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.Models
 
         public List<Plan> DeactivatedPlans { get; set; }
 
-        public ClientMemento(int iD, string username, string name, string surname)
+        public ClientMemento(int iD, string username, string name, string surname,List<Plan> activatedPlans)
         {
             ID = iD;
             Username = username;
             Name = name;
             Surname = surname;
-            ActivatedPlans = new List<Plan>();
+            ActivatedPlans = activatedPlans;
             DeactivatedPlans = new List<Plan>();
         }        
         

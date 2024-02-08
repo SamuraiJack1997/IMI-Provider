@@ -11,17 +11,14 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
     {
         private int channelNumber;
 
-
         public TvPlanPriceStrategy(int channelNumber)
         {
-
           this.channelNumber = channelNumber;
-
         }
 
         public float getPrice()
         {
-            return channelNumber * 10; //10 treba da bude cena po kanalu
+            return channelNumber * 10; //TODO add price per channel
         }
     }
 }

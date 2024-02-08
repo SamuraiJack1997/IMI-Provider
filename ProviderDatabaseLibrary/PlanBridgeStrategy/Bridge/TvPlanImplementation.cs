@@ -12,7 +12,6 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge
 
         public int channelNumber;
 
-
         public TvPlanImplementation(int channelNumber)
         {
             this.channelNumber = channelNumber;

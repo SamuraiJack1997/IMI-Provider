@@ -11,6 +11,5 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces
         public int getUploadSpeed();
         public int getChannelNumber();
         public int getDownloadSpeed();
-       
     }
 }

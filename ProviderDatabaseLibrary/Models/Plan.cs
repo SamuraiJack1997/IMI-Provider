@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace ProviderDatabaseLibrary.Models
 {
-    public  class Plan
+    public abstract class Plan
     {
    
         public IPlanImplementation implementation;
@@ -19,6 +19,7 @@ namespace ProviderDatabaseLibrary.Models
         public int? Internet_Plan_ID {  get; set; }
         public int? TV_Plan_ID { get; set; }
         public int? Combo_Plan_ID { get; set; }
+
         public Plan(int iD, string name, float price, int internet_Plan_ID, int tV_Plan_ID, int combo_Plan_ID)
         {
             ID = iD;
@@ -51,7 +52,11 @@ namespace ProviderDatabaseLibrary.Models
             {
                 PlanType = "TV Plan";
             }
-            else if(Internet_Plan_ID == 0 && TV_Plan_ID == 0 && Combo_Plan_ID !=0)
+            else if(Internet_Plan_ID != 0 && TV_Plan_ID != 0 && Combo_Plan_ID !=0)
+            {
+                PlanType = "Combo Plan";
+            }
+            else if (Internet_Plan_ID == 0 && TV_Plan_ID == 0 && Combo_Plan_ID != 0)
             {
                 PlanType = "Combo Plan";
             }
@@ -66,9 +71,7 @@ namespace ProviderDatabaseLibrary.Models
         {
             return "ID plana:"+ID+" Name:"+Name+" Price:"+Price+" Tip plana:"+getPlanType();
         }
-        public float GetFullPrice()
-        { return 2; }
-        public  void SetPriceStrategy()
-        { }
+        public abstract float GetFullPrice();
+        public abstract void SetPriceStrategy();
     }
 }

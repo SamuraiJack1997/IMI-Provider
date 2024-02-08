@@ -15,7 +15,6 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
 
         public ComboPlanPriceStrategy(int internetDownload, int internetUpload, int channelNumber)
         {
-
             this.channelNumber = channelNumber;
             this.downloadSpeed = internetDownload;
             this.uploadSpeed = internetUpload;
@@ -23,7 +22,7 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
 
         public float getPrice()
         {
-            return downloadSpeed * 4 + uploadSpeed * 5 + channelNumber * 10; //4 i 5,10 treba da budu neke globalne vrednosti cene;
+            return downloadSpeed * 4 + uploadSpeed * 5 + channelNumber * 10; //TODO add prices for download/upload and channel
         }
 
     }

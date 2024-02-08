@@ -23,6 +23,8 @@ namespace ProviderDatabaseLibrary.Interfaces
         int removeClientByID(int clientID);
         //update klijenta vraca -1 ako je neuspesno ili >0 ako je uspesno
         int updateClientByID(int clientID, string username, string name, string surname);
+        //dodaje plan za klijenta u bazu
+        int insertClientPlanByClientID(int clientID, int planID);
 
 
     }

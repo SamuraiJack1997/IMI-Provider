@@ -14,7 +14,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
     public class DeleteClientCommand : IClientCommand
     {                
         Provider provider = Provider.Instance;
-        private IProvider db;
+        private IProvider? db;
 
         private readonly Client _client;
         private readonly ClientMemento _previousState;
@@ -41,7 +41,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             int result = db.removeClientByID(_client.ID);
             
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);
-
+            _previousState.ActivatedPlans=db.getActivatedClientPlansByClientID(_client.ID);
             Console.WriteLine($"Client {_client.ID} deleted. New state: {_client}");
             return result;
         }

@@ -23,7 +23,6 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge
         public int getUploadSpeed()
         {
             return uploadSpeed;
-
         }
 
         public int getChannelNumber()
