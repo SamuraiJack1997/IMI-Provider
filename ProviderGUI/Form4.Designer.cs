@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            txtplanName = new TextBox();
+            txtdownloadSpeed = new TextBox();
             label2 = new Label();
             label3 = new Label();
             comboBox1 = new ComboBox();
             button1 = new Button();
             button2 = new Button();
-            textBox3 = new TextBox();
+            txtuploadSpeed = new TextBox();
             label4 = new Label();
-            textBox4 = new TextBox();
+            txtnumberOfChannels = new TextBox();
             label5 = new Label();
-            textBox5 = new TextBox();
+            floatprice = new TextBox();
             label6 = new Label();
             SuspendLayout();
             // 
@@ -55,17 +55,17 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(154, 35);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(141, 23);
-            textBox1.TabIndex = 1;
+            txtplanName.Location = new Point(154, 35);
+            txtplanName.Name = "textBox1";
+            txtplanName.Size = new Size(141, 23);
+            txtplanName.TabIndex = 1;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(154, 64);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(141, 23);
-            textBox2.TabIndex = 3;
+            txtdownloadSpeed.Location = new Point(154, 64);
+            txtdownloadSpeed.Name = "textBox2";
+            txtdownloadSpeed.Size = new Size(141, 23);
+            txtdownloadSpeed.TabIndex = 3;
             // 
             // label2
             // 
@@ -115,10 +115,10 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(154, 93);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(141, 23);
-            textBox3.TabIndex = 10;
+            txtuploadSpeed.Location = new Point(154, 93);
+            txtuploadSpeed.Name = "textBox3";
+            txtuploadSpeed.Size = new Size(141, 23);
+            txtuploadSpeed.TabIndex = 10;
             // 
             // label4
             // 
@@ -131,10 +131,10 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(154, 122);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(141, 23);
-            textBox4.TabIndex = 12;
+            txtnumberOfChannels.Location = new Point(154, 122);
+            txtnumberOfChannels.Name = "textBox4";
+            txtnumberOfChannels.Size = new Size(141, 23);
+            txtnumberOfChannels.TabIndex = 12;
             // 
             // label5
             // 
@@ -147,10 +147,10 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(154, 151);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(141, 23);
-            textBox5.TabIndex = 14;
+            floatprice.Location = new Point(154, 151);
+            floatprice.Name = "textBox5";
+            floatprice.Size = new Size(141, 23);
+            floatprice.TabIndex = 14;
             // 
             // label6
             // 
@@ -166,19 +166,19 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(311, 242);
-            Controls.Add(textBox5);
+            Controls.Add(floatprice);
             Controls.Add(label6);
-            Controls.Add(textBox4);
+            Controls.Add(txtnumberOfChannels);
             Controls.Add(label5);
-            Controls.Add(textBox3);
+            Controls.Add(txtuploadSpeed);
             Controls.Add(label4);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(comboBox1);
             Controls.Add(label3);
-            Controls.Add(textBox2);
+            Controls.Add(txtdownloadSpeed);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(txtplanName);
             Controls.Add(label1);
             Name = "Form4";
             Text = "Form4";
@@ -189,18 +189,18 @@
         #endregion
 
         private Label label1;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox txtplanName;
+        private TextBox txtdownloadSpeed;
         private Label label2;
         private Label label3;
         private ComboBox comboBox1;
         private Button button1;
         private Button button2;
-        private TextBox textBox3;
+        private TextBox txtuploadSpeed;
         private Label label4;
-        private TextBox textBox4;
+        private TextBox txtnumberOfChannels;
         private Label label5;
-        private TextBox textBox5;
+        private TextBox floatprice;
         private Label label6;
     }
 }
