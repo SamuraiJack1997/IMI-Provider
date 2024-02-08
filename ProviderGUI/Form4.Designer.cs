@@ -92,6 +92,9 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(141, 23);
             comboBox1.TabIndex = 6;
+            comboBox1.Items.Add("Internet Plan");
+            comboBox1.Items.Add("TV Plan");
+            comboBox1.SelectedIndex = 0;
             // 
             // button1
             // 
