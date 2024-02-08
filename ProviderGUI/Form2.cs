@@ -33,6 +33,7 @@ namespace ProviderGUI
             button3.Enabled = false;
             button4.Enabled = false;
             InitDataGridView1();
+            InitDataGridView2();
             if(clients != null )
             {
                 if (clients[0]!=null)
@@ -56,6 +57,7 @@ namespace ProviderGUI
         {
             button3.Enabled = false;
             InitDataGridView1();
+            InitDataGridView2();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -82,9 +84,24 @@ namespace ProviderGUI
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Form4 form4 = new Form4();
-            this.Hide();
-            form4.Show();
+            lockForm();
+            using (Form4 form4 = new Form4()) //TODO -insert plan memento
+            {
+                var result = form4.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    unlockForm();
+                    button4.Enabled = true;
+                    refresh();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    unlockForm();
+                    button4.Enabled = false;
+                    refresh();
+                    //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
+                }
+            }
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -92,6 +109,7 @@ namespace ProviderGUI
             Form1 form1 = new Form1();
             this.Hide();
             form1.Show();
+
         }
 
         private void InitDataGridView1()
@@ -129,9 +147,9 @@ namespace ProviderGUI
                 if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 InitDataGridView3(clientId);
             }
-            catch(Exception ex)
+            catch
             {
-                MessageBox.Show("Izaberite korisnika." +ex.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select client row." , "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
 
@@ -181,11 +199,13 @@ namespace ProviderGUI
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Name", typeof(string));
             dataTable.Columns.Add("Price", typeof(string));
+            dataTable.Columns.Add("Plan_Type", typeof(string));
             foreach (var plan in plans)
             {
                 dataTable.Rows.Add(
                     plan.Name,
-                    plan.Price
+                    plan.Price,
+                    plan.getPlanType()
                     );
             }
 

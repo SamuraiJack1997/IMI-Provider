@@ -65,10 +65,10 @@ namespace ProviderDatabaseLibrary.Queries
                     plans.Add(new Plan(
                         int.Parse(reader["ID"].ToString()),
                         reader["Name"].ToString(),
-                        reader["Price"].ToString(),
-                        reader["Internet_Plan_ID"].ToString(),
-                        reader["TV_Plan_ID"].ToString(),
-                        reader["Mobile_Plan_ID"].ToString()
+                        float.Parse(reader["Price"].ToString()),
+                        reader.IsDBNull(reader.GetOrdinal("Internet_Plan_ID")) ? 0 : int.Parse(reader["Internet_Plan_ID"].ToString()),
+                        reader.IsDBNull(reader.GetOrdinal("TV_Plan_ID")) ? 0 : int.Parse(reader["TV_Plan_ID"].ToString()),
+                        reader.IsDBNull(reader.GetOrdinal("Combo_Plan_ID")) ? 0 : int.Parse(reader["Combo_Plan_ID"].ToString())
                         ));
                 }
             }

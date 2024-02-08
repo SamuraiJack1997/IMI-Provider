@@ -31,16 +31,7 @@ namespace ProviderDatabaseLibrary.Models
             Combo_Plan_ID = combo_Plan_ID;
         }
 
-        public Plan(int v1, string? v2, string? v3, string? v4, string? v5, string? v6)
-        {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.v3 = v3;
-            this.v4 = v4;
-            this.v5 = v5;
-            this.v6 = v6;
-        }
-
+       
         public string getPlanType()
         {
             string PlanType="";
