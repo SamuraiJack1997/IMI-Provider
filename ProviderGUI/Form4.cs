@@ -21,7 +21,10 @@ namespace ProviderGUI
         {
             InitializeComponent();
             this.Text = provider.getName() + "/Add new plan:";
-
+            txtdownloadSpeed.Enabled = false;
+            txtnumberOfChannels.Enabled = false;
+            txtuploadSpeed.Enabled = false;
+            txtplanName.Enabled = false;
 
 
         }
@@ -32,14 +35,8 @@ namespace ProviderGUI
             float downloadSpeed;
             float uploadSpeed;
             float numberOfChannels;
-            float price;
+            
 
-            // Attempt to parse the price input as a float
-            if (!float.TryParse(floatprice.Text, out price) || float.IsNaN(price))
-            {
-                MessageBox.Show("Price must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             if (!float.TryParse(txtdownloadSpeed.Text, out downloadSpeed) || float.IsNaN(downloadSpeed))
             {
                 MessageBox.Show("Download speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
