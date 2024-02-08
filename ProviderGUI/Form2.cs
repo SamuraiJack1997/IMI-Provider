@@ -41,8 +41,10 @@ namespace ProviderGUI
                     InitDataGridView3(clients[0].ID);
                 }
             }
-           
+            this.FormClosing += Form2_FormClosing;
+            
         }
+
 
         private void lockForm()
         {
@@ -269,6 +271,27 @@ namespace ProviderGUI
             }
         }
 
-        
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Check if the form is being closed by the user
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // Ask for confirmation before exiting
+                DialogResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                // If user confirms, exit the application
+                if (result == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    // Cancel the form closing event to prevent closing the form
+                    e.Cancel = true;
+                }
+            }
+        }
+
     }
 }
