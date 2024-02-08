@@ -19,8 +19,14 @@ namespace ProviderGUI
     {
         private IProvider db;
         Provider provider = Provider.Instance;
-        ClientSingleton clientSingleton = ClientSingleton.Instance;        
+        ClientSingleton clientSingleton = ClientSingleton.Instance;
         InsertClientCommand insertClientCommand;
+        Client insertedClient;
+        UpdateClientCommand updateClientCommand;
+        List<Client> clients;
+        List<Plan> plans;
+        //DeleteClientCommand deleteClientCommand;
+
         Client insertedClient;        
         DeleteClientCommand deleteClientCommand;
         Client removedClient;
@@ -33,7 +39,18 @@ namespace ProviderGUI
             button3.Enabled = false;
             button4.Enabled = false;
             InitDataGridView1();
+            InitDataGridView2();
+            if(clients != null )
+            {
+                if (clients[0]!=null)
+                {
+                    InitDataGridView3(clients[0].ID);
+                }
+            }
+            this.FormClosing += Form2_FormClosing;
+            
         }
+
 
         private void lockForm()
         {
@@ -47,7 +64,8 @@ namespace ProviderGUI
         private void refresh()
         {
             button3.Enabled = false;
-            InitDataGridView1();            
+            InitDataGridView1();
+            InitDataGridView2();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -75,9 +93,24 @@ namespace ProviderGUI
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Form4 form4 = new Form4();
-            this.Hide();
-            form4.Show();
+            lockForm();
+            using (Form4 form4 = new Form4()) //TODO -insert plan memento
+            {
+                var result = form4.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    unlockForm();
+                    button4.Enabled = true;
+                    refresh();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    unlockForm();
+                    button4.Enabled = false;
+                    refresh();
+                    //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
+                }
+            }
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -85,12 +118,13 @@ namespace ProviderGUI
             Form1 form1 = new Form1();
             this.Hide();
             form1.Show();
+
         }
 
         private void InitDataGridView1()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            List<Client> clients = new List<Client>();
+            clients = new List<Client>();
             clients = db.getAllClients();
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Username", typeof(string));
@@ -111,17 +145,29 @@ namespace ProviderGUI
             // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            int selectedUserId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            //  if (e.RowIndex >0)
+            try
+            {
+                string username = (string)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+                int clientId = db.getClientIdByUsername(username);
+                if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                InitDataGridView3(clientId);
+            }
+            catch
+            {
+                MessageBox.Show("Please select client row." , "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
-            
-            InitDataGridView2(selectedUserId);
+
+               
+        //    }
         }
 
-        private void InitDataGridView2(int id)
+
+        private void InitDataGridView3(int id)
         {
 
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -142,8 +188,33 @@ namespace ProviderGUI
 
                 dataTable.Rows.Add(
                     activatedPlan.Name,
-                    activatedPlan.Price
-                    //   activatedPlan.getPlanType
+                    activatedPlan.Price,
+                    activatedPlan.getPlanType()
+                    );
+            }
+
+            // Bind the DataTable to the DataGridView
+            dataGridView3.DataSource = dataTable;
+
+            // Optionally, you can customize the DataGridView appearance and behavior
+            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void InitDataGridView2()
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            plans = new List<Plan>();
+            plans = db.getAllPlans();
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Name", typeof(string));
+            dataTable.Columns.Add("Price", typeof(string));
+            dataTable.Columns.Add("Plan_Type", typeof(string));
+            foreach (var plan in plans)
+            {
+                dataTable.Rows.Add(
+                    plan.Name,
+                    plan.Price,
+                    plan.getPlanType()
                     );
             }
 
@@ -153,13 +224,9 @@ namespace ProviderGUI
             // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+      
 
 
-
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
         private void button4_Click(object sender, EventArgs e)
         {
             if(addedClient == true)
@@ -189,7 +256,7 @@ namespace ProviderGUI
         private void button2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
-            {                
+            {
                 try
                 {
                     db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -216,12 +283,12 @@ namespace ProviderGUI
                     catch
                     {
                         MessageBox.Show("Failed to delete the client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        button4.Enabled = false;                        
+                        button4.Enabled = false;
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("Please select a client to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);                    
+                    MessageBox.Show("Please select a client to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 finally
                 {
@@ -235,5 +302,28 @@ namespace ProviderGUI
                 refresh();
             }
         }
+
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Check if the form is being closed by the user
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // Ask for confirmation before exiting
+                DialogResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                // If user confirms, exit the application
+                if (result == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    // Cancel the form closing event to prevent closing the form
+                    e.Cancel = true;
+                }
+            }
+        }
+
     }
 }

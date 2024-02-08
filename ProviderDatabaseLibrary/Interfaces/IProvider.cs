@@ -11,6 +11,8 @@ namespace ProviderDatabaseLibrary.Interfaces
     {
         //vraca sve klijente
         List<Client> getAllClients();
+        //vraca sve planove
+        List<Plan> getAllPlans();
         //vraca sve planove za konkretnog klijenta koristeci njegov id
         List<Plan> getActivatedClientPlansByClientID(int clientID);
         //dodavanje klijenta(-1 ako postoji username,1 i vise ako je dodat(broj dodatih redova), 0 ako ima konflikt

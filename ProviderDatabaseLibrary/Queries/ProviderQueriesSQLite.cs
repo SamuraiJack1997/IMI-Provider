@@ -45,6 +45,40 @@ namespace ProviderDatabaseLibrary.Queries
             }
             return clients;
         }
+        public List<Plan> getAllPlans()
+        {
+
+            List<Plan> plans = new List<Plan>();
+            if (_connection.State == ConnectionState.Open)
+                _connection.Close();
+
+            _connection.Open();
+
+            SQLiteCommand cmd = _connection.CreateCommand();
+            cmd.CommandText = @"select * from Plans";
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    plans.Add(new Plan(
+                        int.Parse(reader["ID"].ToString()),
+                        reader["Name"].ToString(),
+                        float.Parse(reader["Price"].ToString()),
+                        reader.IsDBNull(reader.GetOrdinal("Internet_Plan_ID")) ? 0 : int.Parse(reader["Internet_Plan_ID"].ToString()),
+                        reader.IsDBNull(reader.GetOrdinal("TV_Plan_ID")) ? 0 : int.Parse(reader["TV_Plan_ID"].ToString()),
+                        reader.IsDBNull(reader.GetOrdinal("Combo_Plan_ID")) ? 0 : int.Parse(reader["Combo_Plan_ID"].ToString())
+                        ));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                _connection.Close();
+            }
+
+            return plans;
+        }
 
         public List<Plan> getActivatedClientPlansByClientID(int clientID)
         {
@@ -218,6 +252,8 @@ namespace ProviderDatabaseLibrary.Queries
 
             return affectedRows;
         }
+
+        
     }
 }
 

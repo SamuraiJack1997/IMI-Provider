@@ -8,6 +8,13 @@ namespace ProviderDatabaseLibrary.Models
 {
     public class Plan
     {
+        private int v1;
+        private string? v2;
+        private string? v3;
+        private string? v4;
+        private string? v5;
+        private string? v6;
+
         public int ID { get; set; }
         public string Name { get; set; }
         public float Price { get; set; }
@@ -24,6 +31,7 @@ namespace ProviderDatabaseLibrary.Models
             Combo_Plan_ID = combo_Plan_ID;
         }
 
+       
         public string getPlanType()
         {
             string PlanType="";
