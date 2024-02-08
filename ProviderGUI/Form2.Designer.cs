@@ -74,7 +74,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(400, 306);
             dataGridView1.TabIndex = 2;
-
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // label1
             // 
@@ -101,7 +101,6 @@
             dataGridView2.Name = "dataGridView2";
             dataGridView2.Size = new Size(328, 306);
             dataGridView2.TabIndex = 5;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
             // label3
             // 
@@ -127,7 +126,7 @@
             button3.Size = new Size(91, 43);
             button3.TabIndex = 8;
             button3.Text = "Update selected client";
-            button3.UseVisualStyleBackColor = true;            
+            button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 

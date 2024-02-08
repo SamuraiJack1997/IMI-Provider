@@ -18,10 +18,11 @@ namespace ProviderGUI
     {
         private IProvider db;
         Provider provider = Provider.Instance;
-        ClientSingleton clientSingleton = ClientSingleton.Instance;        
+        ClientSingleton clientSingleton = ClientSingleton.Instance;
         InsertClientCommand insertClientCommand;
         Client insertedClient;
         UpdateClientCommand updateClientCommand;
+        List<Client> clients;
         //DeleteClientCommand deleteClientCommand;
 
         public Form2()
@@ -31,6 +32,14 @@ namespace ProviderGUI
             button3.Enabled = false;
             button4.Enabled = false;
             InitDataGridView1();
+            if(clients != null )
+            {
+                if (clients[0]!=null)
+                {
+                    InitDataGridView3(clients[0].ID);
+                }
+            }
+           
         }
 
         private void lockForm()
@@ -45,7 +54,7 @@ namespace ProviderGUI
         private void refresh()
         {
             button3.Enabled = false;
-            InitDataGridView1();            
+            InitDataGridView1();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -87,7 +96,7 @@ namespace ProviderGUI
         private void InitDataGridView1()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            List<Client> clients = new List<Client>();
+            clients = new List<Client>();
             clients = db.getAllClients();
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Username", typeof(string));
@@ -108,17 +117,29 @@ namespace ProviderGUI
             // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            int selectedUserId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            //  if (e.RowIndex >0)
+            try
+            {
+                string username = (string)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+                int clientId = db.getClientIdByUsername(username);
+                if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                InitDataGridView3(clientId);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Izaberite korisnika." +ex.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
-            
-            InitDataGridView2(selectedUserId);
+
+               
+        //    }
         }
 
-        private void InitDataGridView2(int id)
+
+        private void InitDataGridView3(int id)
         {
 
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -139,28 +160,24 @@ namespace ProviderGUI
 
                 dataTable.Rows.Add(
                     activatedPlan.Name,
-                    activatedPlan.Price
-                    //   activatedPlan.getPlanType
+                    activatedPlan.Price,
+                    activatedPlan.getPlanType()
                     );
             }
 
             // Bind the DataTable to the DataGridView
-            dataGridView2.DataSource = dataTable;
+            dataGridView3.DataSource = dataTable;
 
             // Optionally, you can customize the DataGridView appearance and behavior
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
 
 
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
         private void button4_Click(object sender, EventArgs e)
         {
             insertClientCommand = clientSingleton.icc;
-            insertedClient = clientSingleton.client;            
+            insertedClient = clientSingleton.client;
             insertedClient.RestoreClientMemento(insertClientCommand.getPreviousState());
             db = ProviderFactory.Provider(provider.getDatabaseType());
             db.removeClientByID(insertedClient.ID);
@@ -171,29 +188,29 @@ namespace ProviderGUI
         private void button2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
-            {                
+            {
                 try
                 {
                     db = ProviderFactory.Provider(provider.getDatabaseType());
-                    string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;                    
+                    string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;
                     int clientId = db.getClientIdByUsername(username);
                     if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    int result = db.removeClientByID(clientId);                    
+                    int result = db.removeClientByID(clientId);
                     if (result >= 0)
                     {
-                        MessageBox.Show("Client successfully deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);                                                
-                        button4.Enabled = true;                        
+                        MessageBox.Show("Client successfully deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        button4.Enabled = true;
                     }
                     else
                     {
                         MessageBox.Show("Failed to delete the client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        button4.Enabled = false;                        
+                        button4.Enabled = false;
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("Please select a client to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);                    
+                    MessageBox.Show("Please select a client to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 finally
                 {
@@ -207,5 +224,7 @@ namespace ProviderGUI
                 refresh();
             }
         }
+
+        
     }
 }
