@@ -48,6 +48,39 @@ namespace ProviderDatabaseLibrary.Queries
             return clients;
         }
 
+        public List<Plan> getAllPlans() { 
+            List<Plan> plans = new List<Plan>();
+            if (_connection.State == ConnectionState.Open)
+                _connection.Close();
+
+            _connection.Open();
+
+            String query = @"select * from Plans";
+            SqlCommand cmd = new SqlCommand(query, _connection);
+            SqlDataReader reader = cmd.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    plans.Add(new Plan(
+                        int.Parse(reader["ID"].ToString()),
+                        reader["Name"].ToString(),
+                        reader["Price"].ToString(),
+                        reader["Internet_Plan_ID"].ToString(),
+                        reader["TV_Plan_ID"].ToString(),
+                        reader["Mobile_Plan_ID"].ToString()
+                        ));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                _connection.Close();
+            }
+
+            return plans;
+        }
+
         public List<Plan> getActivatedClientPlansByClientID(int clientID)
         {
             List<Plan> plans = new List<Plan>();

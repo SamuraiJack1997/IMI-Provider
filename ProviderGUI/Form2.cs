@@ -23,6 +23,7 @@ namespace ProviderGUI
         Client insertedClient;
         UpdateClientCommand updateClientCommand;
         List<Client> clients;
+        List<Plan> plans;
         //DeleteClientCommand deleteClientCommand;
 
         public Form2()
@@ -172,6 +173,29 @@ namespace ProviderGUI
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        private void InitDataGridView2()
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            plans = new List<Plan>();
+            plans = db.getAllPlans();
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Name", typeof(string));
+            dataTable.Columns.Add("Price", typeof(string));
+            foreach (var plan in plans)
+            {
+                dataTable.Rows.Add(
+                    plan.Name,
+                    plan.Price
+                    );
+            }
+
+            // Bind the DataTable to the DataGridView
+            dataGridView2.DataSource = dataTable;
+
+            // Optionally, you can customize the DataGridView appearance and behavior
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+      
 
 
         private void button4_Click(object sender, EventArgs e)
