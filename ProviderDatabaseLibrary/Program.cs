@@ -25,19 +25,22 @@ namespace ProviderDatabaseLibrary
             provider.setProviderData("SBB", @"Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
             db = ProviderFactory.Provider(provider.getDatabaseType());
 
-
+            //Bridge Strategy Example
             IPlanImplementation tvImplementation = new TvPlanImplementation(4);
-            Plan tvPlan = new TV_Plan(tvImplementation, 0, "ime", 0, 0, 0);
+            Plan tvPlan = new TV_Plan(0, "ime", 0, 0, 0, 0);
+            tvPlan.setPlanPriceImplementation(tvImplementation);
 
             IPlanImplementation internetImplementation = new InternetPlanImplementation(100, 100);
-            Plan internetPlan = new Internet_Plan(internetImplementation, 0, "ime", 0, 0, 0);
+            Plan internetPlan = new Internet_Plan( 0, "ime", 0, 0, 0, 0);
+            internetPlan.setPlanPriceImplementation(internetImplementation);
 
-            IPlanImplementation comboImp = new ComboPlanImplementation(150, 250, 20);
-            Plan comboPlan = new Combo_Plan(comboImp, 0, "ime", 0, 0, 0);
+            IPlanImplementation comboImplementation = new ComboPlanImplementation(150, 250, 20);
+            Plan comboPlan = new Combo_Plan( 0, "ime", 0, 0, 0, 0);
+            comboPlan.setPlanPriceImplementation(comboImplementation);
 
-            Console.WriteLine(tvPlan.GetFullPrice());
-            Console.WriteLine(internetPlan.GetFullPrice());
-            Console.WriteLine(comboPlan.GetFullPrice());
+            Console.WriteLine(tvPlan.ToString());
+            Console.WriteLine(internetPlan.ToString());
+            Console.WriteLine(comboPlan.ToString());
 
         }
     }

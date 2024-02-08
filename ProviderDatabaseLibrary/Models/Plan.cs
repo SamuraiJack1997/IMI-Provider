@@ -29,17 +29,6 @@ namespace ProviderDatabaseLibrary.Models
             TV_Plan_ID = tV_Plan_ID;
             Combo_Plan_ID = combo_Plan_ID;
         }
-       public Plan(IPlanImplementation implementation, int iD, string name,  int internet_Plan_ID, int tV_Plan_ID, int combo_Plan_ID)
-        {
-            this.implementation = implementation;
-            ID = iD;
-            Name = name;
-            Internet_Plan_ID = internet_Plan_ID;
-            TV_Plan_ID = tV_Plan_ID;
-            Combo_Plan_ID = combo_Plan_ID;
-           
-        }
-
         
         public string getPlanType()
         {
@@ -71,6 +60,8 @@ namespace ProviderDatabaseLibrary.Models
         {
             return "ID plana:"+ID+" Name:"+Name+" Price:"+Price+" Tip plana:"+getPlanType();
         }
+
+        public abstract void setPlanPriceImplementation(IPlanImplementation implementation);
         public abstract float GetFullPrice();
         public abstract void SetPriceStrategy();
     }
