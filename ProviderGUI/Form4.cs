@@ -21,8 +21,13 @@ namespace ProviderGUI
         {
             InitializeComponent();
             this.Text = provider.getName() + "/Add new plan:";
-
-
+  
+            txtdownloadSpeed.Enabled = false;
+            txtnumberOfChannels.Enabled = false;
+            txtuploadSpeed.Enabled = false;
+            txtplanName.Enabled = false;
+            floatprice.Enabled = true;
+            floatprice.ReadOnly = true;
 
         }
 
@@ -32,36 +37,45 @@ namespace ProviderGUI
             float downloadSpeed;
             float uploadSpeed;
             float numberOfChannels;
-            float price;
 
-            // Attempt to parse the price input as a float
-            if (!float.TryParse(floatprice.Text, out price) || float.IsNaN(price))
+            if (comboBox1.SelectedItem == null)
             {
-                MessageBox.Show("Price must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a plan type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (txtdownloadSpeed.Enabled == true) { 
             if (!float.TryParse(txtdownloadSpeed.Text, out downloadSpeed) || float.IsNaN(downloadSpeed))
             {
                 MessageBox.Show("Download speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (!float.TryParse(txtuploadSpeed.Text, out uploadSpeed) || float.IsNaN(uploadSpeed))
+          }
+            if (txtuploadSpeed.Enabled == true)
             {
-                MessageBox.Show("Upload speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (!float.TryParse(txtnumberOfChannels.Text, out numberOfChannels) || float.IsNaN(numberOfChannels))
-            {
-                MessageBox.Show("Number of channels must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(planName))
-            {
-                MessageBox.Show("Plan name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (!float.TryParse(txtuploadSpeed.Text, out uploadSpeed) || float.IsNaN(uploadSpeed) && txtuploadSpeed.Enabled == true)
+                {
+                    MessageBox.Show("Upload speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
+            if (txtnumberOfChannels.Enabled == true)
+            {
+                if (!float.TryParse(txtnumberOfChannels.Text, out numberOfChannels) || float.IsNaN(numberOfChannels) && txtnumberOfChannels.Enabled == true)
+                {
+                    MessageBox.Show("Number of channels must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            if (txtplanName.Enabled == true)
+            {
+                if (string.IsNullOrWhiteSpace(planName) && txtplanName.Enabled == true)
+                {
+                    MessageBox.Show("Plan name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
