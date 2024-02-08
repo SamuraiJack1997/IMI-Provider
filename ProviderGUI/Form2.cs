@@ -1,4 +1,5 @@
 ﻿using ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands;
+using ProviderDatabaseLibrary.ClientMementoCommand.Models;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
@@ -20,10 +21,11 @@ namespace ProviderGUI
         Provider provider = Provider.Instance;
         ClientSingleton clientSingleton = ClientSingleton.Instance;        
         InsertClientCommand insertClientCommand;
-        Client insertedClient;
-        UpdateClientCommand updateClientCommand;
-        //DeleteClientCommand deleteClientCommand;
-
+        Client insertedClient;        
+        DeleteClientCommand deleteClientCommand;
+        Client removedClient;
+        bool addedClient = false;
+        bool deletedClient = false;
         public Form2()
         {
             InitializeComponent();
@@ -56,6 +58,7 @@ namespace ProviderGUI
                 var result = form3.ShowDialog();
                 if (result == DialogResult.OK)
                 {
+                    addedClient = true;
                     unlockForm();
                     button4.Enabled = true;
                     refresh();
@@ -159,13 +162,28 @@ namespace ProviderGUI
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            insertClientCommand = clientSingleton.icc;
-            insertedClient = clientSingleton.client;            
-            insertedClient.RestoreClientMemento(insertClientCommand.getPreviousState());
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            db.removeClientByID(insertedClient.ID);
-            button4.Enabled = false;
-            refresh();
+            if(addedClient == true)
+            {
+                insertClientCommand = clientSingleton.icc;
+                insertedClient = clientSingleton.client;           
+                insertedClient.RestoreClientMemento(insertClientCommand.getPreviousState());
+                db = ProviderFactory.Provider(provider.getDatabaseType());
+                db.removeClientByID(insertedClient.ID);
+                button4.Enabled = false;
+                refresh();
+                addedClient = false;
+            } 
+            if(deletedClient == true) 
+            {
+                deleteClientCommand = clientSingleton.dcc;
+                removedClient = clientSingleton.client;
+                removedClient.RestoreClientMemento(deleteClientCommand.getPreviousState());
+                db = ProviderFactory.Provider(provider.getDatabaseType());
+                db.insertClient(removedClient.Username, removedClient.Name, removedClient.Surname);
+                button4.Enabled = false;
+                refresh();
+                deletedClient = false;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -175,17 +193,27 @@ namespace ProviderGUI
                 try
                 {
                     db = ProviderFactory.Provider(provider.getDatabaseType());
-                    string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;                    
+                    string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value; 
+                    string firstName = (string)dataGridView1.SelectedRows[0].Cells[1].Value;
+                    string lastName = (string)dataGridView1.SelectedRows[0].Cells[2].Value;
                     int clientId = db.getClientIdByUsername(username);
                     if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    int result = db.removeClientByID(clientId);                    
-                    if (result >= 0)
+                                            
+                    try
                     {
+                        Client c = new Client(0, username, firstName, lastName);
+                        ClientMemento initialState = c.CreateClientMemento();
+
+                        DeleteClientCommand deleteCommand = new DeleteClientCommand(c, initialState);
+                        deleteCommand.Execute();
+                        clientSingleton.dcc = deleteCommand;
+                        clientSingleton.client = c;
+                        deletedClient = true;
                         MessageBox.Show("Client successfully deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);                                                
                         button4.Enabled = true;                        
                     }
-                    else
+                    catch
                     {
                         MessageBox.Show("Failed to delete the client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         button4.Enabled = false;                        

@@ -13,8 +13,8 @@ namespace ProviderDatabaseLibrary.Models
     {
         private static ClientSingleton? clientSingletonInstance;
         public InsertClientCommand icc {get; set;}
-        public UpdateClientCommand ucc { get; set; }
-        //public DeleteClientCommand dcc { get; set; }
+        public DeleteClientCommand ucc { get; set; }
+        public DeleteClientCommand dcc { get; set; }
         public Client client { get; set; }
         public int ID { get; set; }
         public string Username { get; set; }

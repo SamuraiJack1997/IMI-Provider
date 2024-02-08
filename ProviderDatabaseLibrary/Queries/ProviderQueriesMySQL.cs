@@ -141,7 +141,7 @@ namespace ProviderDatabaseLibrary.Queries
 
         public int removeClientByID(int clientID)
         {           
-            int affectedRows = 0;                                    
+            int affectedRows = -1;                                    
             List<Client> clients = new List<Client>();
             _connection.Open();
             String query = @"delete from clients where id=@clientID";
