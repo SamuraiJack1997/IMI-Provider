@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -34,11 +35,25 @@ namespace ProviderGUI
             string lastName = txtLastName.Text;
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
-            {
+            {                
                 MessageBox.Show("All fields are required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            if(!IsValidUsername(username))
+            {
+                MessageBox.Show("Username should start with a letter, followed by letters, numbers, or underscores", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!IsValidUsername(firstName))
+            {
+                MessageBox.Show("First name should only contain letters", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!IsValidUsername(lastName))
+            {
+                MessageBox.Show("Last name should only contain letters", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             c = new Client(0, username, firstName, lastName);
             ClientMemento initialState = c.CreateClientMemento();
 
@@ -80,6 +95,17 @@ namespace ProviderGUI
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        private bool IsValidUsername(string username)
+        {
+            // Username should start with a letter, followed by letters, numbers, or underscores
+            return Regex.IsMatch(username, "^[a-zA-Z][a-zA-Z0-9_]*$");
+        }
+
+        private bool IsValidName(string name)
+        {
+            // Name should only contain letters
+            return Regex.IsMatch(name, "^[a-zA-Z]+$");
         }
     }
 }
