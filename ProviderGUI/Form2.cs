@@ -147,11 +147,12 @@ namespace ProviderGUI
 
             // Optionally, you can customize the DataGridView appearance and behavior
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.ReadOnly = true;
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            //  if (e.RowIndex >0)
+            if (e.RowIndex >0)
             try
             {
                 string username = (string)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
@@ -163,7 +164,6 @@ namespace ProviderGUI
             {
                 MessageBox.Show("Please select client row." , "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        //    }
         }
 
 
@@ -190,6 +190,7 @@ namespace ProviderGUI
 
             dataGridView3.DataSource = dataTable;
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView3.ReadOnly = true;
         }
 
         private void InitDataGridView2()
@@ -212,6 +213,7 @@ namespace ProviderGUI
 
             dataGridView2.DataSource = dataTable;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.ReadOnly = true;
         }
       
         private void button4_Click(object sender, EventArgs e)
@@ -296,20 +298,16 @@ namespace ProviderGUI
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Check if the form is being closed by the user
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // Ask for confirmation before exiting
                 DialogResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                // If user confirms, exit the application
                 if (result == DialogResult.Yes)
                 {
                     Application.Exit();
                 }
                 else
                 {
-                    // Cancel the form closing event to prevent closing the form
                     e.Cancel = true;
                 }
             }
