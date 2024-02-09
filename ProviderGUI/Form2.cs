@@ -208,13 +208,13 @@ namespace ProviderGUI
                         plan.Price,
                         plan.getPlanType(),
                         ((Internet_Plan)plan).Download_Speed + "/" + ((Internet_Plan)plan).Upload_Speed+"(mpbs)",
-                        "           X");
+                        "           -");
                 if (plan is TV_Plan)
                     dataTable.Rows.Add(
                         plan.Name,
                         plan.Price,
                         plan.getPlanType(),
-                        "           X",
+                        "           -",
                         ((TV_Plan)plan).Channel_Number
                         );
                 if (plan is Combo_Plan)

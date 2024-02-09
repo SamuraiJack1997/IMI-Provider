@@ -13,6 +13,7 @@ using ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge;
 using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
 using ProviderDatabaseLibrary.PlanBuider.Models;
 using ProviderDatabaseLibrary.PlanBuider;
+using ProviderDatabaseLibrary.Models.Singletones;
 
 namespace ProviderDatabaseLibrary
 {
@@ -21,12 +22,12 @@ namespace ProviderDatabaseLibrary
         public static void Main(string[] args)
         {
             //////////////////PRIMER POZIVA BAZE I SETOVANJE PARAMETARA
-            /*
+            
             IProvider db;
             Provider provider = Provider.Instance;
-            provider.setProviderData("MTS", @"Data Source=D:/Users/Kristina/Documents/GitHub/tim-10/PROVIDER.db;", "SQLite");
-            provider.setProviderData("SBB", @"Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
-            db = ProviderFactory.Provider(provider.getDatabaseType());*/
+            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
+            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
+            db = ProviderFactory.Provider(provider.getDatabaseType());
 
             //PRIMER KORISCENJA BRIDGE/STRATEGY
             /*
@@ -48,17 +49,22 @@ namespace ProviderDatabaseLibrary
             */
 
             /////////////////////////////////////////////PRIMER KORISCENJA BUILDERA
-            PlanBuilderModel tvPlan = Director.SetTVPlan("TV Plan", 1, 100);
-            PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);
-            PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO Plan", 1,1, 100,100,100);
+            PlanBuilderModel tvPlan = Director.SetTVPlan("TV 101", 1, 101);
+            //PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);
+            //PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO Plan", 1,1, 100,100,100);
 
             Plan plan1 = tvPlan.ExecutePlanCreation();
-            Plan plan2 = internetPlan.ExecutePlanCreation();
-            Plan plan3 = comboPlan.ExecutePlanCreation();
+            //Plan plan2 = internetPlan.ExecutePlanCreation();
+            //Plan plan3 = comboPlan.ExecutePlanCreation();
 
             Console.WriteLine(plan1.ToString());
-            Console.WriteLine(plan2.ToString());
-            Console.WriteLine(plan3.ToString());
+            //Console.WriteLine(plan2.ToString());
+            //Console.WriteLine(plan3.ToString());
+
+            int rowsAffected = db.insertTVPlan((TV_Plan)plan1);
+
+            Console.WriteLine(rowsAffected);
+
 
 
         }

@@ -342,6 +342,108 @@ namespace ProviderDatabaseLibrary.Queries
         {
             throw new NotImplementedException();
         }
+
+        public int insertTVPlan(TV_Plan plan)
+        {
+            int Plan_ID;
+            bool planNumberExists = true;
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string checkTVPlans = @"select * from TV_Plan where Channel_Number=@Channel_Number";
+                SQLiteCommand cmd = new SQLiteCommand(checkTVPlans, _connection);
+                cmd.Parameters.AddWithValue("@Channel_Number", plan.Channel_Number);
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    planNumberExists = false;
+                    reader.Close();
+                    string insertTVPlanQuery = @"insert into TV_Plan (Channel_Number) values(@Channel_Number)";
+                    cmd = new SQLiteCommand(insertTVPlanQuery, _connection);
+                    cmd.Parameters.AddWithValue("@Channel_Number", plan.Channel_Number);
+                    rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        string getTVPlanID = @"select ID from TV_Plan where Channel_Number=(@Channel_Number)";
+                        cmd = new SQLiteCommand(getTVPlanID, _connection);
+                        cmd.Parameters.AddWithValue("@Channel_Number", plan.Channel_Number);
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+                        Plan_ID = reader.GetInt32(0);
+                        reader.Close();
+
+                        string checkPlanName = @"select * from Plans where Name=@Name";
+                        cmd = new SQLiteCommand(checkPlanName, _connection);
+                        cmd.Parameters.AddWithValue("@Name", plan.Name);
+                        reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            reader.Close();
+                            string insertIntoPlans = @"insert into Plans (Name,Price,Internet_Plan_ID,TV_Plan_ID,Combo_Plan_ID) values (@PlanName,@Price,NULL,@Plan_ID,NULL)";
+                            cmd = new SQLiteCommand(insertIntoPlans, _connection);
+                            cmd.Parameters.AddWithValue("@PlanName", plan.Name);
+                            cmd.Parameters.AddWithValue("@Price", plan.Price);
+                            cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                            rowsAffected = cmd.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                rowsAffected = 1;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Insert into PLANS table error!");
+                                rowsAffected = -1;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Plan with the same name already exists!");
+                            if (planNumberExists == false)
+                            {
+                                string deleteOnError = "delete from TV_PLAN where ID=@Plan_ID";
+                                cmd = new SQLiteCommand(deleteOnError, _connection);
+                                cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                                cmd.ExecuteNonQuery();
+                            }
+                            rowsAffected = 0;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Insert into TV_PLAN table error!");
+                        rowsAffected = -1;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Plan with the same number of channels already exists!");
+                    reader.Close();
+                    rowsAffected = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Database error!");
+                Console.WriteLine(ex.ToString());
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
+        }
+
+        public int insertInternetPlan(Internet_Plan plan)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int insertComboPlan(Combo_Plan plan)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

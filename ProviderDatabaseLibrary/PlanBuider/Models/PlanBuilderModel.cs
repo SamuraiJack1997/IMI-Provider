@@ -44,15 +44,15 @@ namespace ProviderDatabaseLibrary.PlanBuider.Models
             IProvider db=ProviderFactory.Provider(provider.getDatabaseType());
 
             Plan plan=null;
-            if (TVPlanID != 0 && InternetPlanID==0)//TV PLAN
+            if (TVPlanID != 0 && InternetPlanID==0)//TV PLAN Salje se 1 u konstruktoru za TV_PLAN_ID
             {
                 plan = new TV_Plan(Name, InternetPlanID,TVPlanID,channelNumber);
             }
-            else if (TVPlanID == 0 && InternetPlanID != 0)//INTERNET PLAN
+            else if (TVPlanID == 0 && InternetPlanID != 0)//INTERNET PLAN Salje se 1 u konstruktoru za INTERNET_PLAN_ID
             {
                 plan = new Internet_Plan(Name, InternetPlanID, TVPlanID, downloadSpeed,uploadSpeed);
             }
-            else if (TVPlanID != 0 && InternetPlanID != 0)//COMBO PLAN//On pravi planove sa pravim id-evima iz baze
+            else if (TVPlanID != 0 && InternetPlanID != 0)//COMBO PLAN//On pravi planove sa pravim id-evima iz baze//Salju se id iz baze za tv i net
             {
                 plan = new Combo_Plan(Name, InternetPlanID, TVPlanID, downloadSpeed, uploadSpeed,channelNumber);
             }
