@@ -9,47 +9,43 @@ using System.Threading.Tasks;
 
 namespace ProviderDatabaseLibrary.PlanBuider
 {
-    internal class Director
-    {
-    }
-}
-
-
-namespace ConsoleApp2.Builder
-{
     public class Director
     {
         static PlanBuilder planBuilder = PlanBuilder.getPlanBuilder();
 
 
-        public static APlanBuilder GetTVPlan()
+        public static PlanBuilderModel SetTVPlan(String name, int price, int channels)
         {
             planBuilder.reset();
-            planBuilder.setName("");
-            planBuilder.setPrice(1000);
-            planBuilder.setTVPlan();
+            planBuilder.setName(name);
+            planBuilder.setPrice(price);
+            planBuilder.setChannelNumber(channels);
 
             return planBuilder.GetResult();
         }
 
-        public static APlanBuilder GetInternetPlan()
+        public static PlanBuilderModel SetInternetPlan(String name, int price, int dSpeed, int uSpeed)
         {
             planBuilder.reset();
-            planBuilder.setName("");
-            planBuilder.setPrice(1000);
-            planBuilder.setInternetPlan();
+            planBuilder.setName(name);
+            planBuilder.setPrice(price);
+            planBuilder.setDownloadSpeed(dSpeed);
+            planBuilder.setDownloadSpeed(uSpeed);
 
             return planBuilder.GetResult();
         }
 
-        public static APlanBuilder GetComboPlan()
+        public static PlanBuilderModel SetComboPlan(String name, int price, int iID, int tvID)
         {
             planBuilder.reset();
-            planBuilder.setName("");
-            planBuilder.setPrice(1000);
-            planBuilder.setComboPlan();
+            planBuilder.setName(name);
+            planBuilder.setPrice(price);
+            planBuilder.setInternetPlanID(iID);
+            planBuilder.setTVPlanID(tvID);
 
             return planBuilder.GetResult();
         }
     }
 }
+
+

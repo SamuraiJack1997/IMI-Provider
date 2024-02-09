@@ -10,7 +10,7 @@ namespace ProviderDatabaseLibrary.PlanBuider
 {
     public class PlanBuilder: Builder
     {
-        private APlanBuilder plan;
+        private PlanBuilderModel plan;
 
         private static readonly object kljuc = new object();
 
@@ -32,37 +32,47 @@ namespace ProviderDatabaseLibrary.PlanBuider
 
         public void reset()
         {
-            this.plan = new APlanBuilder();
+            this.plan = new PlanBuilderModel();
         }
 
-        public APlanBuilder GetResult()
+        public PlanBuilderModel GetResult()
         {
             return this.plan;
         }
 
         public void setName(string name)
         {
-            plan.name = name;
+            plan.Name = name;
         }
 
         public void setPrice(int price)
         {
-            plan.price = price;
+            plan.Price = price;
         }
 
-        public void setInternetPlan()
+        public void setChannelNumber(int channels)
         {
-            throw new NotImplementedException();
+            plan.ChannelNumber = channels;
         }
 
-        public void setTVPlan()
+        public void setInternetPlanID(int ID)
         {
-            throw new NotImplementedException();
+            plan.InternetPlanID = ID;
         }
 
-        public void setComboPlan()
+        public void setTVPlanID(int ID)
         {
-            throw new NotImplementedException();
+            plan.TVPlanID = ID;
+        }
+
+        public void setDownloadSpeed (int dSpeed)
+        {
+            plan.DownloadSpeed = dSpeed;
+        }
+
+        public void setUploadSpeed(int uSpeed)
+        {
+            plan.UploadSpeed = uSpeed;
         }
     }
 }

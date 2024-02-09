@@ -10,9 +10,11 @@ namespace ProviderDatabaseLibrary.PlanBuider
     {
         public void setName(String name);
         public void setPrice(int price);
-        public void setInternetPlan(int IPlanId);
-        public void setTVPlan(int TVPlanId);
-        public void setComboPlan(int ComboPlanId);
+        public void setDownloadSpeed(int uSpeed);
+        public void setUploadSpeed(int dSpeed);
+        public void setChannelNumber(int channels);
+        public void setInternetPlanID(int ID);
+        public void setTVPlanID(int ID);
     }
 }
 
