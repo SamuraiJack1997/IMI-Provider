@@ -232,10 +232,11 @@ namespace ProviderGUI
 
                 deleteClientCommand = clientSingleton.dcc;
                 removedClient = clientSingleton.client;
+
                 removedClient.RestoreClientMemento(deleteClientCommand.getPreviousState());
                 db = ProviderFactory.Provider(provider.getDatabaseType());
                 db.insertClient(removedClient.Username, removedClient.Name, removedClient.Surname);
-                int clientID =db.getClientIdByUsername(removedClient.Username);
+                int clientID = db.getClientIdByUsername(removedClient.Username);
                 //TODO dodaj planove za korisnikov id
                 button4.Enabled = false;
                 refresh();
