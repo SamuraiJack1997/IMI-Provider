@@ -1,4 +1,4 @@
-﻿using ProviderDatabaseLibrary.Models;
+﻿using ProviderDatabaseLibrary.Models.Singletones;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;

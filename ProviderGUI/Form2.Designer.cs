@@ -88,7 +88,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(914, 35);
+            label2.Location = new Point(811, 34);
             label2.Name = "label2";
             label2.Size = new Size(38, 15);
             label2.TabIndex = 4;
@@ -97,9 +97,9 @@
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(914, 56);
+            dataGridView2.Location = new Point(811, 56);
             dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(328, 306);
+            dataGridView2.Size = new Size(498, 306);
             dataGridView2.TabIndex = 5;
             // 
             // label3
@@ -116,12 +116,12 @@
             dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView3.Location = new Point(430, 56);
             dataGridView3.Name = "dataGridView3";
-            dataGridView3.Size = new Size(478, 306);
+            dataGridView3.Size = new Size(375, 306);
             dataGridView3.TabIndex = 7;
             // 
             // button3
             // 
-            button3.Location = new Point(1151, 365);
+            button3.Location = new Point(923, 368);
             button3.Name = "button3";
             button3.Size = new Size(91, 46);
             button3.TabIndex = 8;
@@ -131,7 +131,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(1072, 11);
+            button4.Location = new Point(1139, 14);
             button4.Name = "button4";
             button4.Size = new Size(89, 38);
             button4.TabIndex = 9;
@@ -141,16 +141,16 @@
             // 
             // button5
             // 
-            button5.Location = new Point(914, 367);
+            button5.Location = new Point(550, 368);
             button5.Name = "button5";
-            button5.Size = new Size(119, 44);
+            button5.Size = new Size(119, 43);
             button5.TabIndex = 10;
             button5.Text = "Activate plan for selected client";
             button5.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            button6.Location = new Point(794, 368);
+            button6.Location = new Point(430, 368);
             button6.Name = "button6";
             button6.Size = new Size(114, 43);
             button6.TabIndex = 11;
@@ -159,7 +159,7 @@
             // 
             // button7
             // 
-            button7.Location = new Point(1039, 365);
+            button7.Location = new Point(811, 368);
             button7.Name = "button7";
             button7.Size = new Size(106, 46);
             button7.TabIndex = 12;
@@ -169,7 +169,7 @@
             // 
             // button8
             // 
-            button8.Location = new Point(1167, 10);
+            button8.Location = new Point(1234, 12);
             button8.Name = "button8";
             button8.Size = new Size(75, 40);
             button8.TabIndex = 13;
@@ -181,7 +181,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1254, 420);
+            ClientSize = new Size(1321, 420);
             Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(button6);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProviderDatabaseLibrary.Models
+namespace ProviderDatabaseLibrary.Models.Singletones
 {
     //Singleton
     public class Provider
@@ -19,7 +19,7 @@ namespace ProviderDatabaseLibrary.Models
 
         public static Provider Instance
         {
-            
+
             get
             {
                 if (providerInstance == null)
@@ -30,7 +30,7 @@ namespace ProviderDatabaseLibrary.Models
             }
         }
 
-        public void setProviderData(string Name,string ConnectionString,string DatabaseType)
+        public void setProviderData(string Name, string ConnectionString, string DatabaseType)
         {
             this.Name = Name;
             this.ConnectionString = ConnectionString;
@@ -39,7 +39,7 @@ namespace ProviderDatabaseLibrary.Models
 
         public void setName(string Name)
         {
-            this.Name=Name;
+            this.Name = Name;
         }
 
         public string getName()
@@ -49,7 +49,7 @@ namespace ProviderDatabaseLibrary.Models
 
         public void setConnectionString(string ConnectionString)
         {
-            this.ConnectionString=ConnectionString;
+            this.ConnectionString = ConnectionString;
         }
         public string getConnectionString()
         {
@@ -58,7 +58,7 @@ namespace ProviderDatabaseLibrary.Models
 
         public void setDatabaseType(string DatabaseType)
         {
-            this.DatabaseType=DatabaseType;
+            this.DatabaseType = DatabaseType;
         }
 
         public string getDatabaseType()
@@ -68,7 +68,7 @@ namespace ProviderDatabaseLibrary.Models
 
         public override string? ToString()
         {
-            return "Database:"+DatabaseType+" Provider:"+Name+"\n"+"Connection string:"+ConnectionString;
+            return "Database:" + DatabaseType + " Provider:" + Name + "\n" + "Connection string:" + ConnectionString;
         }
     }
 }

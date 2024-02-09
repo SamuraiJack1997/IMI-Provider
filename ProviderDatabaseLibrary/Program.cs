@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
-using ProviderDatabaseLibrary.Models;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Models.Plans;
 using ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge;
 using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
+using ProviderDatabaseLibrary.PlanBuider.Models;
+using ProviderDatabaseLibrary.PlanBuider;
 
 namespace ProviderDatabaseLibrary
 {
@@ -19,13 +20,16 @@ namespace ProviderDatabaseLibrary
     {
         public static void Main(string[] args)
         {
+            //////////////////PRIMER POZIVA BAZE I SETOVANJE PARAMETARA
+            /*
             IProvider db;
             Provider provider = Provider.Instance;
             provider.setProviderData("MTS", @"Data Source=D:/Users/Kristina/Documents/GitHub/tim-10/PROVIDER.db;", "SQLite");
             provider.setProviderData("SBB", @"Data Source=(localdb)\baza; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
-            db = ProviderFactory.Provider(provider.getDatabaseType());
+            db = ProviderFactory.Provider(provider.getDatabaseType());*/
 
-            //Bridge Strategy Example
+            //PRIMER KORISCENJA BRIDGE/STRATEGY
+            /*
             IPlanImplementation tvImplementation = new TvPlanImplementation(4);
             Plan tvPlan = new TV_Plan(0, "ime", 0, 0, 0, 0);
             tvPlan.setPlanPriceImplementation(tvImplementation);
@@ -34,13 +38,28 @@ namespace ProviderDatabaseLibrary
             Plan internetPlan = new Internet_Plan( 0, "ime", 0, 0, 0, 0);
             internetPlan.setPlanPriceImplementation(internetImplementation);
 
-            IPlanImplementation comboImplementation = new ComboPlanImplementation(150, 250, 20);
+            IPlanImplementation comboImplementation = new ComboPlanImplementation(150, 250, 20);//iz modela kupi podatke
             Plan comboPlan = new Combo_Plan( 0, "ime", 0, 0, 0, 0);
             comboPlan.setPlanPriceImplementation(comboImplementation);
 
             Console.WriteLine(tvPlan.ToString());
             Console.WriteLine(internetPlan.ToString());
             Console.WriteLine(comboPlan.ToString());
+            */
+
+            /////////////////////////////////////////////PRIMER KORISCENJA BUILDERA
+            PlanBuilderModel tvPlan = Director.SetTVPlan("TV Plan", 1, 100);
+            PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);
+            PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO Plan", 1,1, 100,100,100);
+
+            Plan plan1 = tvPlan.ExecutePlanCreation();
+            Plan plan2 = internetPlan.ExecutePlanCreation();
+            Plan plan3 = comboPlan.ExecutePlanCreation();
+
+            Console.WriteLine(plan1.ToString());
+            Console.WriteLine(plan2.ToString());
+            Console.WriteLine(plan3.ToString());
+
 
         }
     }

@@ -1,18 +1,19 @@
 ﻿using ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands;
 using ProviderDatabaseLibrary.ClientMementoCommand.Interfaces;
 using ProviderDatabaseLibrary.ClientMementoCommand.Models;
+using ProviderDatabaseLibrary.Models.Plans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProviderDatabaseLibrary.Models
+namespace ProviderDatabaseLibrary.Models.Singletones
 {
     public class ClientSingleton
     {
         private static ClientSingleton? clientSingletonInstance;
-        public InsertClientCommand icc {get; set;}
+        public InsertClientCommand icc { get; set; }
         public DeleteClientCommand ucc { get; set; }
         public DeleteClientCommand dcc { get; set; }
         public Client client { get; set; }
@@ -38,7 +39,7 @@ namespace ProviderDatabaseLibrary.Models
         }
 
         public ClientSingleton() { }
-        
+
         public override string? ToString()
         {
             return "Client(ID:" + ID + " Username:" + Username + " Name:" + Name + " Surname:" + Surname + ")";

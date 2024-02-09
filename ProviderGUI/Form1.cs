@@ -3,7 +3,7 @@ using ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands;
 using ProviderDatabaseLibrary.Connections;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
-using ProviderDatabaseLibrary.Models;
+using ProviderDatabaseLibrary.Models.Singletones;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -25,6 +25,27 @@ namespace ProviderGUI
             InitializeComponent();
             button1.Enabled = false;
             button2.Enabled = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
+            this.FormClosing += Form1_FormClosing;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void checkConnection()

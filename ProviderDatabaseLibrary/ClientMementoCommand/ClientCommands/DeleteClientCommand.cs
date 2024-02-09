@@ -3,6 +3,7 @@ using ProviderDatabaseLibrary.ClientMementoCommand.Models;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
+using ProviderDatabaseLibrary.Models.Singletones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             int result = db.removeClientByID(_client.ID);
             
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);
-            _previousState.ActivatedPlans=db.getActivatedClientPlansByClientID(_previousState.ID);//TODO vratiti planove za klijente
+            _previousState.ActivatedPlans=db.getActivatedClientPlansByClientID(_client.ID);
             Console.WriteLine($"Client {_client.ID} deleted. New state: {_client}");
             return result;
         }

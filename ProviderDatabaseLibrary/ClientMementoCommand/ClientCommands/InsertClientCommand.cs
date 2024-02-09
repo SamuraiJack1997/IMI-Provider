@@ -3,6 +3,7 @@ using ProviderDatabaseLibrary.ClientMementoCommand.Models;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
+using ProviderDatabaseLibrary.Models.Singletones;
 using System;
 using System.Collections.Generic;
 using System.Linq;

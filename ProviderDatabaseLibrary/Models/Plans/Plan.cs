@@ -7,16 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ProviderDatabaseLibrary.Models
+namespace ProviderDatabaseLibrary.Models.Plans
 {
     public abstract class Plan
     {
-   
-        public IPlanImplementation implementation;
+
+        public IPlanImplementation Implementation;
         public int ID { get; set; }
         public string Name { get; set; }
         public float Price { get; set; }
-        public int? Internet_Plan_ID {  get; set; }
+        public int? Internet_Plan_ID { get; set; }
         public int? TV_Plan_ID { get; set; }
         public int? Combo_Plan_ID { get; set; }
 
@@ -29,19 +29,26 @@ namespace ProviderDatabaseLibrary.Models
             TV_Plan_ID = tV_Plan_ID;
             Combo_Plan_ID = combo_Plan_ID;
         }
-        
+
+        public Plan(string name, int internet_Plan_ID, int tV_Plan_ID)
+        {
+            Name = name;
+            Internet_Plan_ID = internet_Plan_ID;
+            TV_Plan_ID = tV_Plan_ID;
+        }
+
         public string getPlanType()
         {
-            string PlanType="";
-            if (Internet_Plan_ID !=0 && TV_Plan_ID==0 && Combo_Plan_ID==0)
+            string PlanType = "";
+            if ((Internet_Plan_ID != 0 && TV_Plan_ID == 0 && Combo_Plan_ID == 0))
             {
                 PlanType = "Internet Plan";
             }
-            else if (Internet_Plan_ID == 0 && TV_Plan_ID !=0 && Combo_Plan_ID == 0)
+            else if (Internet_Plan_ID == 0 && TV_Plan_ID != 0 && Combo_Plan_ID == 0)
             {
                 PlanType = "TV Plan";
             }
-            else if(Internet_Plan_ID != 0 && TV_Plan_ID != 0 && Combo_Plan_ID !=0)
+            else if (Internet_Plan_ID != 0 && TV_Plan_ID != 0 && Combo_Plan_ID != 0)
             {
                 PlanType = "Combo Plan";
             }
@@ -58,10 +65,9 @@ namespace ProviderDatabaseLibrary.Models
 
         public override string? ToString()
         {
-            return "ID plana:"+ID+" Name:"+Name+" Price:"+Price+" Tip plana:"+getPlanType();
+            return "ID plana:" + ID + " Name:" + Name + " Price:" + Price + " Tip plana:" + getPlanType();
         }
 
-        public abstract void setPlanPriceImplementation(IPlanImplementation implementation);
         public abstract float GetFullPrice();
         public abstract void SetPriceStrategy();
     }

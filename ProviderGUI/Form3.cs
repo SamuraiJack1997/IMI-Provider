@@ -2,6 +2,7 @@
 using ProviderDatabaseLibrary.ClientMementoCommand.Models;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
+using ProviderDatabaseLibrary.Models.Singletones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,8 @@ namespace ProviderGUI
             this.c = c;
             InitializeComponent();
             this.Text = provider.getName() + "/Register client:";
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void button1_Click(object sender, EventArgs e)

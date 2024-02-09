@@ -2,6 +2,7 @@
 using ProviderDatabaseLibrary.ClientMementoCommand.Models;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
+using ProviderDatabaseLibrary.Models.Plans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ProviderDatabaseLibrary.Models
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public List<Plan> ActivatedPlans {  get; set; }
+        public List<Plan> ActivatedPlans { get; set; }
 
         public List<Plan> DeactivatedPlans { get; set; }
 
@@ -37,12 +38,12 @@ namespace ProviderDatabaseLibrary.Models
 
         public override string? ToString()
         {
-            return "Client(ID:"+ID+" Username:"+ Username + " Name:"+Name+" Surname:"+Surname+")"+"\n"+ActivatedPlans.ToString();
+            return "Client(ID:" + ID + " Username:" + Username + " Name:" + Name + " Surname:" + Surname + ")" + "\n" + ActivatedPlans.ToString();
         }
 
         public ClientMemento CreateClientMemento()
         {
-            return new ClientMemento(ID, Username, Name, Surname,ActivatedPlans);
+            return new ClientMemento(ID, Username, Name, Surname, ActivatedPlans);
         }
 
         // Restore state from a memento
@@ -51,7 +52,7 @@ namespace ProviderDatabaseLibrary.Models
             ID = memento.ID;
             Username = memento.Username;
             Name = memento.Name;
-            Surname = memento.Surname;    
+            Surname = memento.Surname;
             ActivatedPlans = memento.ActivatedPlans;
         }
 

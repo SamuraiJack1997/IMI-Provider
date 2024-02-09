@@ -45,16 +45,6 @@ namespace ProviderDatabaseLibrary.PlanBuider
             plan.Name = name;
         }
 
-        public void setPrice(int price)
-        {
-            plan.Price = price;
-        }
-
-        public void setChannelNumber(int channels)
-        {
-            plan.ChannelNumber = channels;
-        }
-
         public void setInternetPlanID(int ID)
         {
             plan.InternetPlanID = ID;
@@ -73,6 +63,10 @@ namespace ProviderDatabaseLibrary.PlanBuider
         public void setUploadSpeed(int uSpeed)
         {
             plan.UploadSpeed = uSpeed;
+        }
+        public void setChannelNumber(int channels)
+        {
+            plan.ChannelNumber = channels;
         }
     }
 }

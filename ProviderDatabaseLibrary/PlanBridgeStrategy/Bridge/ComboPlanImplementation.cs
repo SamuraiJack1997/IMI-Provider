@@ -11,13 +11,13 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge
     {
         private int downloadSpeed;
         private int uploadSpeed;
-        private int brojKanala;
+        private int channelNumber;
 
-        public ComboPlanImplementation(int downloadSpeed, int uploadSpeed, int brojKanala)
+        public ComboPlanImplementation(int downloadSpeed, int uploadSpeed, int channelNumber)
         {
             this.downloadSpeed = downloadSpeed;
             this.uploadSpeed = uploadSpeed;
-            this.brojKanala = brojKanala;
+            this.channelNumber = channelNumber;
         }
 
         public int getUploadSpeed()
@@ -27,7 +27,7 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge
 
         public int getChannelNumber()
         {
-            return brojKanala;
+            return channelNumber;
         }
 
         public int getDownloadSpeed()

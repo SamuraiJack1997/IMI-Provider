@@ -1,7 +1,9 @@
-﻿using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
+﻿using ProviderDatabaseLibrary.PlanBridgeStrategy.Bridge;
+using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
 using ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +23,18 @@ namespace ProviderDatabaseLibrary.Models.Plans
         public TV_Plan(int iD, string name, float price, int internet_Plan_ID, int tV_Plan_ID, int combo_Plan_ID)
             : base(iD, name, price, internet_Plan_ID, tV_Plan_ID, combo_Plan_ID){ }
 
+        public TV_Plan(string name, int internet_Plan_ID, int tV_Plan_ID,int Channel_Number) 
+            : base( name, internet_Plan_ID, tV_Plan_ID)
+        {
+            this.Channel_Number = Channel_Number;
+            Combo_Plan_ID = 0;
+            Implementation = new TvPlanImplementation(Channel_Number);
+            Price =GetFullPrice();
+        }
+
         public override string? ToString()
         {
             return base.ToString() + " Channels:" + Channel_Number;
-        }
-
-        public override void setPlanPriceImplementation(IPlanImplementation implementation)
-        {
-            this.implementation = implementation;
-            GetFullPrice();
         }
 
         public override float GetFullPrice()
@@ -38,13 +43,12 @@ namespace ProviderDatabaseLibrary.Models.Plans
             SetPriceStrategy();
 
             float price  = priceStrategy != null ? priceStrategy.getPrice() : 0;
-            this.Price = price;
             return price;
         }
 
         public override void SetPriceStrategy()
         {
-            priceStrategy = new TvPlanPriceStrategy(implementation.getChannelNumber());
+            priceStrategy = new TvPlanPriceStrategy(Implementation.getChannelNumber());
         }
     }
 }

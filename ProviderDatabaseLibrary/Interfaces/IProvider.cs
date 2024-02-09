@@ -1,4 +1,5 @@
 ﻿using ProviderDatabaseLibrary.Models;
+using ProviderDatabaseLibrary.Models.Plans;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,6 +3,8 @@ using ProviderDatabaseLibrary.ClientMementoCommand.Models;
 using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
+using ProviderDatabaseLibrary.Models.Plans;
+using ProviderDatabaseLibrary.Models.Singletones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +33,8 @@ namespace ProviderGUI
         public Form2()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Text = provider.getName();            
             button4.Enabled = false;
             InitDataGridView1();
@@ -58,7 +62,6 @@ namespace ProviderGUI
 
         private void refresh()
         {
-            button3.Enabled = false;
             InitDataGridView1();
             InitDataGridView2();
             if (clients != null)
@@ -66,6 +69,23 @@ namespace ProviderGUI
                 if (clients[0] != null)
                 {
                     InitDataGridView3(clients[0].ID);
+                }
+            }
+        }
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
                 }
             }
         }
@@ -167,6 +187,50 @@ namespace ProviderGUI
         }
 
 
+        private void InitDataGridView2()
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+            plans = new List<Plan>();
+            plans = db.getAllPlans();
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Name", typeof(string));
+            dataTable.Columns.Add("Price", typeof(float));
+            dataTable.Columns.Add("Plan_Type", typeof(string));
+            dataTable.Columns.Add("Download / Upload", typeof(string));
+            dataTable.Columns.Add("Channel Number", typeof(string));
+
+            foreach (var plan in plans)
+            {
+                if (plan is Internet_Plan)
+                    dataTable.Rows.Add(
+                        plan.Name,
+                        plan.Price,
+                        plan.getPlanType(),
+                        ((Internet_Plan)plan).Download_Speed + "/" + ((Internet_Plan)plan).Upload_Speed+"(mpbs)",
+                        "           X");
+                if (plan is TV_Plan)
+                    dataTable.Rows.Add(
+                        plan.Name,
+                        plan.Price,
+                        plan.getPlanType(),
+                        "           X",
+                        ((TV_Plan)plan).Channel_Number
+                        );
+                if (plan is Combo_Plan)
+                    dataTable.Rows.Add(
+                        plan.Name,
+                        plan.Price,
+                        plan.getPlanType(),
+                        ((Combo_Plan)plan).Download_Speed + "/" + ((Combo_Plan)plan).Upload_Speed+"(mbps)",
+                        ((Combo_Plan)plan).Channel_Number
+                        );
+            }
+            dataGridView2.DataSource = dataTable;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.ReadOnly = true;
+        }
+
         private void InitDataGridView3(int id)
         {
 
@@ -191,29 +255,6 @@ namespace ProviderGUI
             dataGridView3.DataSource = dataTable;
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView3.ReadOnly = true;
-        }
-
-        private void InitDataGridView2()
-        {
-            db = ProviderFactory.Provider(provider.getDatabaseType());
-            plans = new List<Plan>();
-            plans = db.getAllPlans();
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(string));
-            dataTable.Columns.Add("Plan_Type", typeof(string));
-            foreach (var plan in plans)
-            {
-                dataTable.Rows.Add(
-                    plan.Name,
-                    plan.Price,
-                    plan.getPlanType()
-                    );
-            }
-
-            dataGridView2.DataSource = dataTable;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.ReadOnly = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -293,24 +334,6 @@ namespace ProviderGUI
                 MessageBox.Show("Select client row that you want to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 button4.Enabled = false;
                 refresh();
-            }
-        }
-
-
-        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                DialogResult result = MessageBox.Show("Are you sure you want to exit the application?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    Application.Exit();
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
             }
         }
 
