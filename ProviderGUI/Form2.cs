@@ -21,9 +21,9 @@ namespace ProviderGUI
         Provider provider = Provider.Instance;
         ClientSingleton clientSingleton = ClientSingleton.Instance;
         InsertClientCommand insertClientCommand;
-        Client insertedClient;        
+        Client insertedClient;
         List<Client> clients;
-        List<Plan> plans;           
+        List<Plan> plans;
         DeleteClientCommand deleteClientCommand;
         Client removedClient;
         bool addedClient = false;
@@ -31,20 +31,19 @@ namespace ProviderGUI
         public Form2()
         {
             InitializeComponent();
-            this.Text = provider.getName();
-            button3.Enabled = false;
+            this.Text = provider.getName();            
             button4.Enabled = false;
             InitDataGridView1();
             InitDataGridView2();
-            if(clients != null )
+            if (clients != null)
             {
-                if (clients[0]!=null)
+                if (clients[0] != null)
                 {
                     InitDataGridView3(clients[0].ID);
                 }
             }
             this.FormClosing += Form2_FormClosing;
-            
+
         }
 
 
@@ -80,6 +79,7 @@ namespace ProviderGUI
                 if (result == DialogResult.OK)
                 {
                     addedClient = true;
+                    deletedClient = false;
                     unlockForm();
                     button4.Enabled = true;
                     refresh();
@@ -152,18 +152,18 @@ namespace ProviderGUI
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            if (e.RowIndex >0)
-            try
-            {
-                string username = (string)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
-                int clientId = db.getClientIdByUsername(username);
-                if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                InitDataGridView3(clientId);
-            }
-            catch
-            {
-                MessageBox.Show("Please select client row." , "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            if (e.RowIndex > 0)
+                try
+                {
+                    string username = (string)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+                    int clientId = db.getClientIdByUsername(username);
+                    if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    InitDataGridView3(clientId);
+                }
+                catch
+                {
+                    MessageBox.Show("Please select client row.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
         }
 
 
@@ -215,21 +215,21 @@ namespace ProviderGUI
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ReadOnly = true;
         }
-      
+
         private void button4_Click(object sender, EventArgs e)
         {
-            if(addedClient == true)
+            if (addedClient == true)
             {
                 insertClientCommand = clientSingleton.icc;
-                insertedClient = clientSingleton.client;           
+                insertedClient = clientSingleton.client;
                 insertedClient.RestoreClientMemento(insertClientCommand.getPreviousState());
                 db = ProviderFactory.Provider(provider.getDatabaseType());
                 db.removeClientByID(insertedClient.ID);
                 button4.Enabled = false;
                 refresh();
                 addedClient = false;
-            } 
-            if(deletedClient == true) 
+            }
+            if (deletedClient == true)
             {
 
                 deleteClientCommand = clientSingleton.dcc;
@@ -253,24 +253,25 @@ namespace ProviderGUI
                 try
                 {
                     db = ProviderFactory.Provider(provider.getDatabaseType());
-                    string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value; 
+                    string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;
                     string firstName = (string)dataGridView1.SelectedRows[0].Cells[1].Value;
                     string lastName = (string)dataGridView1.SelectedRows[0].Cells[2].Value;
                     int clientId = db.getClientIdByUsername(username);
                     if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-               
+
                     try
                     {
                         Client c = new Client(0, username, firstName, lastName);
-                        c.ActivatedPlans=db.getActivatedClientPlansByClientID(clientId);
+                        c.ActivatedPlans = db.getActivatedClientPlansByClientID(clientId);
                         ClientMemento initialState = c.CreateClientMemento();
                         DeleteClientCommand deleteCommand = new DeleteClientCommand(c, initialState);
                         deleteCommand.Execute();
                         clientSingleton.dcc = deleteCommand;
                         clientSingleton.client = c;
                         deletedClient = true;
-                        MessageBox.Show("Client successfully deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);                                                
-                        button4.Enabled = true;                        
+                        addedClient = false;
+                        MessageBox.Show("Client successfully deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        button4.Enabled = true;
                     }
                     catch
                     {
@@ -313,5 +314,27 @@ namespace ProviderGUI
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            lockForm();
+            using (Form5 form5 = new Form5()) //TODO -insert plan memento
+            {
+                var result = form5.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    unlockForm();
+                    button4.Enabled = true;
+                    refresh();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    unlockForm();
+                    button4.Enabled = false;
+                    refresh();
+                    //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
+                }
+            }
+        }
     }
 }

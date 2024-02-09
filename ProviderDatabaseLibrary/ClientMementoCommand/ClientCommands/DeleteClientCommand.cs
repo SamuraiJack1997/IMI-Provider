@@ -41,7 +41,7 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             int result = db.removeClientByID(_client.ID);
             
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);
-            _previousState.ActivatedPlans=db.getActivatedClientPlansByClientID(_client.ID);
+            _previousState.ActivatedPlans=db.getActivatedClientPlansByClientID(_previousState.ID);//TODO vratiti planove za klijente
             Console.WriteLine($"Client {_client.ID} deleted. New state: {_client}");
             return result;
         }
