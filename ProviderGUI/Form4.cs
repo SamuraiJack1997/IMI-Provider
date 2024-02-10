@@ -26,7 +26,7 @@ namespace ProviderGUI
             txtnumberOfChannels.Enabled = false;
             txtuploadSpeed.Enabled = false;
             txtplanName.Enabled = false;
-            floatprice.Enabled = true;
+            floatprice.Enabled = false;
             floatprice.ReadOnly = true;
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -117,6 +117,6 @@ namespace ProviderGUI
             this.Close();
         }
 
-       
+     
     }
 }

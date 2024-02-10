@@ -97,7 +97,6 @@
             comboBox1.Size = new Size(161, 28);
             comboBox1.TabIndex = 6;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-
             // 
             // button1
             // 
@@ -157,6 +156,7 @@
             // 
             // floatprice
             // 
+            floatprice.BackColor = SystemColors.Info;
             floatprice.Location = new Point(176, 201);
             floatprice.Margin = new Padding(3, 4, 3, 4);
             floatprice.Name = "floatprice";
