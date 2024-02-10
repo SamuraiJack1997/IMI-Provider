@@ -21,7 +21,7 @@ namespace ProviderGUI
         {
             InitializeComponent();
             this.Text = provider.getName() + "/Add new plan:";
-  
+
             txtdownloadSpeed.Enabled = false;
             txtnumberOfChannels.Enabled = false;
             txtuploadSpeed.Enabled = false;
@@ -33,6 +33,32 @@ namespace ProviderGUI
             this.MaximizeBox = false;
 
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedPlan = comboBox1.SelectedItem.ToString();
+
+            // Enable/disable input fields based on the selected plan
+            switch (selectedPlan)
+            {
+                case "Internet Plan":
+                    txtdownloadSpeed.Enabled = true;
+                    txtuploadSpeed.Enabled = true;
+                    txtnumberOfChannels.Enabled = false;
+                    txtplanName.Enabled = true;
+                    break;
+                case "TV Plan":
+                    txtdownloadSpeed.Enabled = false;
+                    txtuploadSpeed.Enabled = false;
+                    txtnumberOfChannels.Enabled = true;
+                    txtplanName.Enabled = true;
+                    break;
+                default:
+                    // If none of the options are selected or if you have more options, handle them here
+                    break;
+            }
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -46,13 +72,14 @@ namespace ProviderGUI
                 MessageBox.Show("Please select a plan type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (txtdownloadSpeed.Enabled == true) { 
-            if (!float.TryParse(txtdownloadSpeed.Text, out downloadSpeed) || float.IsNaN(downloadSpeed))
+            if (txtdownloadSpeed.Enabled == true)
             {
-                MessageBox.Show("Download speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (!float.TryParse(txtdownloadSpeed.Text, out downloadSpeed) || float.IsNaN(downloadSpeed))
+                {
+                    MessageBox.Show("Download speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
-          }
             if (txtuploadSpeed.Enabled == true)
             {
                 if (!float.TryParse(txtuploadSpeed.Text, out uploadSpeed) || float.IsNaN(uploadSpeed) && txtuploadSpeed.Enabled == true)
@@ -90,6 +117,6 @@ namespace ProviderGUI
             this.Close();
         }
 
-
+       
     }
 }
