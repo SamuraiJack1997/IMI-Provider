@@ -74,7 +74,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(400, 306);
             dataGridView1.TabIndex = 2;
-            dataGridView1.CellContentClick += dataGridView1_CellClick;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // label1
             // 
