@@ -169,22 +169,27 @@ namespace ProviderGUI
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ReadOnly = true;
         }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            if (e.RowIndex > 0)
+            if (e.RowIndex >= 0)
+            {
+                dataGridView1.Rows[e.RowIndex].Selected = true; // Select the whole row
                 try
                 {
                     string username = (string)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
                     int clientId = db.getClientIdByUsername(username);
-                    if (clientId == -1) MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (clientId == -1)
+                        MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     InitDataGridView3(clientId);
                 }
                 catch
                 {
                     MessageBox.Show("Please select client row.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
         }
+
 
 
         private void InitDataGridView2()
