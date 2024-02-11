@@ -101,7 +101,7 @@
             dataGridView2.Location = new Point(811, 56);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.Size = new Size(498, 306);
-            dataGridView2.TabIndex = 5;
+            dataGridView2.TabIndex = 5;            
             // 
             // label3
             // 

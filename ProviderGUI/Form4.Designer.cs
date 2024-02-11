@@ -121,7 +121,7 @@
             txtuploadSpeed.Location = new Point(154, 93);
             txtuploadSpeed.Name = "txtuploadSpeed";
             txtuploadSpeed.Size = new Size(141, 23);
-            txtuploadSpeed.TabIndex = 10;
+            txtuploadSpeed.TabIndex = 10;            
             // 
             // label4
             // 
@@ -173,6 +173,7 @@
             button3.TabIndex = 15;
             button3.Text = "Calculate";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Form4
             // 

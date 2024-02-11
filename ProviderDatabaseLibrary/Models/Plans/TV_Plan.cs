@@ -50,5 +50,10 @@ namespace ProviderDatabaseLibrary.Models.Plans
         {
             priceStrategy = new TvPlanPriceStrategy(Implementation.getChannelNumber());
         }
+
+        public static implicit operator string?(TV_Plan? v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
