@@ -75,7 +75,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(400, 306);
             dataGridView1.TabIndex = 2;
-            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellClick += dataGridView1_CellClick;            
             // 
             // label1
             // 
@@ -101,7 +101,7 @@
             dataGridView2.Location = new Point(811, 56);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.Size = new Size(498, 306);
-            dataGridView2.TabIndex = 5;            
+            dataGridView2.TabIndex = 5;
             // 
             // label3
             // 
@@ -148,6 +148,7 @@
             button5.TabIndex = 10;
             button5.Text = "Activate plan for selected client";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button6
             // 
@@ -157,6 +158,7 @@
             button6.TabIndex = 11;
             button6.Text = "Dectivate plan for selected client";
             button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // button7
             // 

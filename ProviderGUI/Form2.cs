@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ProviderGUI
 {
@@ -190,8 +191,6 @@ namespace ProviderGUI
             }
         }
 
-
-
         public void InitDataGridView2()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
@@ -361,6 +360,101 @@ namespace ProviderGUI
                     button4.Enabled = false;
                     refresh();
                     //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
+                }
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+                                        
+            try
+            {
+                string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;                    
+                int clientId = db.getClientIdByUsername(username);
+                if (clientId == -1)
+                    MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                List<Plan> plans = db.getActivatedClientPlansByClientID(clientId);                
+                string planName = (string)dataGridView3.SelectedRows[0].Cells[0].Value;
+                int planId = -1;
+                foreach(Plan plan in plans)
+                {
+                    if(planName == plan.Name)
+                    {
+                        planId = plan.ID;
+                        break;
+                    }
+                }
+                int result = db.deactivateClientPlanByClientID(clientId, planId);
+                if(result == 1) MessageBox.Show("Successfully deleted plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if(result == -1) MessageBox.Show("Unsuccessfully deleted plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                refresh();
+                SelectRowByCondition(username);
+                InitDataGridView3(clientId);
+            }
+            catch
+            {
+                MessageBox.Show("Please select client and activated plans row.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+
+            try
+            {
+                string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;
+                int clientId = db.getClientIdByUsername(username);
+                if (clientId == -1)
+                    MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                
+                string planName = (string)dataGridView2.SelectedRows[0].Cells[0].Value;
+                int planId = -1;
+                foreach (Plan plan in plans)
+                {
+                    if (planName == plan.Name)
+                    {
+                        planId = plan.ID;
+                        break;
+                    }
+                }
+                int result = db.activateClientPlanByClientID(clientId, planId);
+                if (result == 1) MessageBox.Show("Successfully added plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == -1) MessageBox.Show("Unsuccessfully added plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                refresh();
+                SelectRowByCondition(username);
+                InitDataGridView3(clientId);
+            }
+            catch
+            {
+                MessageBox.Show("Please select client and plans row.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void SelectRowByCondition(string targetValue)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                // Assuming your target value is in a specific column, replace "ColumnName" with the actual column name
+                string cellValue = row.Cells[0].Value.ToString();
+
+                // Replace the condition with the one you need
+                if (cellValue == targetValue)
+                {
+                    // Clear previous selections
+                    dataGridView1.ClearSelection();
+
+                    // Select the current row
+                    row.Selected = true;
+
+                    // Optionally, scroll to the selected row
+                    dataGridView1.FirstDisplayedScrollingRowIndex = row.Index;
+
+                    // Break out of the loop since you found the desired row
+                    break;
                 }
             }
         }
