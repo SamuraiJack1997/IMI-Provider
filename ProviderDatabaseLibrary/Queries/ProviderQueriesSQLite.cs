@@ -594,15 +594,76 @@ namespace ProviderDatabaseLibrary.Queries
 
         public int activateClientPlanByClientID(int clientID, int planID)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string query = @"insert into Clients_Plans_Activated (Client_ID,Plan_ID) values (@clientID,@planID)";
+                SQLiteCommand cmd = new SQLiteCommand(query, _connection);
+                cmd.Parameters.AddWithValue("@clientID", clientID);
+                cmd.Parameters.AddWithValue("@planID", planID);
+                rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    Console.WriteLine("Plan is already activated for selected user!");
+                    rowsAffected = 0;
+                }
+                Console.WriteLine("Client plan activated successfully!");
+            }
+            catch
+            {
+                Console.WriteLine("Error when adding client!");
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
 
-        public int deactivateClientPlanByClientID(int clientID)
+        public int deactivateClientPlanByClientID(int clientID, int planID)
+        {
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string query = @"delete from Clients_Plans_Activated
+                                    where Client_ID=@clientID and Plan_ID=@planID";
+                SQLiteCommand cmd = new SQLiteCommand(query, _connection);
+                cmd.Parameters.AddWithValue("@clientID", clientID);
+                cmd.Parameters.AddWithValue("@planID", planID);
+                rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    Console.WriteLine("No rows affected!");
+                    rowsAffected = 0;
+                }
+                Console.WriteLine("Successfully deleted plan for client!");
+            }
+            catch
+            {
+                rowsAffected = -1;
+                Console.WriteLine("Error when deleting plan for client!");
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
+        }
+
+        public int removeInternetPlan(Plan plan)
         {
             throw new NotImplementedException();
         }
 
-        public int removePlan(Plan plan)
+        public int removeTVPlan(Plan plan)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int removeComboPlan(Plan plan)
         {
             throw new NotImplementedException();
         }

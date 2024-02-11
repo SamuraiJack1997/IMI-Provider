@@ -30,12 +30,16 @@ namespace ProviderDatabaseLibrary.Interfaces
         int insertInternetPlan(Internet_Plan plan);
         //Uspesno vraca >0,Neuspesno -1,ako postoji vraca 0
         int insertComboPlan(Combo_Plan plan);
-        //Dodaje plan za klijenta u bazu >0 uspesno, neuspesno -1
+        //Dodaje plan za klijenta u bazu >0 uspesno, neuspesno -1,0 ako postoji
         int activateClientPlanByClientID(int clientID, int planID);
-        //Brise plan za klijenta u bazu >0 uspesno, neuspesno -1
-        int deactivateClientPlanByClientID(int clientID);
-        //Brise plan iz planova
-        int removePlan(Plan plan);
+        //Brise plan za klijenta, >0 uspesno, neuspesno -1,0 ako je uspesno a nije obrisao nista
+        int deactivateClientPlanByClientID(int clientID, int planID);
+        //Brise plan iz planova 1 ako je uspesno,-1 ako nije uspesno
+        int removeInternetPlan(Plan plan);
+        //Brise plan iz planova 1 ako je uspesno,-1 ako nije uspesno
+        int removeTVPlan(Plan plan);
+        //Brise plan iz planova 1 ako je uspesno,-1 ako nije uspesno
+        int removeComboPlan(Plan plan);
 
 
 

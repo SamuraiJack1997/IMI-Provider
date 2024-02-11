@@ -14,6 +14,7 @@ using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
 using ProviderDatabaseLibrary.PlanBuider.Models;
 using ProviderDatabaseLibrary.PlanBuider;
 using ProviderDatabaseLibrary.Models.Singletones;
+using System.Numerics;
 
 namespace ProviderDatabaseLibrary
 {
@@ -25,8 +26,8 @@ namespace ProviderDatabaseLibrary
             
             IProvider db;
             Provider provider = Provider.Instance;
-            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
-            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
+            //provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
+            provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
             db = ProviderFactory.Provider(provider.getDatabaseType());
 
             //PRIMER KORISCENJA BRIDGE/STRATEGY
@@ -56,11 +57,33 @@ namespace ProviderDatabaseLibrary
             Plan plan1 = tvPlan.ExecutePlanCreation();//kada se okine funkcija za ExecutePlanCreation on izracuna cenu za taj plan
             Plan plan2 = internetPlan.ExecutePlanCreation();
             Plan plan3 = comboPlan.ExecutePlanCreation();
-            Console.WriteLine(plan1.Price);
 
             int rowsAffected1 = db.insertTVPlan((TV_Plan)plan1);
             int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
             int rowsAffected3 = db.insertComboPlan((Combo_Plan)plan3);
+
+            //int rowsAffected4 = db.activateClientPlanByClientID(9, 3);
+            //Console.WriteLine(rowsAffected4);
+            //int rowsAffected5 = db.deactivateClientPlanByClientID(9, 3);
+            //Console.WriteLine(rowsAffected5);
+
+            int i = 0;
+            List<Plan> plans=db.getAllPlans();
+            foreach(Plan plan in plans)
+            {
+                Console.WriteLine(i +" "+plan.ToString());
+                i++;
+            }
+            
+            if(plan2 is Internet_Plan)
+            {
+                Console.WriteLine(db.removeInternetPlan(plan2)); 
+            }
+
+            
+
+            
+
 
         }
     }

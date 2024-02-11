@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
@@ -599,15 +600,152 @@ namespace ProviderDatabaseLibrary.Queries
 
         public int activateClientPlanByClientID(int clientID, int planID)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string query = @"insert into Clients_Plans_Activated (Client_ID,Plan_ID) values (@clientID,@planID)";
+                SqlCommand cmd = new SqlCommand(query, _connection);
+                cmd.Parameters.AddWithValue("@clientID", clientID);
+                cmd.Parameters.AddWithValue("@planID", planID);
+                rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    Console.WriteLine("Plan is already activated for selected user!");
+                    rowsAffected = 0;
+                }
+                else
+                {
+                    Console.WriteLine("Client plan activated successfully!");
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Error when activating client plan!");
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
 
-        public int deactivateClientPlanByClientID(int clientID)
+        public int deactivateClientPlanByClientID(int clientID,int planID)
+        {
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string query = @"delete from Clients_Plans_Activated
+                                    where Client_ID=@clientID and Plan_ID=@planID";
+                SqlCommand cmd = new SqlCommand(query, _connection);
+                cmd.Parameters.AddWithValue("@clientID", clientID);
+                cmd.Parameters.AddWithValue("@planID", planID);
+                rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    Console.WriteLine("No rows affected!");
+                    rowsAffected = 0;
+                }
+                else
+                {
+                    Console.WriteLine("Successfully deleted plan for client!");
+                }
+            }
+            catch
+            {
+                rowsAffected = -1;
+                Console.WriteLine("Error when deleting plan for client!");
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
+        }
+
+        public int removeInternetPlan(Plan plan)
+        {
+            int rowsAffected = 0;
+            string query1, query2, query3, query4, query5;
+
+            query1 = @"delete from Clients_Plans_Activated
+                        where Plan_ID in (select p.ID
+                        from Plans p
+                        where p.ID = @planID)";
+
+            query2 = @"delete from Plans
+                        where Combo_Plan_ID in (
+                            select ID
+                            from Combo_Plan
+                            where Internet_Plan_ID = @internetPlanID)";
+
+            query3 = @"delete from Combo_Plan
+                        where Combo_Plan.Internet_Plan_ID = @internetPlanID";
+
+            query4 = @" DELETE FROM Plans
+                        WHERE id = @planID";
+
+            query5 = @"DELETE FROM Internet_Plan
+                            where ID = @internetPlanID";
+
+            SqlCommand cmd1, cmd2,cmd3,cmd4,cmd5;
+            _connection.Open();
+            SqlTransaction transaction = _connection.BeginTransaction();
+            try
+            {
+                cmd1 = new SqlCommand(query1, _connection, transaction);
+                cmd1.Parameters.AddWithValue("@planID", plan.ID);
+                cmd1.ExecuteNonQuery();
+
+                cmd2 = new SqlCommand(query2, _connection, transaction);
+                cmd2.Parameters.AddWithValue("@internetPlanID", plan.Internet_Plan_ID);
+                cmd2.ExecuteNonQuery();
+
+                cmd3 = new SqlCommand(query3, _connection, transaction);
+                cmd3.Parameters.AddWithValue("@internetPlanID", plan.Internet_Plan_ID);
+                cmd3.ExecuteNonQuery();
+
+                cmd4 = new SqlCommand(query4, _connection, transaction);
+                cmd4.Parameters.AddWithValue("@planID", plan.ID);
+                cmd4.ExecuteNonQuery();
+
+                cmd5 = new SqlCommand(query5, _connection, transaction);
+                cmd5.Parameters.AddWithValue("@internetPlanID", plan.Internet_Plan_ID);
+                cmd5.ExecuteNonQuery();
+
+                transaction.Commit();
+                Console.WriteLine("Transaction committed.");
+                rowsAffected = 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing transaction: " + ex.Message);
+                try
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("Transaction rolled back.");
+                }
+                catch (Exception rollbackEx)
+                {
+                    Console.WriteLine("Rollback failed: " + rollbackEx.Message);
+                }
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
+        }
+
+        public int removeTVPlan(Plan plan)
         {
             throw new NotImplementedException();
         }
 
-        public int removePlan(Plan plan)
+        public int removeComboPlan(Plan plan)
         {
             throw new NotImplementedException();
         }
