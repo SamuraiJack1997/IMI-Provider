@@ -338,11 +338,6 @@ namespace ProviderDatabaseLibrary.Queries
             return affectedRows;
         }
 
-        public int insertClientPlanByClientID(int clientID, int planID)
-        {
-            throw new NotImplementedException();
-        }
-
         public int insertTVPlan(TV_Plan plan)
         {
             int Plan_ID;
@@ -595,6 +590,21 @@ namespace ProviderDatabaseLibrary.Queries
                 _connection.Close();
             }
             return rowsAffected;
+        }
+
+        public int activateClientPlanByClientID(int clientID, int planID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int deactivateClientPlanByClientID(int clientID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int removePlan(Plan plan)
+        {
+            throw new NotImplementedException();
         }
     }
 }

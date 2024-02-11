@@ -44,6 +44,7 @@
             label5 = new Label();
             floatprice = new TextBox();
             label6 = new Label();
+            button3 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -178,17 +179,27 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(12, 188);
+            label6.Location = new Point(112, 188);
             label6.Name = "label6";
             label6.Size = new Size(36, 15);
             label6.TabIndex = 13;
             label6.Text = "Price:";
+            // 
+            // button3
+            // 
+            button3.Location = new Point(12, 184);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 24);
+            button3.TabIndex = 15;
+            button3.Text = "Calculate";
+            button3.UseVisualStyleBackColor = true;
             // 
             // Form5
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(311, 279);
+            Controls.Add(button3);
             Controls.Add(floatprice);
             Controls.Add(label6);
             Controls.Add(txtnumberOfChannels);
@@ -229,5 +240,6 @@
         private Label label5;
         private TextBox floatprice;
         private Label label6;
+        private Button button3;
     }
 }

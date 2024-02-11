@@ -49,23 +49,18 @@ namespace ProviderDatabaseLibrary
             */
 
             /////////////////////////////////////////////PRIMER KORISCENJA BUILDERA
-            PlanBuilderModel tvPlan = Director.SetTVPlan("TV 101", 1, 101);
-            //PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);
-            //PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO Plan", 1,1, 100,100,100);
+            PlanBuilderModel tvPlan = Director.SetTVPlan("TV 101", 1, 101);///////1 je za proveru da li je plan
+            PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);////////////1 je za proveru da li je plan,uvek se salje
+            PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO Plan", 1,1, 100,100,100);////////////umesto 1 i 1 ide pravi id iz baze za tv ili net plan
 
-            Plan plan1 = tvPlan.ExecutePlanCreation();
-            //Plan plan2 = internetPlan.ExecutePlanCreation();
-            //Plan plan3 = comboPlan.ExecutePlanCreation();
+            Plan plan1 = tvPlan.ExecutePlanCreation();//kada se okine funkcija za ExecutePlanCreation on izracuna cenu za taj plan
+            Plan plan2 = internetPlan.ExecutePlanCreation();
+            Plan plan3 = comboPlan.ExecutePlanCreation();
+            Console.WriteLine(plan1.Price);
 
-            Console.WriteLine(plan1.ToString());
-            //Console.WriteLine(plan2.ToString());
-            //Console.WriteLine(plan3.ToString());
-
-            int rowsAffected = db.insertTVPlan((TV_Plan)plan1);
-
-            Console.WriteLine(rowsAffected);
-
-
+            int rowsAffected1 = db.insertTVPlan((TV_Plan)plan1);
+            int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
+            int rowsAffected3 = db.insertComboPlan((Combo_Plan)plan3);
 
         }
     }

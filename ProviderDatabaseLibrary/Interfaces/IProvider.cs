@@ -24,14 +24,19 @@ namespace ProviderDatabaseLibrary.Interfaces
         int removeClientByID(int clientID);
         //update klijenta vraca -1 ako je neuspesno ili >0 ako je uspesno
         int updateClientByID(int clientID, string username, string name, string surname);
-        //dodaje plan za klijenta u bazu
-        int insertClientPlanByClientID(int clientID, int planID);
         //Uspesno vraca >0,Neuspesno -1,ako postoji vraca 0
         int insertTVPlan(TV_Plan plan);
         //Uspesno vraca >0,Neuspesno -1,ako postoji vraca 0
         int insertInternetPlan(Internet_Plan plan);
         //Uspesno vraca >0,Neuspesno -1,ako postoji vraca 0
         int insertComboPlan(Combo_Plan plan);
+        //Dodaje plan za klijenta u bazu >0 uspesno, neuspesno -1
+        int activateClientPlanByClientID(int clientID, int planID);
+        //Brise plan za klijenta u bazu >0 uspesno, neuspesno -1
+        int deactivateClientPlanByClientID(int clientID);
+        //Brise plan iz planova
+        int removePlan(Plan plan);
+
 
 
     }

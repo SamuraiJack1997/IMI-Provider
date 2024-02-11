@@ -42,6 +42,7 @@
             button6 = new Button();
             button7 = new Button();
             button8 = new Button();
+            button9 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
@@ -131,11 +132,11 @@
             // 
             // button4
             // 
-            button4.Location = new Point(1139, 14);
+            button4.Location = new Point(236, 370);
             button4.Name = "button4";
-            button4.Size = new Size(89, 38);
+            button4.Size = new Size(89, 41);
             button4.TabIndex = 9;
-            button4.Text = "Undo changes";
+            button4.Text = "Undo client changes";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
@@ -177,11 +178,21 @@
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
             // 
+            // button9
+            // 
+            button9.Location = new Point(1020, 368);
+            button9.Name = "button9";
+            button9.Size = new Size(85, 46);
+            button9.TabIndex = 14;
+            button9.Text = "Delete selected plan";
+            button9.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1321, 420);
+            Controls.Add(button9);
             Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(button6);
@@ -221,5 +232,6 @@
         private Button button6;
         private Button button7;
         private Button button8;
+        private Button button9;
     }
 }
