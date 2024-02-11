@@ -57,6 +57,7 @@ namespace ProviderDatabaseLibrary
             Plan plan2 = internetPlan.ExecutePlanCreation();
             Plan plan3 = comboPlan.ExecutePlanCreation();
             Console.WriteLine(plan1.Price);
+            
 
             int rowsAffected1 = db.insertTVPlan((TV_Plan)plan1);
             int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
