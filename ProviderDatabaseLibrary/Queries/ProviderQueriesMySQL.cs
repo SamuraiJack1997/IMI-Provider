@@ -442,12 +442,165 @@ namespace ProviderDatabaseLibrary.Queries
 
         public int insertInternetPlan(Internet_Plan plan)
         {
-            throw new NotImplementedException();
+            int Plan_ID;
+            bool planNumberExists = true;
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string checkInternetPlans = @"select * from Internet_Plan where Download_Speed=(@Download_Speed) and Upload_Speed=(@Upload_Speed)";
+                SqlCommand cmd = new SqlCommand(checkInternetPlans, _connection);
+                cmd.Parameters.AddWithValue("@Download_Speed", plan.Download_Speed);
+                cmd.Parameters.AddWithValue("@Upload_Speed", plan.Upload_Speed);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    planNumberExists = false;
+                    reader.Close();
+                    string insertInternetPlanQuery = @"insert into Internet_Plan (Download_Speed, Upload_Speed) values(@Download_Speed, @Upload_Speed)";
+                    cmd = new SqlCommand(insertInternetPlanQuery, _connection);
+                    cmd.Parameters.AddWithValue("@Download_Speed", plan.Download_Speed);
+                    cmd.Parameters.AddWithValue("@Upload_Speed", plan.Upload_Speed);
+                    rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        string getInternetPlanID = @"select ID from Internet_Plan where Download_Speed=(@Download_Speed) and Upload_Speed=(@Upload_Speed)";
+                        cmd = new SqlCommand(getInternetPlanID, _connection);
+                        cmd.Parameters.AddWithValue("@Download_Speed", plan.Download_Speed);
+                        cmd.Parameters.AddWithValue("@Upload_Speed", plan.Upload_Speed);
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+                        Plan_ID = reader.GetInt32(0);
+                        reader.Close();
+
+                        string checkPlanName = @"select * from Plans where Name=@Name";
+                        cmd = new SqlCommand(checkPlanName, _connection);
+                        cmd.Parameters.AddWithValue("@Name", plan.Name);
+                        reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
+                        {
+                            reader.Close();
+                            string insertIntoPlans = @"insert into Plans (Name,Price,Internet_Plan_ID,TV_Plan_ID,Combo_Plan_ID) values (@PlanName,@Price,@Plan_ID,NULL,NULL)";
+                            cmd = new SqlCommand(insertIntoPlans, _connection);
+                            cmd.Parameters.AddWithValue("@PlanName", plan.Name);
+                            cmd.Parameters.AddWithValue("@Price", plan.Price);
+                            cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                            rowsAffected = cmd.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                rowsAffected = 1;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Insert into PLANS table error!");
+                                rowsAffected = -1;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Plan with the same name already exists!");
+                            if (planNumberExists == false)
+                            {
+                                string deleteOnError = "delete from Internet_Plan where ID=@Plan_ID";
+                                cmd = new SqlCommand(deleteOnError, _connection);
+                                cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                                cmd.ExecuteNonQuery();
+                            }
+                            rowsAffected = 0;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Insert into INTERNET_PLAN table error!");
+                        rowsAffected = -1;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Plan with the same download and upload speed already exists!");
+                    reader.Close();
+                    rowsAffected = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Database error!");
+                Console.WriteLine(ex.ToString());
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
 
         public int insertComboPlan(Combo_Plan plan)
         {
-            throw new NotImplementedException();
+            int Plan_ID;
+            int rowsAffected = 0;
+            _connection.Open();
+            try
+            {
+                string checkComboPlans = @"select ID from Combo_Plan where Internet_Plan_ID=(@Internet_Plan_ID) and TV_Plan_ID=(@TV_Plan_ID)";
+                SqlCommand cmd = new SqlCommand(checkComboPlans, _connection);
+                cmd.Parameters.AddWithValue("@Internet_Plan_ID", plan.Internet_Plan_ID);
+                cmd.Parameters.AddWithValue("@TV_Plan_ID", plan.TV_Plan_ID);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    Console.WriteLine("Combo plan with this combination of INTERNET_PLAN and TV_PLAN does not exist!");
+                    reader.Close();
+                    rowsAffected = -1;
+                }
+                else
+                {
+                    reader.Read();
+                    Plan_ID = reader.GetInt32(0);
+                    reader.Close();
+
+                    string checkPlanName = @"select * from Plans where Name=@Name";
+                    cmd = new SqlCommand(checkPlanName, _connection);
+                    cmd.Parameters.AddWithValue("@Name", plan.Name);
+                    reader = cmd.ExecuteReader();
+                    if (!reader.HasRows)
+                    {
+                        reader.Close();
+                        string insertIntoPlans = @"insert into Plans (Name,Price,Internet_Plan_ID,TV_Plan_ID,Combo_Plan_ID) values (@PlanName,@Price,NULL,NULL,@Plan_ID)";
+                        cmd = new SqlCommand(insertIntoPlans, _connection);
+                        cmd.Parameters.AddWithValue("@PlanName", plan.Name);
+                        cmd.Parameters.AddWithValue("@Price", plan.Price);
+                        cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                        rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            rowsAffected = 1;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Insert into PLANS table error!");
+                            rowsAffected = -1;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Plan with the same name already exists!");
+                        rowsAffected = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Database error!");
+                Console.WriteLine(ex.ToString());
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
+    }
     }
 }
