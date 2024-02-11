@@ -1,4 +1,9 @@
+use master
+drop database PROVIDER
+
 create database PROVIDER
+
+
 
 go
 
@@ -64,8 +69,8 @@ from TV_Plan
 create table Combo_Plan 
 (
 	ID int IDENTITY(1,1) primary key,
-	Internet_Plan_ID int foreign key references Internet_Plan(ID),
-	TV_Plan_ID int foreign key references TV_Plan(ID)
+	Internet_Plan_ID int,
+	TV_Plan_ID int
 )
 
 INSERT INTO [dbo].[Combo_Plan] VALUES (1,1)
@@ -87,9 +92,9 @@ create table Plans
 	ID int IDENTITY(1,1) primary key,
 	Name varchar(30) not null,
 	Price float not null,
-	Internet_Plan_ID int foreign key references Internet_Plan(ID),
-	TV_Plan_ID int foreign key references TV_Plan(ID),
-	Combo_Plan_ID int foreign key references Combo_Plan(ID)
+	Internet_Plan_ID int,
+	TV_Plan_ID int,
+	Combo_Plan_ID int
 )
 
 INSERT INTO [dbo].[Plans] VALUES ('NET 100',1000,1,NULL,NULL)
@@ -106,8 +111,8 @@ from Plans
 
 create table Clients_Plans_Activated
 (
-	Client_ID int foreign key references Clients(ID),
-	Plan_ID int foreign key references Plans(ID)
+	Client_ID int,
+	Plan_ID int
 
 	primary key (Client_ID, Plan_ID)
 )
@@ -119,24 +124,24 @@ INSERT INTO [dbo].[Clients_Plans_Activated] VALUES (3,3)
 select *
 from Clients_Plans_Activated
 
---DROP TABLE Clients_Plans_Deactivated
+--DROP TABLE Clients_Plans_Activated
 
-create table Clients_Plans_Deactivated
+---------Prices_Plans
+
+create table Prices
 (
-	Client_ID int foreign key references Clients(ID),
-	Plan_ID int foreign key references Plans(ID)
-
-	primary key (Client_ID, Plan_ID)
+	Download_Price float not null,
+	Upload_Price float not null,
+	Channel_Price float not null
 )
 
-INSERT INTO [dbo].[Clients_Plans_Deactivated] VALUES (1,2)
-INSERT INTO [dbo].[Clients_Plans_Deactivated] VALUES (2,3)
-INSERT INTO [dbo].[Clients_Plans_Deactivated] VALUES (3,4)
+INSERT INTO [dbo].[Prices] VALUES (5,3,10)
 
 select *
-from Clients_Plans_Deactivated
+from Prices
 
---DROP TABLE Clients_Plans_Deactivated
+--DROP TABLE Prices
+
 
 select *
 from TV_Plan
@@ -147,11 +152,35 @@ from Combo_Plan
 select *
 from Plans
 select *
-from Clients
-select *
 from Clients_Plans_Activated
 select *
-from Clients_Plans_Deactivated
+from Prices
+select *
+from Clients
 
 
 
+BEGIN TRANSACTION;
+
+delete from Clients_Plans_Activated
+where Plan_ID in (select p.ID
+					from Plans p
+					where p.ID=2)--planID
+					
+delete from Plans
+where Combo_Plan_ID in (
+	select ID
+	from Combo_Plan
+	where TV_Plan_ID=1--internetplanID
+)
+
+delete from Combo_Plan
+where Combo_Plan.TV_Plan_ID=1--internetplanID
+
+DELETE FROM Plans
+WHERE id=2;--planID
+
+DELETE FROM TV_Plan
+where ID=1;--internetPlanID
+
+COMMIT;
