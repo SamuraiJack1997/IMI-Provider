@@ -34,6 +34,7 @@ namespace ProviderGUI
             db = ProviderFactory.Provider(provider.getDatabaseType());
             this.Text = provider.getName() + "/Add new plan:";
 
+            button1.Enabled = false;
             txtdownloadSpeed.Enabled = false;
             txtnumberOfChannels.Enabled = false;
             txtuploadSpeed.Enabled = false;            
@@ -78,6 +79,7 @@ namespace ProviderGUI
             if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Please select a plan type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button1.Enabled = false;
                 return;
             }
             else tv_plan = (TV_Plan)comboBox1.SelectedItem;
@@ -85,6 +87,7 @@ namespace ProviderGUI
             if (comboBox2.SelectedItem == null)
             {
                 MessageBox.Show("Please select a plan type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button1.Enabled = false;
                 return;
             }
             else internet_plan = (Internet_Plan)comboBox2.SelectedItem;
@@ -94,6 +97,7 @@ namespace ProviderGUI
                 if (!float.TryParse(txtdownloadSpeed.Text, out downloadSpeed) || float.IsNaN(downloadSpeed))
                 {
                     MessageBox.Show("Download speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button1.Enabled = false;
                     return;
                 }
             }
@@ -102,6 +106,7 @@ namespace ProviderGUI
                 if (!float.TryParse(txtuploadSpeed.Text, out uploadSpeed) || float.IsNaN(uploadSpeed) && txtuploadSpeed.Enabled == true)
                 {
                     MessageBox.Show("Upload speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button1.Enabled = false;
                     return;
                 }
             }
@@ -111,6 +116,7 @@ namespace ProviderGUI
                 if (!float.TryParse(txtnumberOfChannels.Text, out numberOfChannels) || float.IsNaN(numberOfChannels) && txtnumberOfChannels.Enabled == true)
                 {
                     MessageBox.Show("Number of channels must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button1.Enabled = false;
                     return;
                 }
             }
@@ -120,25 +126,27 @@ namespace ProviderGUI
                 if (string.IsNullOrWhiteSpace(planName) && txtplanName.Enabled == true)
                 {
                     MessageBox.Show("Plan name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button1.Enabled = false;
                     return;
                 }
             }
-            
-            MessageBox.Show("" + plan.ToString(), "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
             flag = db.insertComboPlan((Combo_Plan)plan);
             if(flag == -1)
             {
-                MessageBox.Show("Error while inserting plan." + flag, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                MessageBox.Show("Error while inserting plan." + flag, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button1.Enabled = false;
                 refresh();
             }
             if(flag == 0)
             {
                 MessageBox.Show("Combo plan with the same name or with the same parameters already exists.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button1.Enabled = false;
                 refresh();
             }
             if(flag > 0)
             {
-                MessageBox.Show("Successed inserted plan.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Successed inserted plan.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
             
@@ -157,7 +165,8 @@ namespace ProviderGUI
         {
             Internet_Plan internet_plan;
             TV_Plan tv_plan;
-            bool comboB = false;            
+            bool comboB = false;
+            string planName = txtplanName.Text;
             button3Clicked = true;
             
             tv_plan = (TV_Plan)comboBox1.SelectedItem;                
@@ -168,16 +177,23 @@ namespace ProviderGUI
             else
                 comboB = false;
 
-            if (comboB)
+            if(planName != "")
             {
-                PlanBuilderModel comboPlan = Director.SetComboPlan(txtplanName.Text, internet_plan.ID, tv_plan.ID, internet_plan.Download_Speed, internet_plan.Upload_Speed, tv_plan.Channel_Number);
-                plan = comboPlan.ExecutePlanCreation();
-                MessageBox.Show("" + plan.ToString(),"Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                floatprice.Text = plan.Price.ToString();
+                if (comboB)
+                {
+                    PlanBuilderModel comboPlan = Director.SetComboPlan(txtplanName.Text, internet_plan.ID, tv_plan.ID, internet_plan.Download_Speed, internet_plan.Upload_Speed, tv_plan.Channel_Number);
+                    plan = comboPlan.ExecutePlanCreation();                
+                    floatprice.Text = plan.Price.ToString();
+                    button1.Enabled = true;                
+                }
             }
-            //MessageBox.Show("" + internet_plan.ID + " " + tv_plan.ID);
-            // Enable Add Plan button
-            button1.Enabled = true;
+            else
+            {
+                MessageBox.Show("Please enter plane name.", "Validation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                refresh();
+            }
+            
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -217,6 +233,7 @@ namespace ProviderGUI
             txtuploadSpeed.Text = "";
             txtnumberOfChannels.Text = "";
             floatprice.Text = "";
+            button1.Enabled = false;
         }
     }
 }

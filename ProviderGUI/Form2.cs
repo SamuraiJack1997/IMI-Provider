@@ -387,8 +387,8 @@ namespace ProviderGUI
                     }
                 }
                 int result = db.deactivateClientPlanByClientID(clientId, planId);
-                if(result == 1) MessageBox.Show("Successfully deleted plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if(result == -1) MessageBox.Show("Unsuccessfully deleted plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if(result == 1) MessageBox.Show("Successfully deactivated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if(result == -1) MessageBox.Show("Unsuccessfully deactivated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 refresh();
                 SelectRowByCondition(username);
                 InitDataGridView3(clientId);
@@ -422,8 +422,8 @@ namespace ProviderGUI
                     }
                 }
                 int result = db.activateClientPlanByClientID(clientId, planId);
-                if (result == 1) MessageBox.Show("Successfully added plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if (result == -1) MessageBox.Show("Unsuccessfully added plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == 1) MessageBox.Show("Successfully activated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == -1) MessageBox.Show("Unsuccessfully activated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 refresh();
                 SelectRowByCondition(username);
                 InitDataGridView3(clientId);
