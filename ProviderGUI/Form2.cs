@@ -192,7 +192,7 @@ namespace ProviderGUI
 
 
 
-        private void InitDataGridView2()
+        public void InitDataGridView2()
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
             plans = new List<Plan>();
