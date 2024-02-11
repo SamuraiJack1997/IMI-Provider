@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using ProviderDatabaseLibrary.Factories;
 
 namespace ProviderGUI
 {
@@ -24,6 +25,7 @@ namespace ProviderGUI
         public Form4()
         {
             InitializeComponent();
+            db = ProviderFactory.Provider(provider.getDatabaseType());
             this.Text = provider.getName() + "/Add new plan:";
             button1.Enabled = false;
             txtdownloadSpeed.Enabled = false;
@@ -113,7 +115,7 @@ namespace ProviderGUI
 
 
 
-             void button1_Click(object sender, EventArgs e)
+            void button1_Click(object sender, EventArgs e)
             {
                 // Your existing code for adding plan
                 if (comboBox1.SelectedItem != null)
@@ -149,12 +151,12 @@ namespace ProviderGUI
                     }
                 }
 
-                
+
             }
             this.DialogResult = DialogResult.OK;
             this.Close();
 
-           
+
         }
 
 
@@ -191,7 +193,7 @@ namespace ProviderGUI
                             floatprice.Text = plan1.Price.ToString();
                         }
                         break;
-                       
+
                     default:
                         break;
                 }
@@ -202,8 +204,5 @@ namespace ProviderGUI
 
 
         }
-
-       
-
     }
 }

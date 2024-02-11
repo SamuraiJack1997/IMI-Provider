@@ -25,8 +25,8 @@ namespace ProviderDatabaseLibrary
             
             IProvider db;
             Provider provider = Provider.Instance;
-            provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
-            //provider.setProviderData("SBB", @"Data Source=(localdb)\baza2; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
+            //provider.setProviderData("MTS", @"Data Source=C:\Users\aleks\Desktop\DS_Projekat\PROVIDER.db;", "SQLite");
+            provider.setProviderData("SBB", @"Data Source=(localdb)\server; Initial Catalog = PROVIDER; Integrated Security = True; MultipleActiveResultSets=True;", "MySQL");
             db = ProviderFactory.Provider(provider.getDatabaseType());
 
             //PRIMER KORISCENJA BRIDGE/STRATEGY
@@ -51,8 +51,8 @@ namespace ProviderDatabaseLibrary
             /////////////////////////////////////////////PRIMER KORISCENJA BUILDERA
             PlanBuilderModel tvPlan = Director.SetTVPlan("TV 101", 1, 101);///////1 je za proveru da li je plan
             PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);////////////1 je za proveru da li je plan,uvek se salje
-            PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO Plan", 1,1, 100,100,100);////////////umesto 1 i 1 ide pravi id iz baze za tv ili net plan
-
+            PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO33", 11,11, 100,100,100);////////////umesto 1 i 1 ide pravi id iz baze za tv ili net plan
+            
             Plan plan1 = tvPlan.ExecutePlanCreation();//kada se okine funkcija za ExecutePlanCreation on izracuna cenu za taj plan
             Plan plan2 = internetPlan.ExecutePlanCreation();
             Plan plan3 = comboPlan.ExecutePlanCreation();
@@ -63,6 +63,7 @@ namespace ProviderDatabaseLibrary
             int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
             int rowsAffected3 = db.insertComboPlan((Combo_Plan)plan3);
 
+            Console.WriteLine(rowsAffected3);
         }
     }
 }

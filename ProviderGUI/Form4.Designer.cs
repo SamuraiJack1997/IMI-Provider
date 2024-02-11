@@ -48,43 +48,41 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(14, 51);
+            label1.Location = new Point(12, 38);
             label1.Name = "label1";
-            label1.Size = new Size(81, 20);
+            label1.Size = new Size(66, 15);
             label1.TabIndex = 0;
             label1.Text = "Plan name:";
             // 
             // txtplanName
             // 
-            txtplanName.Location = new Point(176, 47);
-            txtplanName.Margin = new Padding(3, 4, 3, 4);
+            txtplanName.Location = new Point(154, 35);
             txtplanName.Name = "txtplanName";
-            txtplanName.Size = new Size(161, 27);
+            txtplanName.Size = new Size(141, 23);
             txtplanName.TabIndex = 1;
             // 
             // txtdownloadSpeed
             // 
-            txtdownloadSpeed.Location = new Point(176, 85);
-            txtdownloadSpeed.Margin = new Padding(3, 4, 3, 4);
+            txtdownloadSpeed.Location = new Point(154, 64);
             txtdownloadSpeed.Name = "txtdownloadSpeed";
-            txtdownloadSpeed.Size = new Size(161, 27);
+            txtdownloadSpeed.Size = new Size(141, 23);
             txtdownloadSpeed.TabIndex = 3;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(14, 89);
+            label2.Location = new Point(12, 67);
             label2.Name = "label2";
-            label2.Size = new Size(172, 20);
+            label2.Size = new Size(136, 15);
             label2.TabIndex = 2;
             label2.Text = "Download speed(mbps):";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(14, 12);
+            label3.Location = new Point(12, 9);
             label3.Name = "label3";
-            label3.Size = new Size(118, 20);
+            label3.Size = new Size(93, 15);
             label3.TabIndex = 4;
             label3.Text = "Select plan type:";
             // 
@@ -92,19 +90,17 @@
             // 
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Internet Plan", "TV Plan" });
-            comboBox1.Location = new Point(176, 8);
-            comboBox1.Margin = new Padding(3, 4, 3, 4);
+            comboBox1.Location = new Point(154, 6);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(161, 28);
+            comboBox1.Size = new Size(141, 23);
             comboBox1.TabIndex = 6;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // button1
             // 
-            button1.Location = new Point(14, 241);
-            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Location = new Point(12, 181);
             button1.Name = "button1";
-            button1.Size = new Size(155, 64);
+            button1.Size = new Size(136, 48);
             button1.TabIndex = 7;
             button1.Text = "Add plan";
             button1.UseVisualStyleBackColor = true;
@@ -112,10 +108,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(176, 240);
-            button2.Margin = new Padding(3, 4, 3, 4);
+            button2.Location = new Point(154, 180);
             button2.Name = "button2";
-            button2.Size = new Size(161, 65);
+            button2.Size = new Size(141, 49);
             button2.TabIndex = 8;
             button2.Text = "Cancel";
             button2.UseVisualStyleBackColor = true;
@@ -123,62 +118,58 @@
             // 
             // txtuploadSpeed
             // 
-            txtuploadSpeed.Location = new Point(176, 124);
-            txtuploadSpeed.Margin = new Padding(3, 4, 3, 4);
+            txtuploadSpeed.Location = new Point(154, 93);
             txtuploadSpeed.Name = "txtuploadSpeed";
-            txtuploadSpeed.Size = new Size(161, 27);
-            txtuploadSpeed.TabIndex = 10;
+            txtuploadSpeed.Size = new Size(141, 23);
+            txtuploadSpeed.TabIndex = 10;            
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(14, 128);
+            label4.Location = new Point(12, 96);
             label4.Name = "label4";
-            label4.Size = new Size(152, 20);
+            label4.Size = new Size(120, 15);
             label4.TabIndex = 9;
             label4.Text = "Upload speed(mpbs):";
             // 
             // txtnumberOfChannels
             // 
-            txtnumberOfChannels.Location = new Point(176, 163);
-            txtnumberOfChannels.Margin = new Padding(3, 4, 3, 4);
+            txtnumberOfChannels.Location = new Point(154, 122);
             txtnumberOfChannels.Name = "txtnumberOfChannels";
-            txtnumberOfChannels.Size = new Size(161, 27);
+            txtnumberOfChannels.Size = new Size(141, 23);
             txtnumberOfChannels.TabIndex = 12;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(14, 167);
+            label5.Location = new Point(12, 125);
             label5.Name = "label5";
-            label5.Size = new Size(145, 20);
+            label5.Size = new Size(118, 15);
             label5.TabIndex = 11;
             label5.Text = "Number of channels:";
             // 
             // floatprice
             // 
             floatprice.BackColor = SystemColors.Info;
-            floatprice.Location = new Point(176, 201);
-            floatprice.Margin = new Padding(3, 4, 3, 4);
+            floatprice.Location = new Point(154, 151);
             floatprice.Name = "floatprice";
-            floatprice.Size = new Size(161, 27);
+            floatprice.Size = new Size(141, 23);
             floatprice.TabIndex = 14;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(128, 207);
+            label6.Location = new Point(112, 155);
             label6.Name = "label6";
-            label6.Size = new Size(44, 20);
+            label6.Size = new Size(36, 15);
             label6.TabIndex = 13;
             label6.Text = "Price:";
             // 
             // button3
             // 
-            button3.Location = new Point(14, 203);
-            button3.Margin = new Padding(3, 4, 3, 4);
+            button3.Location = new Point(12, 152);
             button3.Name = "button3";
-            button3.Size = new Size(107, 31);
+            button3.Size = new Size(94, 23);
             button3.TabIndex = 15;
             button3.Text = "Calculate";
             button3.UseVisualStyleBackColor = true;
@@ -186,9 +177,9 @@
             // 
             // Form4
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(355, 323);
+            ClientSize = new Size(311, 242);
             Controls.Add(button3);
             Controls.Add(floatprice);
             Controls.Add(label6);
@@ -204,7 +195,6 @@
             Controls.Add(label2);
             Controls.Add(txtplanName);
             Controls.Add(label1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form4";
             Text = "Form4";
             ResumeLayout(false);

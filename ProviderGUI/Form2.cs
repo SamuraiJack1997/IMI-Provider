@@ -35,7 +35,7 @@ namespace ProviderGUI
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Text = provider.getName();            
+            this.Text = provider.getName();
             button4.Enabled = false;
             InitDataGridView1();
             InitDataGridView2();
@@ -212,7 +212,7 @@ namespace ProviderGUI
                         plan.Name,
                         plan.Price,
                         plan.getPlanType(),
-                        ((Internet_Plan)plan).Download_Speed + "/" + ((Internet_Plan)plan).Upload_Speed+"(mpbs)",
+                        ((Internet_Plan)plan).Download_Speed + "/" + ((Internet_Plan)plan).Upload_Speed + "(mpbs)",
                         "           -");
                 if (plan is TV_Plan)
                     dataTable.Rows.Add(
@@ -227,7 +227,7 @@ namespace ProviderGUI
                         plan.Name,
                         plan.Price,
                         plan.getPlanType(),
-                        ((Combo_Plan)plan).Download_Speed + "/" + ((Combo_Plan)plan).Upload_Speed+"(mbps)",
+                        ((Combo_Plan)plan).Download_Speed + "/" + ((Combo_Plan)plan).Upload_Speed + "(mbps)",
                         ((Combo_Plan)plan).Channel_Number
                         );
             }

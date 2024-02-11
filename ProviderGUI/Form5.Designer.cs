@@ -100,20 +100,20 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "TV1", "TV2", "TV3" });
             comboBox1.Location = new Point(154, 6);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(141, 23);
             comboBox1.TabIndex = 6;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Internet1", "Internet2", "Internet3" });
             comboBox2.Location = new Point(154, 35);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(141, 23);
             comboBox2.TabIndex = 6;
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
             // button1
             // 
@@ -150,7 +150,6 @@
             label4.Size = new Size(120, 15);
             label4.TabIndex = 9;
             label4.Text = "Upload speed(mpbs):";
-            label4.Click += label4_Click;
             // 
             // txtnumberOfChannels
             // 
@@ -167,10 +166,10 @@
             label5.Size = new Size(118, 15);
             label5.TabIndex = 11;
             label5.Text = "Number of channels:";
-            label5.Click += label5_Click;
             // 
             // floatprice
             // 
+            floatprice.BackColor = SystemColors.Info;
             floatprice.Location = new Point(154, 185);
             floatprice.Name = "floatprice";
             floatprice.Size = new Size(141, 23);
@@ -193,6 +192,7 @@
             button3.TabIndex = 15;
             button3.Text = "Calculate";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Form5
             // 
