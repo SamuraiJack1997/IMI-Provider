@@ -1,4 +1,5 @@
-﻿using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
+﻿using ProviderDatabaseLibrary.Models.Singletones;
+using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
 {
     public class ComboPlanPriceStrategy : IPlanPriceStrategy
     {
+        Provider provider = Provider.Instance;
         private int channelNumber;
         private int downloadSpeed;
         private int uploadSpeed;
@@ -22,7 +24,9 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
 
         public float getPrice()
         {
-            return downloadSpeed * 4 + uploadSpeed * 5 + channelNumber * 10; //TODO add prices for download/upload and channel
+            float price = downloadSpeed * provider.getDownloadPrice() + uploadSpeed * provider.getUploadPrice() + channelNumber * provider.getChannelPrice();
+            price = price - price*1/5;
+            return price;
         }
 
     }

@@ -32,6 +32,7 @@ namespace ProviderGUI
         Client removedClient;
         bool addedClient = false;
         bool deletedClient = false;
+
         public Form2()
         {
             InitializeComponent();
@@ -39,6 +40,8 @@ namespace ProviderGUI
             this.MaximizeBox = false;
             this.Text = provider.getName();
             button4.Enabled = false;
+            this.BackColor = Color.LightBlue;
+            this.StartPosition = FormStartPosition.CenterScreen;
             InitDataGridView1();
             InitDataGridView2();
             InitDataGridView3(0);
@@ -60,6 +63,7 @@ namespace ProviderGUI
         {
             InitDataGridView1();
             InitDataGridView2();
+            InitDataGridView3(0);
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)

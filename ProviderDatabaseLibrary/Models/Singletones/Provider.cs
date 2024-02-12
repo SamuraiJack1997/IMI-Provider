@@ -15,6 +15,10 @@ namespace ProviderDatabaseLibrary.Models.Singletones
         private string? ConnectionString { get; set; }
         private string? DatabaseType { get; set; }
 
+        private float Download_Price { get; set; }
+        private float Upload_Price { get; set; }
+        private float Channel_Price { get; set; }
+
         private Provider() { }
 
         public static Provider Instance
@@ -64,6 +68,36 @@ namespace ProviderDatabaseLibrary.Models.Singletones
         public string getDatabaseType()
         {
             return DatabaseType;
+        }
+
+        public void setDownloadPrice(float Download_Price)
+        {
+            this.Download_Price = Download_Price;
+        }
+
+        public float getDownloadPrice()
+        {
+            return Download_Price;
+        }
+
+        public void setUploadPrice(float Upload_Price)
+        {
+            this.Upload_Price = Upload_Price;
+        }
+
+        public float getUploadPrice()
+        {
+            return Upload_Price;
+        }
+
+        public void setChannelPrice(float Channel_Price)
+        {
+            this.Channel_Price = Channel_Price;
+        }
+
+        public float getChannelPrice()
+        {
+            return Channel_Price;
         }
 
         public override string? ToString()

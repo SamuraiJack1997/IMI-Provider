@@ -40,8 +40,7 @@ namespace ProviderDatabaseLibrary.Interfaces
         int removeTVPlan(Plan plan);
         //Brise plan iz planova 1 ako je uspesno,-1 ako nije uspesno
         int removeComboPlan(Plan plan);
-
-
-
+        //Vraca cene iz baze
+        (float downloadPrice, float uploadPrice, float channelPrice) GetPricesFromDatabase();
     }
 }

@@ -6,7 +6,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject></StartupObject>
+    <ApplicationIcon>icons8-tv-64.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="icons8-tv-64.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ProviderDatabaseLibrary\ProviderDatabaseLibrary.csproj" />

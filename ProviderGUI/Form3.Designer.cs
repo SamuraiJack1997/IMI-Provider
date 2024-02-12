@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             txtUsername = new TextBox();
             label1 = new Label();
             label2 = new Label();
@@ -95,7 +96,7 @@
             button1.Name = "button1";
             button1.Size = new Size(129, 47);
             button1.TabIndex = 6;
-            button1.Text = "Register user:";
+            button1.Text = "Register client";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -122,6 +123,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(txtUsername);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form3";
             Text = "Form3";
             ResumeLayout(false);

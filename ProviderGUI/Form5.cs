@@ -31,9 +31,10 @@ namespace ProviderGUI
         public Form5()
         {
             InitializeComponent();
+            this.BackColor = Color.LightBlue;
             db = ProviderFactory.Provider(provider.getDatabaseType());
             this.Text = provider.getName() + "/Add new plan:";
-
+            this.StartPosition = FormStartPosition.CenterScreen;
             button1.Enabled = false;
             txtdownloadSpeed.Enabled = false;
             txtnumberOfChannels.Enabled = false;
@@ -184,7 +185,7 @@ namespace ProviderGUI
                 {
                     PlanBuilderModel comboPlan = Director.SetComboPlan(txtplanName.Text, internet_plan.Internet_Plan_ID, tv_plan.TV_Plan_ID, internet_plan.Download_Speed, internet_plan.Upload_Speed, tv_plan.Channel_Number);
                     plan = comboPlan.ExecutePlanCreation();                
-                    floatprice.Text = plan.Price.ToString();
+                    floatprice.Text = plan.Price.ToString("0.00")+" din.";
                     button1.Enabled = true;                
                 }
             }

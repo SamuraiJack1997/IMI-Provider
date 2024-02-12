@@ -1,4 +1,5 @@
-﻿using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
+﻿using ProviderDatabaseLibrary.Models.Singletones;
+using ProviderDatabaseLibrary.PlanBridgeStrategy.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
     public class TvPlanPriceStrategy : IPlanPriceStrategy
     {
         private int channelNumber;
+        Provider provider = Provider.Instance;
 
         public TvPlanPriceStrategy(int channelNumber)
         {
@@ -18,7 +20,7 @@ namespace ProviderDatabaseLibrary.PlanBridgeStrategy.Strategy
 
         public float getPrice()
         {
-            return channelNumber * 10; //TODO add price per channel
+            return channelNumber * provider.getChannelPrice();
         }
     }
 }

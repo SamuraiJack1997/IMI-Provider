@@ -21,6 +21,43 @@ namespace ProviderDatabaseLibrary.Queries
     {
         private SqlConnection _connection = MySqlConnection.Connection;
 
+        (float downloadPrice, float uploadPrice, float channelPrice) IProvider.GetPricesFromDatabase()
+        {
+        string sqlQuery = "SELECT Download_Price, Upload_Price, Channel_Price FROM Prices";
+
+            float downloadPrice = 0f;
+            float uploadPrice = 0f;
+            float channelPrice = 0f;
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
+                {
+                    try
+                    {
+                    _connection.Open();
+
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            downloadPrice = Convert.ToSingle(reader["Download_Price"]);
+                            uploadPrice = Convert.ToSingle(reader["Upload_Price"]);
+                            channelPrice = Convert.ToSingle(reader["Channel_Price"]);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No rows found in the Prices table.");
+                        }
+
+                        reader.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: "+ex.ToString());
+                }
+            }
+
+            return (downloadPrice, uploadPrice, channelPrice);
+        }
+
         public List<Client> getAllClients()
         {
             List<Client> clients = new List<Client>();

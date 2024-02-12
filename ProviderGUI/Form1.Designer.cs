@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             groupBox1 = new GroupBox();
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
@@ -99,6 +100,7 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "Select provider:";
             groupBox1.ResumeLayout(false);

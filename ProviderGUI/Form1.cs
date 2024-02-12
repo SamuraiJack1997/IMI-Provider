@@ -23,11 +23,12 @@ namespace ProviderGUI
         public Form1()
         {
             InitializeComponent();
+            this.BackColor = Color.LightBlue;
             button1.Enabled = false;
             button2.Enabled = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.FormClosing += Form1_FormClosing;
         }
 
@@ -62,7 +63,7 @@ namespace ProviderGUI
                         connection.Close();
                         MessageBox.Show("File successfully loaded. Connection successful.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         button1.Enabled = false;
-                        button1.Text = "Success";
+                        button1.Text = "Success!";
                         button1.BackColor = Color.Green;
                         button2.Enabled = true;
                     }
@@ -70,7 +71,7 @@ namespace ProviderGUI
                     {
                         MessageBox.Show("Connection error.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         button1.Enabled = true;
-                        button1.Text = "Try again";
+                        button1.Text = "Try again!";
                         button1.BackColor = Color.Red;
                         button2.Enabled = false;
                     }
@@ -174,14 +175,16 @@ namespace ProviderGUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
-            this.Hide();
-            form2.Show();
+                db = ProviderFactory.Provider(provider.getDatabaseType());
+                (float downloadPrice, float uploadPrice, float channelPrice) = db.GetPricesFromDatabase();
+                provider.setDownloadPrice(downloadPrice);
+                provider.setUploadPrice(uploadPrice);
+                provider.setChannelPrice(channelPrice);
+                Form2 form2 = new Form2();
+                this.Hide();
+                form2.Show();
+            }  
         }
-
-
-
-
-    }
-
 }
+
+

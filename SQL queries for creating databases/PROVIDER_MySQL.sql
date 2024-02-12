@@ -116,5 +116,7 @@ select *
 from Clients_Plans_Activated
 select *
 from clients
+select *
+from Prices
 
 

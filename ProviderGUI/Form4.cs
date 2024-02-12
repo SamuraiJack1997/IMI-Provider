@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using ProviderDatabaseLibrary.Factories;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ProviderGUI
 {
@@ -26,6 +27,7 @@ namespace ProviderGUI
         public Form4()
         {
             InitializeComponent();
+            this.BackColor = Color.LightBlue;
             db = ProviderFactory.Provider(provider.getDatabaseType());
             this.Text = provider.getName() + "/Add new plan:";
             button1.Enabled = false;
@@ -35,7 +37,7 @@ namespace ProviderGUI
             txtplanName.Enabled = false;
             floatprice.Enabled = false;
             floatprice.ReadOnly = true;
-
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
 
@@ -45,7 +47,6 @@ namespace ProviderGUI
         {
             string selectedPlan = comboBox1.SelectedItem.ToString();
 
-            // Enable/disable input fields based on the selected plan
             switch (selectedPlan)
             {
                 case "Internet Plan":
@@ -61,7 +62,6 @@ namespace ProviderGUI
                     txtplanName.Enabled = true;
                     break;
                 default:
-                    // If none of the options are selected or if you have more options, handle them here
                     break;
             }
         }
@@ -77,6 +77,7 @@ namespace ProviderGUI
             if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Please select a plan type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                refresh();
                 return;
             }
             if (txtdownloadSpeed.Enabled == true)
@@ -84,6 +85,7 @@ namespace ProviderGUI
                 if (!float.TryParse(txtdownloadSpeed.Text, out downloadSpeed) || float.IsNaN(downloadSpeed))
                 {
                     MessageBox.Show("Download speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    refresh();
                     return;
                 }
             }
@@ -92,6 +94,7 @@ namespace ProviderGUI
                 if (!float.TryParse(txtuploadSpeed.Text, out uploadSpeed) || float.IsNaN(uploadSpeed) && txtuploadSpeed.Enabled == true)
                 {
                     MessageBox.Show("Upload speed must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    refresh();
                     return;
                 }
             }
@@ -101,6 +104,7 @@ namespace ProviderGUI
                 if (!float.TryParse(txtnumberOfChannels.Text, out numberOfChannels) || float.IsNaN(numberOfChannels) && txtnumberOfChannels.Enabled == true)
                 {
                     MessageBox.Show("Number of channels must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    refresh();
                     return;
                 }
             }
@@ -110,6 +114,7 @@ namespace ProviderGUI
                 if (string.IsNullOrWhiteSpace(planName) && txtplanName.Enabled == true)
                 {
                     MessageBox.Show("Plan name is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    refresh();
                     return;
                 }
             }
@@ -122,7 +127,7 @@ namespace ProviderGUI
                 {
                     case "Internet Plan":
                         result = db.insertInternetPlan((Internet_Plan)plan);
-                        if(result > 0)
+                        if (result > 0)
                         {
                             MessageBox.Show("Successfully added plan into database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
@@ -164,38 +169,51 @@ namespace ProviderGUI
         private void button3_Click(object sender, EventArgs e)
         {
             button3Clicked = true;
-
-            // Generate price based on selected plan
-            if (comboBox1.SelectedItem != null)
-            {
-                string selectedPlan = comboBox1.SelectedItem.ToString();
-                switch (selectedPlan)
+            
+                if (comboBox1.SelectedItem != null)
                 {
-                    case "Internet Plan":
-                        if (float.TryParse(txtdownloadSpeed.Text, out float downloadSpeed) &&
-                            float.TryParse(txtuploadSpeed.Text, out float uploadSpeed))
-                        {
-                            PlanBuilderModel internetPlan = Director.SetInternetPlan(txtplanName.Text, 1, (int)downloadSpeed, (int)uploadSpeed);
-                            plan = internetPlan.ExecutePlanCreation();
-                            floatprice.Text = plan.Price.ToString();
-                            button1.Enabled = true;
-                        }
-                        break;
-                    case "TV Plan":
-                        if (float.TryParse(txtnumberOfChannels.Text, out float numberOfChannels))
-                        {
-                            PlanBuilderModel tvPlan = Director.SetTVPlan(txtplanName.Text, 1, (int)numberOfChannels);
-                            plan = tvPlan.ExecutePlanCreation();
-                            floatprice.Text = plan.Price.ToString();
-                            button1.Enabled = true;
-                        }
-                        break;
+                    string selectedPlan = comboBox1.SelectedItem.ToString();
+                    switch (selectedPlan)
+                    {
+                        case "Internet Plan":
+                            if (float.TryParse(txtdownloadSpeed.Text, out float downloadSpeed) &&
+                                float.TryParse(txtuploadSpeed.Text, out float uploadSpeed))
+                            {
+                                PlanBuilderModel internetPlan = Director.SetInternetPlan(txtplanName.Text, 1, (int)downloadSpeed, (int)uploadSpeed);
+                                plan = internetPlan.ExecutePlanCreation();
+                                floatprice.Text = plan.Price.ToString("0.00") + " din.";
+                                button1.Enabled = true;
+                            }
+                            break;
+                        case "TV Plan":
+                            if (float.TryParse(txtnumberOfChannels.Text, out float numberOfChannels))
+                            {
+                                PlanBuilderModel tvPlan = Director.SetTVPlan(txtplanName.Text, 1, (int)numberOfChannels);
+                                plan = tvPlan.ExecutePlanCreation();
+                                floatprice.Text = plan.Price.ToString("0.00")+" din.";
+                                button1.Enabled = true;
+                            }
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
-            }
-      
+                else
+                {
+                    refresh();
+                }
+
+
+        }
+        private void refresh()
+        {
+            comboBox1.SelectedItem = -1;
+            txtdownloadSpeed.Text = "";
+            txtuploadSpeed.Text = "";
+            txtnumberOfChannels.Text = "";
+            floatprice.Text = "";
+            button1.Enabled = false;
         }
     }
 }

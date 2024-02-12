@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form5));
             label1 = new Label();
             txtplanName = new TextBox();
             txtdownloadSpeed = new TextBox();
@@ -216,6 +217,7 @@
             Controls.Add(label2);
             Controls.Add(txtplanName);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form5";
             Text = "Form5";
             ResumeLayout(false);

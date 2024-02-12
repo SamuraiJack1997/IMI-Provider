@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             button1 = new Button();
             button2 = new Button();
             dataGridView1 = new DataGridView();
@@ -52,7 +53,7 @@
             // 
             button1.Location = new Point(12, 368);
             button1.Name = "button1";
-            button1.Size = new Size(105, 43);
+            button1.Size = new Size(115, 45);
             button1.TabIndex = 0;
             button1.Text = "Add new client";
             button1.UseVisualStyleBackColor = true;
@@ -60,9 +61,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(123, 368);
+            button2.Location = new Point(133, 368);
             button2.Name = "button2";
-            button2.Size = new Size(107, 43);
+            button2.Size = new Size(115, 45);
             button2.TabIndex = 1;
             button2.Text = "Delete selected client";
             button2.UseVisualStyleBackColor = true;
@@ -89,7 +90,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(811, 34);
+            label2.Location = new Point(831, 35);
             label2.Name = "label2";
             label2.Size = new Size(38, 15);
             label2.TabIndex = 4;
@@ -98,15 +99,15 @@
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(811, 56);
+            dataGridView2.Location = new Point(831, 56);
             dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(498, 306);
+            dataGridView2.Size = new Size(501, 306);
             dataGridView2.TabIndex = 5;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(430, 35);
+            label3.Location = new Point(418, 35);
             label3.Name = "label3";
             label3.Size = new Size(117, 15);
             label3.TabIndex = 6;
@@ -115,16 +116,16 @@
             // dataGridView3
             // 
             dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView3.Location = new Point(430, 56);
+            dataGridView3.Location = new Point(418, 56);
             dataGridView3.Name = "dataGridView3";
-            dataGridView3.Size = new Size(375, 306);
+            dataGridView3.Size = new Size(407, 306);
             dataGridView3.TabIndex = 7;
             // 
             // button3
             // 
-            button3.Location = new Point(923, 368);
+            button3.Location = new Point(1096, 368);
             button3.Name = "button3";
-            button3.Size = new Size(91, 46);
+            button3.Size = new Size(115, 45);
             button3.TabIndex = 8;
             button3.Text = "Add combo plan";
             button3.UseVisualStyleBackColor = true;
@@ -132,9 +133,9 @@
             // 
             // button4
             // 
-            button4.Location = new Point(236, 370);
+            button4.Location = new Point(254, 368);
             button4.Name = "button4";
-            button4.Size = new Size(89, 41);
+            button4.Size = new Size(115, 45);
             button4.TabIndex = 9;
             button4.Text = "Undo client changes";
             button4.UseVisualStyleBackColor = true;
@@ -142,9 +143,9 @@
             // 
             // button5
             // 
-            button5.Location = new Point(550, 368);
+            button5.Location = new Point(612, 368);
             button5.Name = "button5";
-            button5.Size = new Size(119, 43);
+            button5.Size = new Size(115, 45);
             button5.TabIndex = 10;
             button5.Text = "Activate plan for selected client";
             button5.UseVisualStyleBackColor = true;
@@ -152,9 +153,9 @@
             // 
             // button6
             // 
-            button6.Location = new Point(430, 368);
+            button6.Location = new Point(491, 368);
             button6.Name = "button6";
-            button6.Size = new Size(114, 43);
+            button6.Size = new Size(115, 45);
             button6.TabIndex = 11;
             button6.Text = "Dectivate plan for selected client";
             button6.UseVisualStyleBackColor = true;
@@ -162,9 +163,9 @@
             // 
             // button7
             // 
-            button7.Location = new Point(811, 368);
+            button7.Location = new Point(975, 368);
             button7.Name = "button7";
-            button7.Size = new Size(106, 46);
+            button7.Size = new Size(115, 45);
             button7.TabIndex = 12;
             button7.Text = "Add Internet/TV plan";
             button7.UseVisualStyleBackColor = true;
@@ -172,9 +173,9 @@
             // 
             // button8
             // 
-            button8.Location = new Point(1234, 12);
+            button8.Location = new Point(1217, 5);
             button8.Name = "button8";
-            button8.Size = new Size(75, 40);
+            button8.Size = new Size(115, 45);
             button8.TabIndex = 13;
             button8.Text = "Change provider";
             button8.UseVisualStyleBackColor = true;
@@ -182,9 +183,9 @@
             // 
             // button9
             // 
-            button9.Location = new Point(1020, 368);
+            button9.Location = new Point(1217, 368);
             button9.Name = "button9";
-            button9.Size = new Size(85, 46);
+            button9.Size = new Size(115, 45);
             button9.TabIndex = 14;
             button9.Text = "Delete selected plan";
             button9.UseVisualStyleBackColor = true;
@@ -194,7 +195,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1321, 420);
+            ClientSize = new Size(1344, 421);
             Controls.Add(button9);
             Controls.Add(button8);
             Controls.Add(button7);
@@ -210,6 +211,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(button2);
             Controls.Add(button1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form2";
             Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

@@ -26,8 +26,10 @@ namespace ProviderGUI
         {
             this.c = c;
             InitializeComponent();
+            this.BackColor = Color.LightBlue;
             this.Text = provider.getName() + "/Register client:";
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.MaximizeBox = false;
         }
 
@@ -74,6 +76,7 @@ namespace ProviderGUI
             {
                 clientSingleton.icc = insertCommand;
                 clientSingleton.client = c;
+                MessageBox.Show("Client successfully registered.", "Success!",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }                                                    
