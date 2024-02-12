@@ -15,6 +15,7 @@ using ProviderDatabaseLibrary.PlanBuider.Models;
 using ProviderDatabaseLibrary.PlanBuider;
 using ProviderDatabaseLibrary.Models.Singletones;
 using System.Numerics;
+using ProviderDatabaseLibrary.Models.Plans.Decorators;
 
 namespace ProviderDatabaseLibrary
 {
@@ -52,11 +53,11 @@ namespace ProviderDatabaseLibrary
             /////////////////////////////////////////////PRIMER KORISCENJA BUILDERA
             //PlanBuilderModel tvPlan = Director.SetTVPlan("TV 101", 1, 101);///////1 je za proveru da li je plan
             //PlanBuilderModel internetPlan = Director.SetInternetPlan("NET Plan", 1, 100,100);////////////1 je za proveru da li je plan,uvek se salje
-            PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO 33", 1,3, 100,50,500);////////////umesto 1 i 1 ide pravi id iz baze za tv ili net plan
+            //PlanBuilderModel comboPlan = Director.SetComboPlan("COMBO 33", 1,3, 100,50,500);////////////umesto 1 i 1 ide pravi id iz baze za tv ili net plan
             
             //Plan plan1 = tvPlan.ExecutePlanCreation();//kada se okine funkcija za ExecutePlanCreation on izracuna cenu za taj plan
             //Plan plan2 = internetPlan.ExecutePlanCreation();
-            Plan plan3 = comboPlan.ExecutePlanCreation();
+            //Plan plan3 = comboPlan.ExecutePlanCreation();
 
             //int rowsAffected1 = db.insertTVPlan((TV_Plan)plan1);
             //int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
@@ -68,17 +69,26 @@ namespace ProviderDatabaseLibrary
             //Console.WriteLine(rowsAffected4);
             //int rowsAffected5 = db.deactivateClientPlanByClientID(9, 3);
             //Console.WriteLine(rowsAffected5);
-            
+
             //if(plan3 is Combo_Plan)
             //{
-                //Console.WriteLine(db.removeInternetPlan(plan3)); 
+            //Console.WriteLine(db.removeInternetPlan(plan3)); 
             //}
 
-            
+            //DECORATOR
+            /*
+            TV_Plan plan = new TV_Plan(1, "TV200", 2000, 2, 3, 4, 200);
+            TV_Plan_Decorator dec = new TV_Plan_Decorator(plan);
+            Console.WriteLine(dec.ToString());
 
-            
+            Internet_Plan plan1 = new Internet_Plan(1, "Net100", 1000, 1, 1, 1, 100, 100);
+            Internet_Plan_Decorator dec1 = new Internet_Plan_Decorator(plan1);
+            Console.WriteLine(dec1.ToString());
 
-
+            Combo_Plan plan2 = new Combo_Plan(1, "Combo100", 1000, 1, 1, 1, 100, 100, 100);
+            Combo_Plan_Decorator dec2 = new Combo_Plan_Decorator(plan2);
+            Console.WriteLine(dec2.ToString());
+            */
         }
     }
 }
