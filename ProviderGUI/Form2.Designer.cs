@@ -44,6 +44,7 @@
             button7 = new Button();
             button8 = new Button();
             button9 = new Button();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
@@ -77,19 +78,22 @@
             dataGridView1.Size = new Size(400, 306);
             dataGridView1.TabIndex = 2;
             dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.KeyPress += dataGridView1_KeyPress;
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label1.Location = new Point(12, 35);
             label1.Name = "label1";
-            label1.Size = new Size(46, 15);
+            label1.Size = new Size(47, 15);
             label1.TabIndex = 3;
             label1.Text = "Clients:";
             // 
             // label2
             // 
             label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label2.Location = new Point(831, 35);
             label2.Name = "label2";
             label2.Size = new Size(38, 15);
@@ -103,13 +107,15 @@
             dataGridView2.Name = "dataGridView2";
             dataGridView2.Size = new Size(501, 306);
             dataGridView2.TabIndex = 5;
+            dataGridView2.KeyPress += dataGridView2_KeyPress;
             // 
             // label3
             // 
             label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label3.Location = new Point(418, 35);
             label3.Name = "label3";
-            label3.Size = new Size(117, 15);
+            label3.Size = new Size(124, 15);
             label3.TabIndex = 6;
             label3.Text = "Selected client plans:";
             // 
@@ -120,6 +126,7 @@
             dataGridView3.Name = "dataGridView3";
             dataGridView3.Size = new Size(407, 306);
             dataGridView3.TabIndex = 7;
+            dataGridView3.KeyPress += dataGridView3_KeyPress;
             // 
             // button3
             // 
@@ -191,11 +198,22 @@
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label4.Location = new Point(12, 9);
+            label4.Name = "label4";
+            label4.Size = new Size(277, 15);
+            label4.TabIndex = 15;
+            label4.Text = "Select row and press I key for more information.";
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1344, 421);
+            Controls.Add(label4);
             Controls.Add(button9);
             Controls.Add(button8);
             Controls.Add(button7);
@@ -238,5 +256,6 @@
         private Button button7;
         private Button button8;
         private Button button9;
+        private Label label4;
     }
 }

@@ -456,7 +456,7 @@ namespace ProviderGUI
             {
                 string planName = (string)dataGridView2.SelectedRows[0].Cells[0].Value;
 
-                Plan selectedPlan=null;
+                Plan selectedPlan = null;
                 foreach (Plan plan in plans)
                 {
                     if (planName == plan.Name)
@@ -466,15 +466,15 @@ namespace ProviderGUI
                     }
                 }
                 int result = -1;
-                if(selectedPlan is TV_Plan)
+                if (selectedPlan is TV_Plan)
                 {
-                    result =db.removeTVPlan(selectedPlan); 
+                    result = db.removeTVPlan(selectedPlan);
                 }
-                else if(selectedPlan is Internet_Plan)
+                else if (selectedPlan is Internet_Plan)
                 {
                     result = db.removeInternetPlan(selectedPlan);
                 }
-                else if(selectedPlan is Combo_Plan)
+                else if (selectedPlan is Combo_Plan)
                 {
                     result = db.removeComboPlan(selectedPlan);
                 }
@@ -491,6 +491,21 @@ namespace ProviderGUI
             {
                 MessageBox.Show("Please select plan row.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void dataGridView3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
         }
     }
 }

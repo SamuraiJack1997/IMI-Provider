@@ -61,9 +61,9 @@ namespace ProviderDatabaseLibrary
 
             //int rowsAffected1 = db.insertTVPlan((TV_Plan)plan1);
             //int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
-            int rowsAffected3 = db.insertComboPlan((Combo_Plan)plan3);
+            //int rowsAffected3 = db.insertComboPlan((Combo_Plan)plan3);
 
-            Console.WriteLine(rowsAffected3);
+            //Console.WriteLine(rowsAffected3);
 
             //int rowsAffected4 = db.activateClientPlanByClientID(9, 3);
             //Console.WriteLine(rowsAffected4);
