@@ -337,7 +337,6 @@ namespace ProviderDatabaseLibrary.Queries
 
             return affectedRows;
         }
-
         public int insertTVPlan(TV_Plan plan)
         {
             int Plan_ID;
@@ -350,6 +349,7 @@ namespace ProviderDatabaseLibrary.Queries
                 SQLiteCommand cmd = new SQLiteCommand(checkTVPlans, _connection);
                 cmd.Parameters.AddWithValue("@Channel_Number", plan.Channel_Number);
                 SQLiteDataReader reader = cmd.ExecuteReader();
+
                 if (!reader.HasRows)
                 {
                     planNumberExists = false;
@@ -528,55 +528,83 @@ namespace ProviderDatabaseLibrary.Queries
         public int insertComboPlan(Combo_Plan plan)
         {
             int Plan_ID;
+            bool planComboExists = true;
             int rowsAffected = 0;
             _connection.Open();
             try
             {
-                string checkComboPlans = @"select ID from Combo_Plan where Internet_Plan_ID=(@Internet_Plan_ID) and TV_Plan_ID=(@TV_Plan_ID)";
+                string checkComboPlans = @"select * from Combo_Plan where Internet_Plan_ID=(@InternetPlanID) and TV_Plan_ID=(@tvPlanID)";
                 SQLiteCommand cmd = new SQLiteCommand(checkComboPlans, _connection);
-                cmd.Parameters.AddWithValue("@Internet_Plan_ID", plan.Internet_Plan_ID);
-                cmd.Parameters.AddWithValue("@TV_Plan_ID", plan.TV_Plan_ID);
+                cmd.Parameters.AddWithValue("@InternetPlanID", plan.Internet_Plan_ID);
+                cmd.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
                 SQLiteDataReader reader = cmd.ExecuteReader();
                 if (!reader.HasRows)
                 {
-                    Console.WriteLine("Combo plan with this combination of INTERNET_PLAN and TV_PLAN does not exist!");
+                    planComboExists = false;
                     reader.Close();
-                    rowsAffected = -1;
-                }
-                else
-                {
-                    reader.Read();
-                    Plan_ID = reader.GetInt32(0);
-                    reader.Close();
-
-                    string checkPlanName = @"select * from Plans where Name=@Name";
-                    cmd = new SQLiteCommand(checkPlanName, _connection);
-                    cmd.Parameters.AddWithValue("@Name", plan.Name);
-                    reader = cmd.ExecuteReader();
-                    if (!reader.HasRows)
+                    string insertComboPlan = @"insert into Combo_Plan (Internet_Plan_ID, TV_Plan_ID) values(@InternetPlanID, @tvPlanID)";
+                    cmd = new SQLiteCommand(insertComboPlan, _connection);
+                    cmd.Parameters.AddWithValue("@InternetPlanID", plan.Internet_Plan_ID);
+                    cmd.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
+                    rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
                     {
+                        string getComboPlanID = @"select ID from Combo_Plan where Internet_Plan_ID=(@InternetPlanID) and TV_Plan_ID=(@tvPlanID)";
+                        cmd = new SQLiteCommand(getComboPlanID, _connection);
+                        cmd.Parameters.AddWithValue("@InternetPlanID", plan.Internet_Plan_ID);
+                        cmd.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
+                        reader = cmd.ExecuteReader();
+                        reader.Read();
+                        Plan_ID = reader.GetInt32(0);
                         reader.Close();
-                        string insertIntoPlans = @"insert into Plans (Name,Price,Internet_Plan_ID,TV_Plan_ID,Combo_Plan_ID) values (@PlanName,@Price,NULL,NULL,@Plan_ID)";
-                        cmd = new SQLiteCommand(insertIntoPlans, _connection);
-                        cmd.Parameters.AddWithValue("@PlanName", plan.Name);
-                        cmd.Parameters.AddWithValue("@Price", plan.Price);
-                        cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
-                        rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
+
+                        string checkPlanName = @"select * from Plans where Name=@Name";
+                        cmd = new SQLiteCommand(checkPlanName, _connection);
+                        cmd.Parameters.AddWithValue("@Name", plan.Name);
+                        reader = cmd.ExecuteReader();
+                        if (!reader.HasRows)
                         {
-                            rowsAffected = 1;
+                            reader.Close();
+                            string insertIntoPlans = @"insert into Plans (Name,Price,Internet_Plan_ID,TV_Plan_ID,Combo_Plan_ID) values (@PlanName,@Price,NULL,NULL,@Plan_ID)";
+                            cmd = new SQLiteCommand(insertIntoPlans, _connection);
+                            cmd.Parameters.AddWithValue("@PlanName", plan.Name);
+                            cmd.Parameters.AddWithValue("@Price", plan.Price);
+                            cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                            rowsAffected = cmd.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                rowsAffected = 1;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Insert into PLANS table error!");
+                                rowsAffected = -1;
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Insert into PLANS table error!");
-                            rowsAffected = -1;
+                            Console.WriteLine("Plan with the same name already exists!");
+                            if (planComboExists == false)
+                            {
+                                string deleteOnError = "delete from Combo_Plan where ID=@Plan_ID";
+                                cmd = new SQLiteCommand(deleteOnError, _connection);
+                                cmd.Parameters.AddWithValue("@Plan_ID", Plan_ID);
+                                cmd.ExecuteNonQuery();
+                            }
+                            rowsAffected = 0;
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Plan with the same name already exists!");
-                        rowsAffected = 0;
+                        Console.WriteLine("Insert into Combo_Plan table error!");
+                        rowsAffected = -1;
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Plan with the same combination already exists!");
+                    reader.Close();
+                    rowsAffected = 0;
                 }
             }
             catch (Exception ex)
@@ -608,11 +636,14 @@ namespace ProviderDatabaseLibrary.Queries
                     Console.WriteLine("Plan is already activated for selected user!");
                     rowsAffected = 0;
                 }
-                Console.WriteLine("Client plan activated successfully!");
+                else
+                {
+                    Console.WriteLine("Client plan activated successfully!");
+                }
             }
             catch
             {
-                Console.WriteLine("Error when adding client!");
+                Console.WriteLine("Error when activating client plan!");
                 rowsAffected = -1;
             }
             finally
@@ -639,7 +670,10 @@ namespace ProviderDatabaseLibrary.Queries
                     Console.WriteLine("No rows affected!");
                     rowsAffected = 0;
                 }
-                Console.WriteLine("Successfully deleted plan for client!");
+                else
+                {
+                    Console.WriteLine("Successfully deleted plan for client!");
+                }
             }
             catch
             {
@@ -655,17 +689,210 @@ namespace ProviderDatabaseLibrary.Queries
 
         public int removeInternetPlan(Plan plan)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+            string query1, query2, query3, query4, query5;
+
+            query1 = @"delete from Clients_Plans_Activated
+                        where Plan_ID in (select p.ID
+                        from Plans p
+                        where p.ID = @planID)";
+
+            query2 = @"delete from Plans
+                        where Combo_Plan_ID in (
+                            select ID
+                            from Combo_Plan
+                            where Internet_Plan_ID = @internetPlanID)";
+
+            query3 = @"delete from Combo_Plan
+                        where Combo_Plan.Internet_Plan_ID = @internetPlanID";
+
+            query4 = @" DELETE FROM Plans
+                        WHERE id = @planID";
+
+            query5 = @"DELETE FROM Internet_Plan
+                            where ID = @internetPlanID";
+
+            SQLiteCommand cmd1, cmd2, cmd3, cmd4, cmd5;
+            _connection.Open();
+            SQLiteTransaction transaction = _connection.BeginTransaction();
+            try
+            {
+                cmd1 = new SQLiteCommand(query1, _connection, transaction);
+                cmd1.Parameters.AddWithValue("@planID", plan.ID);
+                cmd1.ExecuteNonQuery();
+
+                cmd2 = new SQLiteCommand(query2, _connection, transaction);
+                cmd2.Parameters.AddWithValue("@internetPlanID", plan.Internet_Plan_ID);
+                cmd2.ExecuteNonQuery();
+
+                cmd3 = new SQLiteCommand(query3, _connection, transaction);
+                cmd3.Parameters.AddWithValue("@internetPlanID", plan.Internet_Plan_ID);
+                cmd3.ExecuteNonQuery();
+
+                cmd4 = new SQLiteCommand(query4, _connection, transaction);
+                cmd4.Parameters.AddWithValue("@planID", plan.ID);
+                cmd4.ExecuteNonQuery();
+
+                cmd5 = new SQLiteCommand(query5, _connection, transaction);
+                cmd5.Parameters.AddWithValue("@internetPlanID", plan.Internet_Plan_ID);
+                cmd5.ExecuteNonQuery();
+
+                transaction.Commit();
+                Console.WriteLine("Transaction committed.");
+                rowsAffected = 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing transaction: " + ex.Message);
+                try
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("Transaction rolled back.");
+                }
+                catch (Exception rollbackEx)
+                {
+                    Console.WriteLine("Rollback failed: " + rollbackEx.Message);
+                }
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
 
         public int removeTVPlan(Plan plan)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+            string query1, query2, query3, query4, query5;
+
+            query1 = @"delete from Clients_Plans_Activated
+                        where Plan_ID in (select p.ID
+                        from Plans p
+                        where p.ID = @planID)";
+
+            query2 = @"delete from Plans
+                        where Combo_Plan_ID in (
+                            select ID
+                            from Combo_Plan
+                            where TV_Plan_ID = @tvPlanID)";
+
+            query3 = @"delete from Combo_Plan
+                        where Combo_Plan.TV_Plan_ID = @tvPlanID";
+
+            query4 = @" DELETE FROM Plans
+                        WHERE id = @planID";
+
+            query5 = @"DELETE FROM TV_Plan
+                            where ID = @tvPlanID";
+
+            SQLiteCommand cmd1, cmd2, cmd3, cmd4, cmd5;
+            _connection.Open();
+            SQLiteTransaction transaction = _connection.BeginTransaction();
+            try
+            {
+                cmd1 = new SQLiteCommand(query1, _connection, transaction);
+                cmd1.Parameters.AddWithValue("@planID", plan.ID);
+                cmd1.ExecuteNonQuery();
+
+                cmd2 = new SQLiteCommand(query2, _connection, transaction);
+                cmd2.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
+                cmd2.ExecuteNonQuery();
+
+                cmd3 = new SQLiteCommand(query3, _connection, transaction);
+                cmd3.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
+                cmd3.ExecuteNonQuery();
+
+                cmd4 = new SQLiteCommand(query4, _connection, transaction);
+                cmd4.Parameters.AddWithValue("@planID", plan.ID);
+                cmd4.ExecuteNonQuery();
+
+                cmd5 = new SQLiteCommand(query5, _connection, transaction);
+                cmd5.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
+                cmd5.ExecuteNonQuery();
+
+                transaction.Commit();
+                Console.WriteLine("Transaction committed.");
+                rowsAffected = 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing transaction: " + ex.Message);
+                try
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("Transaction rolled back.");
+                }
+                catch (Exception rollbackEx)
+                {
+                    Console.WriteLine("Rollback failed: " + rollbackEx.Message);
+                }
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
 
         public int removeComboPlan(Plan plan)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+            string query1, query2, query3;
+
+            query1 = @"DELETE from Clients_Plans_Activated
+                        where Plan_ID in (select p.ID
+                        from Plans p
+                        where p.ID = @planID)";
+
+            query2 = @" DELETE FROM Plans
+                        WHERE id = @planID";
+
+            query3 = @"DELETE FROM Combo_Plan
+                            where ID = @Combo_Plan_ID";
+
+            SQLiteCommand cmd1, cmd2, cmd3;
+            _connection.Open();
+            SQLiteTransaction transaction = _connection.BeginTransaction();
+            try
+            {
+                cmd1 = new SQLiteCommand(query1, _connection, transaction);
+                cmd1.Parameters.AddWithValue("@planID", plan.ID);
+                cmd1.ExecuteNonQuery();
+
+                cmd2 = new SQLiteCommand(query2, _connection, transaction);
+                cmd2.Parameters.AddWithValue("@planID", plan.ID);
+                cmd2.ExecuteNonQuery();
+
+                cmd3 = new SQLiteCommand(query3, _connection, transaction);
+                cmd3.Parameters.AddWithValue("@Combo_Plan_ID", plan.Combo_Plan_ID);
+                cmd3.ExecuteNonQuery();
+
+                transaction.Commit();
+                Console.WriteLine("Transaction committed.");
+                rowsAffected = 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing transaction: " + ex.Message);
+                try
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("Transaction rolled back.");
+                }
+                catch (Exception rollbackEx)
+                {
+                    Console.WriteLine("Rollback failed: " + rollbackEx.Message);
+                }
+                rowsAffected = -1;
+            }
+            finally
+            {
+                _connection.Close();
+            }
+            return rowsAffected;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace ProviderGUI
         private IProvider db;
         Provider provider = Provider.Instance;
         private bool button3Clicked = false;
+        Plan plan;
         public Form4()
         {
             InitializeComponent();
@@ -113,46 +114,40 @@ namespace ProviderGUI
                 }
             }
 
-
-
-            void button1_Click(object sender, EventArgs e)
+            int result = -1;
+            if (plan != null)
             {
-                // Your existing code for adding plan
-                if (comboBox1.SelectedItem != null)
+                string selectedPlan = comboBox1.SelectedItem.ToString();
+                switch (selectedPlan)
                 {
-                    string selectedPlan = comboBox1.SelectedItem.ToString();
-                    switch (selectedPlan)
-                    {
-                        case "Internet Plan":
-                            if (float.TryParse(txtdownloadSpeed.Text, out float downloadSpeed) &&
-                                float.TryParse(txtuploadSpeed.Text, out float uploadSpeed))
-                            {
-                                PlanBuilderModel internetPlan = Director.SetInternetPlan(txtplanName.Text, 1, (int)downloadSpeed, (int)uploadSpeed);
-                                Plan plan2 = internetPlan.ExecutePlanCreation();
+                    case "Internet Plan":
+                        result = db.insertInternetPlan((Internet_Plan)plan);
+                        if(result > 0)
+                        {
+                            MessageBox.Show("Successfully added plan into database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error while adding plan!", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        break;
+                    case "TV Plan":
+                        result = db.insertTVPlan((TV_Plan)plan);
+                        if (result > 0)
+                        {
+                            MessageBox.Show("Successfully added plan into database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error while adding plan!", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        break;
 
-
-                                // Insert Internet Plan into the database
-                                int rowsAffected2 = db.insertInternetPlan((Internet_Plan)plan2);
-                            }
-                            break;
-                        case "TV Plan":
-                            if (float.TryParse(txtnumberOfChannels.Text, out float numberOfChannels))
-                            {
-                                PlanBuilderModel tvPlan = Director.SetTVPlan(txtplanName.Text, 1, (int)numberOfChannels);
-                                Plan plan1 = tvPlan.ExecutePlanCreation();
-                                floatprice.Text = plan1.Price.ToString();
-
-                                // Insert TV Plan into the database
-                                int rowsAffected1 = db.insertTVPlan((TV_Plan)plan1);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    default:
+                        break;
                 }
-
-
             }
+
             this.DialogResult = DialogResult.OK;
             this.Close();
 
@@ -181,16 +176,18 @@ namespace ProviderGUI
                             float.TryParse(txtuploadSpeed.Text, out float uploadSpeed))
                         {
                             PlanBuilderModel internetPlan = Director.SetInternetPlan(txtplanName.Text, 1, (int)downloadSpeed, (int)uploadSpeed);
-                            Plan plan2 = internetPlan.ExecutePlanCreation();
-                            floatprice.Text = plan2.Price.ToString();
+                            plan = internetPlan.ExecutePlanCreation();
+                            floatprice.Text = plan.Price.ToString();
+                            button1.Enabled = true;
                         }
                         break;
                     case "TV Plan":
                         if (float.TryParse(txtnumberOfChannels.Text, out float numberOfChannels))
                         {
                             PlanBuilderModel tvPlan = Director.SetTVPlan(txtplanName.Text, 1, (int)numberOfChannels);
-                            Plan plan1 = tvPlan.ExecutePlanCreation();
-                            floatprice.Text = plan1.Price.ToString();
+                            plan = tvPlan.ExecutePlanCreation();
+                            floatprice.Text = plan.Price.ToString();
+                            button1.Enabled = true;
                         }
                         break;
 
@@ -198,11 +195,7 @@ namespace ProviderGUI
                         break;
                 }
             }
-
-            // Enable Add Plan button
-            button1.Enabled = true;
-
-
+      
         }
     }
 }

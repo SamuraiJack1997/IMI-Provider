@@ -1,95 +1,66 @@
--- Create a new SQLite database
-CREATE DATABASE IF NOT EXISTS PROVIDER;
-
--- Connect to the SQLite database
-ATTACH DATABASE 'PROVIDER.db' AS PROVIDER;
-
--- CLIENTS table
+---------CLIENTS
 CREATE TABLE Clients (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Username TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    Surname TEXT NOT NULL
+    Username VARCHAR(30) NOT NULL,
+    Name VARCHAR(30) NOT NULL,
+    Surname VARCHAR(30) NOT NULL
 );
 
-INSERT INTO Clients (Username, Name, Surname) VALUES ('Stefan123', 'Stefan', 'Aleksandric');
-INSERT INTO Clients (Username, Name, Surname) VALUES ('Vlade123', 'Vladimir', 'Vukcevic');
-INSERT INTO Clients (Username, Name, Surname) VALUES ('Dare123', 'Darko', 'Bjelicic');
-INSERT INTO Clients (Username, Name, Surname) VALUES ('Fico123', 'Filip', 'Despotovic');
-INSERT INTO Clients (Username, Name, Surname) VALUES ('Tina123', 'Kristina', 'Stojkovic');
 
--- INTERNET_PLAN table
+
+---------INTERNET_PLAN
 CREATE TABLE Internet_Plan (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Download_Speed INTEGER NOT NULL,
     Upload_Speed INTEGER NOT NULL
 );
 
-INSERT INTO Internet_Plan (Download_Speed, Upload_Speed) VALUES (100, 50);
-INSERT INTO Internet_Plan (Download_Speed, Upload_Speed) VALUES (200, 100);
-INSERT INTO Internet_Plan (Download_Speed, Upload_Speed) VALUES (300, 150);
-INSERT INTO Internet_Plan (Download_Speed, Upload_Speed) VALUES (500, 250);
-INSERT INTO Internet_Plan (Download_Speed, Upload_Speed) VALUES (1000, 500);
 
--- TV_PLAN table
+
+---------TV_PLAN
 CREATE TABLE TV_Plan (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     Channel_Number INTEGER NOT NULL
 );
 
-INSERT INTO TV_Plan (Channel_Number) VALUES (100);
-INSERT INTO TV_Plan (Channel_Number) VALUES (200);
-INSERT INTO TV_Plan (Channel_Number) VALUES (300);
-INSERT INTO TV_Plan (Channel_Number) VALUES (500);
-INSERT INTO TV_Plan (Channel_Number) VALUES (1000);
 
--- COMBINED_PLAN table
+
+---------COMBINED_PLAN
 CREATE TABLE Combo_Plan (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Internet_Plan_ID INTEGER REFERENCES Internet_Plan(ID),
-    TV_Plan_ID INTEGER REFERENCES TV_Plan(ID)
+    Internet_Plan_ID INTEGER,
+    TV_Plan_ID INTEGER
 );
 
-INSERT INTO Combo_Plan (Internet_Plan_ID, TV_Plan_ID) VALUES (1, 1);
-INSERT INTO Combo_Plan (Internet_Plan_ID, TV_Plan_ID) VALUES (2, 2);
-INSERT INTO Combo_Plan (Internet_Plan_ID, TV_Plan_ID) VALUES (3, 3);
-INSERT INTO Combo_Plan (Internet_Plan_ID, TV_Plan_ID) VALUES (4, 4);
-INSERT INTO Combo_Plan (Internet_Plan_ID, TV_Plan_ID) VALUES (5, 5);
-INSERT INTO Combo_Plan (Internet_Plan_ID, TV_Plan_ID) VALUES (1, 5);
 
--- PLANS table
+
+---------PLANS
 CREATE TABLE Plans (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Name TEXT NOT NULL,
+    Name VARCHAR(30) NOT NULL,
     Price REAL NOT NULL,
-    Internet_Plan_ID INTEGER REFERENCES Internet_Plan(ID),
-    TV_Plan_ID INTEGER REFERENCES TV_Plan(ID),
-    Combo_Plan_ID INTEGER REFERENCES Combo_Plan(ID)
+    Internet_Plan_ID INTEGER,
+    TV_Plan_ID INTEGER,
+    Combo_Plan_ID INTEGER
 );
 
-INSERT INTO Plans (Name, Price, Internet_Plan_ID, TV_Plan_ID, Combo_Plan_ID) VALUES ('NET 100', 1000, 1, NULL, NULL);
-INSERT INTO Plans (Name, Price, Internet_Plan_ID, TV_Plan_ID, Combo_Plan_ID) VALUES ('TV 100', 500, NULL, 1, NULL);
-INSERT INTO Plans (Name, Price, Internet_Plan_ID, TV_Plan_ID, Combo_Plan_ID) VALUES ('COMBO 100', 1200, NULL, NULL, 1);
-INSERT INTO Plans (Name, Price, Internet_Plan_ID, TV_Plan_ID, Combo_Plan_ID) VALUES ('NET 300', 3000, 3, NULL, NULL);
 
--- CLIENTS_PLANS_ACTIVATED table
+
+---------CLIENT_PLANS_Activated
 CREATE TABLE Clients_Plans_Activated (
-    Client_ID INTEGER REFERENCES Clients(ID),
-    Plan_ID INTEGER REFERENCES Plans(ID),
+    Client_ID INTEGER,
+    Plan_ID INTEGER,
     PRIMARY KEY (Client_ID, Plan_ID)
 );
 
-INSERT INTO Clients_Plans_Activated (Client_ID, Plan_ID) VALUES (1, 1);
-INSERT INTO Clients_Plans_Activated (Client_ID, Plan_ID) VALUES (2, 2);
-INSERT INTO Clients_Plans_Activated (Client_ID, Plan_ID) VALUES (3, 3);
 
--- CLIENTS_PLANS_DEACTIVATED table
-CREATE TABLE Clients_Plans_Deactivated (
-    Client_ID INTEGER REFERENCES Clients(ID),
-    Plan_ID INTEGER REFERENCES Plans(ID),
-    PRIMARY KEY (Client_ID, Plan_ID)
+
+---------Prices_Plans
+CREATE TABLE Prices (
+    Download_Price REAL NOT NULL,
+    Upload_Price REAL NOT NULL,
+    Channel_Price REAL NOT NULL
 );
 
-INSERT INTO Clients_Plans_Deactivated (Client_ID, Plan_ID) VALUES (1, 2);
-INSERT INTO Clients_Plans_Deactivated (Client_ID, Plan_ID) VALUES (2, 3);
-INSERT INTO Clients_Plans_Deactivated (Client_ID, Plan_ID) VALUES (3, 4);
+INSERT INTO Prices VALUES (5, 3, 10);
+

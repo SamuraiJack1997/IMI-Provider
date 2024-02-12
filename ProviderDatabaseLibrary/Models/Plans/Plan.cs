@@ -16,9 +16,9 @@ namespace ProviderDatabaseLibrary.Models.Plans
         public int ID { get; set; }
         public string Name { get; set; }
         public float Price { get; set; }
-        public int? Internet_Plan_ID { get; set; }
-        public int? TV_Plan_ID { get; set; }
-        public int? Combo_Plan_ID { get; set; }
+        public int Internet_Plan_ID { get; set; }
+        public int TV_Plan_ID { get; set; }
+        public int Combo_Plan_ID { get; set; }
 
         public Plan(int iD, string name, float price, int internet_Plan_ID, int tV_Plan_ID, int combo_Plan_ID)
         {

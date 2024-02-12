@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ProviderGUI
 {
@@ -40,13 +41,7 @@ namespace ProviderGUI
             button4.Enabled = false;
             InitDataGridView1();
             InitDataGridView2();
-            if (clients != null)
-            {
-                if (clients[0] != null)
-                {
-                    InitDataGridView3(clients[0].ID);
-                }
-            }
+            InitDataGridView3(0);
             this.FormClosing += Form2_FormClosing;
 
         }
@@ -65,13 +60,6 @@ namespace ProviderGUI
         {
             InitDataGridView1();
             InitDataGridView2();
-            if (clients != null)
-            {
-                if (clients[0] != null)
-                {
-                    InitDataGridView3(clients[0].ID);
-                }
-            }
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -110,7 +98,6 @@ namespace ProviderGUI
                     unlockForm();
                     button4.Enabled = false;
                     refresh();
-                    //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
                 }
             }
         }
@@ -132,7 +119,6 @@ namespace ProviderGUI
                     unlockForm();
                     button4.Enabled = false;
                     refresh();
-                    //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
                 }
             }
         }
@@ -199,7 +185,7 @@ namespace ProviderGUI
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(float));
+            dataTable.Columns.Add("Price(din.)", typeof(float));
             dataTable.Columns.Add("Plan_Type", typeof(string));
             dataTable.Columns.Add("Download / Upload", typeof(string));
             dataTable.Columns.Add("Channel Number", typeof(string));
@@ -244,7 +230,7 @@ namespace ProviderGUI
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(float));
+            dataTable.Columns.Add("Price(din.)", typeof(float));
             dataTable.Columns.Add("Plan_Type", typeof(string));
 
             foreach (var activatedPlan in activatedPlans)
@@ -345,7 +331,7 @@ namespace ProviderGUI
         {
 
             lockForm();
-            using (Form5 form5 = new Form5()) //TODO -insert plan memento
+            using (Form5 form5 = new Form5())
             {
                 var result = form5.ShowDialog();
                 if (result == DialogResult.OK)
@@ -359,7 +345,6 @@ namespace ProviderGUI
                     unlockForm();
                     button4.Enabled = false;
                     refresh();
-                    //TODO - AKO SE ADUJE KORISNIK PA SE POSLE OPET HOCEMO DA ADDUJEMO ALI KLIKNEMO CANCEL, UNDO BUTTON JE FALSE
                 }
             }
         }
@@ -367,37 +352,37 @@ namespace ProviderGUI
         private void button6_Click(object sender, EventArgs e)
         {
             db = ProviderFactory.Provider(provider.getDatabaseType());
-                                        
+
             try
             {
-                string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;                    
+                string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;
                 int clientId = db.getClientIdByUsername(username);
                 if (clientId == -1)
-                    MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Fail to retrieve username id from database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                List<Plan> plans = db.getActivatedClientPlansByClientID(clientId);                
+                List<Plan> plans = db.getActivatedClientPlansByClientID(clientId);
                 string planName = (string)dataGridView3.SelectedRows[0].Cells[0].Value;
                 int planId = -1;
-                foreach(Plan plan in plans)
+                foreach (Plan plan in plans)
                 {
-                    if(planName == plan.Name)
+                    if (planName == plan.Name)
                     {
                         planId = plan.ID;
                         break;
                     }
                 }
                 int result = db.deactivateClientPlanByClientID(clientId, planId);
-                if(result == 1) MessageBox.Show("Successfully deactivated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if(result == -1) MessageBox.Show("Unsuccessfully deactivated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == 1) MessageBox.Show("Successfully deactivated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == -1) MessageBox.Show("Unsuccessfully deactivated plan for the client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 refresh();
                 SelectRowByCondition(username);
                 InitDataGridView3(clientId);
             }
             catch
             {
-                MessageBox.Show("Please select client and activated plans row.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select client and activated plans row.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -409,8 +394,8 @@ namespace ProviderGUI
                 string username = (string)dataGridView1.SelectedRows[0].Cells[0].Value;
                 int clientId = db.getClientIdByUsername(username);
                 if (clientId == -1)
-                    MessageBox.Show("Fail to retrieve username id from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                
+                    MessageBox.Show("Fail to retrieve username id from database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 string planName = (string)dataGridView2.SelectedRows[0].Cells[0].Value;
                 int planId = -1;
                 foreach (Plan plan in plans)
@@ -423,14 +408,14 @@ namespace ProviderGUI
                 }
                 int result = db.activateClientPlanByClientID(clientId, planId);
                 if (result == 1) MessageBox.Show("Successfully activated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if (result == -1) MessageBox.Show("Unsuccessfully activated plan for the client.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == -1) MessageBox.Show("Unsuccessfully activated plan for the client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 refresh();
                 SelectRowByCondition(username);
                 InitDataGridView3(clientId);
             }
             catch
             {
-                MessageBox.Show("Please select client and plans row.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select client and plans row.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -456,6 +441,51 @@ namespace ProviderGUI
                     // Break out of the loop since you found the desired row
                     break;
                 }
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            db = ProviderFactory.Provider(provider.getDatabaseType());
+
+            try
+            {
+                string planName = (string)dataGridView2.SelectedRows[0].Cells[0].Value;
+
+                Plan selectedPlan=null;
+                foreach (Plan plan in plans)
+                {
+                    if (planName == plan.Name)
+                    {
+                        selectedPlan = plan;
+                        break;
+                    }
+                }
+                int result = -1;
+                if(selectedPlan is TV_Plan)
+                {
+                    result =db.removeTVPlan(selectedPlan); 
+                }
+                else if(selectedPlan is Internet_Plan)
+                {
+                    result = db.removeInternetPlan(selectedPlan);
+                }
+                else if(selectedPlan is Combo_Plan)
+                {
+                    result = db.removeComboPlan(selectedPlan);
+                }
+                else
+                {
+                    result = -1;
+                }
+                if (result == 1) MessageBox.Show("Successfully removed plan from database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result == -1) MessageBox.Show("Unsuccessfully removed plan from database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                refresh();
+                refresh();
+            }
+            catch
+            {
+                MessageBox.Show("Please select plan row.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

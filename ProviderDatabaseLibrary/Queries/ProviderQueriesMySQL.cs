@@ -769,7 +769,7 @@ namespace ProviderDatabaseLibrary.Queries
         }
 
         public int removeTVPlan(Plan plan)
-        {
+        {       
             int rowsAffected = 0;
             string query1, query2, query3, query4, query5;
 
@@ -803,11 +803,11 @@ namespace ProviderDatabaseLibrary.Queries
                 cmd1.ExecuteNonQuery();
 
                 cmd2 = new SqlCommand(query2, _connection, transaction);
-                cmd2.Parameters.AddWithValue("@tvPlanID", plan.Internet_Plan_ID);
+                cmd2.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
                 cmd2.ExecuteNonQuery();
 
                 cmd3 = new SqlCommand(query3, _connection, transaction);
-                cmd3.Parameters.AddWithValue("@tvPlanID", plan.Internet_Plan_ID);
+                cmd3.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
                 cmd3.ExecuteNonQuery();
 
                 cmd4 = new SqlCommand(query4, _connection, transaction);
@@ -815,7 +815,7 @@ namespace ProviderDatabaseLibrary.Queries
                 cmd4.ExecuteNonQuery();
 
                 cmd5 = new SqlCommand(query5, _connection, transaction);
-                cmd5.Parameters.AddWithValue("@tvPlanID", plan.Internet_Plan_ID);
+                cmd5.Parameters.AddWithValue("@tvPlanID", plan.TV_Plan_ID);
                 cmd5.ExecuteNonQuery();
 
                 transaction.Commit();
@@ -848,7 +848,7 @@ namespace ProviderDatabaseLibrary.Queries
             int rowsAffected = 0;
             string query1, query2, query3;
 
-            query1 = @"delete from Clients_Plans_Activated
+            query1 = @"DELETE from Clients_Plans_Activated
                         where Plan_ID in (select p.ID
                         from Plans p
                         where p.ID = @planID)";
@@ -869,11 +869,11 @@ namespace ProviderDatabaseLibrary.Queries
                 cmd1.ExecuteNonQuery();
 
                 cmd2 = new SqlCommand(query2, _connection, transaction);
-                cmd2.Parameters.AddWithValue("@planID", plan.Internet_Plan_ID);
+                cmd2.Parameters.AddWithValue("@planID", plan.ID);
                 cmd2.ExecuteNonQuery();
 
                 cmd3 = new SqlCommand(query3, _connection, transaction);
-                cmd3.Parameters.AddWithValue("@Combo_Plan_ID", plan.Internet_Plan_ID);
+                cmd3.Parameters.AddWithValue("@Combo_Plan_ID", plan.Combo_Plan_ID);
                 cmd3.ExecuteNonQuery();
 
                 transaction.Commit();

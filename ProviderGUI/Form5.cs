@@ -146,11 +146,12 @@ namespace ProviderGUI
             }
             if(flag > 0)
             {
-                MessageBox.Show("Successed inserted plan.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Successfully inserted plan.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                refresh();
                 this.Close();
             }
             
-            //this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
@@ -181,7 +182,7 @@ namespace ProviderGUI
             {
                 if (comboB)
                 {
-                    PlanBuilderModel comboPlan = Director.SetComboPlan(txtplanName.Text, internet_plan.ID, tv_plan.ID, internet_plan.Download_Speed, internet_plan.Upload_Speed, tv_plan.Channel_Number);
+                    PlanBuilderModel comboPlan = Director.SetComboPlan(txtplanName.Text, internet_plan.Internet_Plan_ID, tv_plan.TV_Plan_ID, internet_plan.Download_Speed, internet_plan.Upload_Speed, tv_plan.Channel_Number);
                     plan = comboPlan.ExecutePlanCreation();                
                     floatprice.Text = plan.Price.ToString();
                     button1.Enabled = true;                

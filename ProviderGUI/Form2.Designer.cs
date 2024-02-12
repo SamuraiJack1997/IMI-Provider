@@ -75,7 +75,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(400, 306);
             dataGridView1.TabIndex = 2;
-            dataGridView1.CellClick += dataGridView1_CellClick;            
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // label1
             // 
@@ -188,6 +188,7 @@
             button9.TabIndex = 14;
             button9.Text = "Delete selected plan";
             button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
             // 
             // Form2
             // 
