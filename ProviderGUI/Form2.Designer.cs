@@ -78,7 +78,6 @@
             dataGridView1.Size = new Size(400, 306);
             dataGridView1.TabIndex = 2;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            dataGridView1.KeyPress += dataGridView1_KeyPress;
             // 
             // label1
             // 
@@ -107,7 +106,6 @@
             dataGridView2.Name = "dataGridView2";
             dataGridView2.Size = new Size(501, 306);
             dataGridView2.TabIndex = 5;
-            dataGridView2.KeyPress += dataGridView2_KeyPress;
             // 
             // label3
             // 
@@ -126,7 +124,6 @@
             dataGridView3.Name = "dataGridView3";
             dataGridView3.Size = new Size(407, 306);
             dataGridView3.TabIndex = 7;
-            dataGridView3.KeyPress += dataGridView3_KeyPress;
             // 
             // button3
             // 

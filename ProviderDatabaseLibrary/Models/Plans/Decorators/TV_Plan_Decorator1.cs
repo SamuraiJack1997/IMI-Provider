@@ -8,17 +8,17 @@ using System.Xml.Linq;
 
 namespace ProviderDatabaseLibrary.Models.Plans.Decorators
 {
-    public class TV_Plan_Decorator : TV_Plan
+    public class TV_Plan_Decorator1 : TV_Plan
     {
         private readonly TV_Plan plan;
-        public TV_Plan_Decorator(TV_Plan plan): base(plan.ID, plan.Name, plan.Price, plan.Internet_Plan_ID, plan.TV_Plan_ID, plan.Combo_Plan_ID, plan.Channel_Number )
+        public TV_Plan_Decorator1(TV_Plan plan): base(plan.ID, plan.Name, plan.Price, plan.Internet_Plan_ID, plan.TV_Plan_ID, plan.Combo_Plan_ID, plan.Channel_Number )
         {
             this.plan = plan;
         }
 
         public override string ToString()
         {
-            return $"TV PLAN: "+plan.Name+".\nOvim planom dobijate: "+plan.Channel_Number+" kanala. \nMesecna naknada: " + plan.Price+"dinara.";
+            return $"TV PLAN: "+plan.Name+"\nOvim planom dobijate: "+plan.Channel_Number+" kanala\nMesecna naknada: " + plan.Price+" din.";
         }
     }
 

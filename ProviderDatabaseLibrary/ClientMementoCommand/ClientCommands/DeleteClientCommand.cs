@@ -39,10 +39,9 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
             Console.WriteLine($"Updating client {_client.ID}...");
 
             _client.ID = db.getClientIdByUsername(_client.Username);
-            int result = db.removeClientByID(_client.ID);
-            
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);
-            _previousState.ActivatedPlans=db.getActivatedClientPlansByClientID(_client.ID);
+            _previousState.ActivatedPlans = db.getActivatedClientPlansByClientID(_client.ID);
+            int result = db.removeClientByID(_client.ID);
             Console.WriteLine($"Client {_client.ID} deleted. New state: {_client}");
             return result;
         }

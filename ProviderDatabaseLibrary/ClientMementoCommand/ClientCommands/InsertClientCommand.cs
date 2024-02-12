@@ -35,12 +35,9 @@ namespace ProviderDatabaseLibrary.ClientMementoCommand.ClientCommands
         public int Execute()
         {
             
-            // Perform the insert operation
             db = ProviderFactory.Provider(provider.getDatabaseType());
             
             Console.WriteLine($"Inserting client {_client.ID}...");
-
-            // Inserting clients
             int result = db.insertClient(_client.Username, _client.Name, _client.Surname);
             _client.ID = db.getClientIdByUsername(_client.Username);
             _previousState.ID = db.getClientIdByUsername(_previousState.Username);            

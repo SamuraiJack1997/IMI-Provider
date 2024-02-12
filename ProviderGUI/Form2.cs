@@ -47,6 +47,9 @@ namespace ProviderGUI
             InitDataGridView1();
             InitDataGridView2();
             InitDataGridView3(0);
+            dataGridView2.KeyDown += Form_KeyDown2;
+            dataGridView3.KeyDown += Form_KeyDown3;
+
             this.FormClosing += Form2_FormClosing;
 
         }
@@ -225,13 +228,12 @@ namespace ProviderGUI
             dataGridView2.DataSource = dataTable;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ReadOnly = true;
-            dataGridView2.KeyDown += Form_KeyDown2;
+
         }
 
 
         private void InitDataGridView3(int id)
         {
-            bool flag = true;
             db = ProviderFactory.Provider(provider.getDatabaseType());
             activatedPlans = new List<Plan>();
             activatedPlans = db.getActivatedClientPlansByClientID(id);
@@ -253,13 +255,7 @@ namespace ProviderGUI
             dataGridView3.DataSource = dataTable;
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView3.ReadOnly = true;
-            if (flag == true)
-            {
-                flag = false;
-                dataGridView3.KeyDown += Form_KeyDown3;
-            }   
-            else
-                flag = true;
+            
             
         }
 
@@ -286,7 +282,11 @@ namespace ProviderGUI
                 db = ProviderFactory.Provider(provider.getDatabaseType());
                 db.insertClient(removedClient.Username, removedClient.Name, removedClient.Surname);
                 int clientID = db.getClientIdByUsername(removedClient.Username);
-                //TODO dodaj planove za korisnikov id
+                foreach(Plan plan in removedClient.ActivatedPlans)
+                {
+                    db.activateClientPlanByClientID(clientID, plan.ID);
+                }
+                
                 button4.Enabled = false;
                 refresh();
                 deletedClient = false;
@@ -505,21 +505,6 @@ namespace ProviderGUI
             }
         }
 
-        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void dataGridView3_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void dataGridView2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
 
         private void Form_KeyDown2(object sender, KeyEventArgs e)
         {
@@ -545,17 +530,17 @@ namespace ProviderGUI
 
                 if (selectedPlan is Internet_Plan)
                 {
-                    selectedPlan = new Internet_Plan_Decorator((Internet_Plan)selectedPlan);
+                    selectedPlan = new Internet_Plan_Decorator1((Internet_Plan)selectedPlan);
                     message = selectedPlan.ToString();
                 }
                 else if (selectedPlan is TV_Plan)
                 {
-                    selectedPlan = new TV_Plan_Decorator((TV_Plan)selectedPlan);
+                    selectedPlan = new TV_Plan_Decorator1((TV_Plan)selectedPlan);
                     message = selectedPlan.ToString();
                 }
                 else if (selectedPlan is Combo_Plan)
                 {
-                    selectedPlan = new Combo_Plan_Decorator((Combo_Plan)selectedPlan);
+                    selectedPlan = new Combo_Plan_Decorator1((Combo_Plan)selectedPlan);
                     message = selectedPlan.ToString();
                 }
 
@@ -588,17 +573,17 @@ namespace ProviderGUI
 
                 if (selectedPlan is Internet_Plan)
                 {
-                    selectedPlan = new Internet_Plan_Decorator((Internet_Plan)selectedPlan);
+                    selectedPlan = new Internet_Plan_Decorator2((Internet_Plan)selectedPlan);
                     message = selectedPlan.ToString();
                 }
                 else if (selectedPlan is TV_Plan)
                 {
-                    selectedPlan = new TV_Plan_Decorator((TV_Plan)selectedPlan);
+                    selectedPlan = new TV_Plan_Decorator2((TV_Plan)selectedPlan);
                     message = selectedPlan.ToString();
                 }
                 else if (selectedPlan is Combo_Plan)
                 {
-                    selectedPlan = new Combo_Plan_Decorator((Combo_Plan)selectedPlan);
+                    selectedPlan = new Combo_Plan_Decorator2((Combo_Plan)selectedPlan);
                     message = selectedPlan.ToString();
                 }
 
