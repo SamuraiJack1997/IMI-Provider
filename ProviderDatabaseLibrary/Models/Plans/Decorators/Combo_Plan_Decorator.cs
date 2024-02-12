@@ -16,7 +16,7 @@ namespace ProviderDatabaseLibrary.Models.Plans.Decorators
 
         public override string ToString()
         {
-            return $"COMBO PLAN: " + plan.Name + ". Ovim planom dobijate: " + plan.Channel_Number + "kanala i internet brzine: "+plan.Download_Speed+"/"+plan.Upload_Speed+"mbps. Mesecna naknada: " + plan.Price + "dinara.";
+            return $"COMBO PLAN: " + plan.Name + ". \nOvim planom dobijate: " + plan.Channel_Number + " kanala \nInternet brzine: "+plan.Download_Speed+"/"+plan.Upload_Speed+" mbps. \nMesecna naknada: " + plan.Price + "dinara.";
         }
     }
 }

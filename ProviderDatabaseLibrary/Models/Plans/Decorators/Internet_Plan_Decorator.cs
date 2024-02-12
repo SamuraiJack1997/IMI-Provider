@@ -16,7 +16,7 @@ namespace ProviderDatabaseLibrary.Models.Plans.Decorators
 
         public override string ToString()
         {
-            return $"INTERNET PLAN: " + plan.Name + ". Ovim planom dobijate internet brzine: "+plan.Download_Speed+"/"+plan.Upload_Speed+"mbps. Mesecna naknada: " + plan.Price + "dinara.";
+            return $"INTERNET PLAN: " + plan.Name + ".\nOvim planom dobijate internet brzine: "+plan.Download_Speed+"/"+plan.Upload_Speed+" mbps. \nMesecna naknada: " + plan.Price + "dinara.";
         }
     }
 }

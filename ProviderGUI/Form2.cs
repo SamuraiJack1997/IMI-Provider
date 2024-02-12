@@ -4,6 +4,7 @@ using ProviderDatabaseLibrary.Factories;
 using ProviderDatabaseLibrary.Interfaces;
 using ProviderDatabaseLibrary.Models;
 using ProviderDatabaseLibrary.Models.Plans;
+using ProviderDatabaseLibrary.Models.Plans.Decorators;
 using ProviderDatabaseLibrary.Models.Singletones;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace ProviderGUI
         Client insertedClient;
         List<Client> clients;
         List<Plan> plans;
+        List<Plan> activatedPlans;
         DeleteClientCommand deleteClientCommand;
         Client removedClient;
         bool addedClient = false;
@@ -223,13 +225,15 @@ namespace ProviderGUI
             dataGridView2.DataSource = dataTable;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.ReadOnly = true;
+            dataGridView2.KeyDown += Form_KeyDown2;
         }
+
 
         private void InitDataGridView3(int id)
         {
-
+            bool flag = true;
             db = ProviderFactory.Provider(provider.getDatabaseType());
-            List<Plan> activatedPlans = new List<Plan>();
+            activatedPlans = new List<Plan>();
             activatedPlans = db.getActivatedClientPlansByClientID(id);
 
             DataTable dataTable = new DataTable();
@@ -249,6 +253,14 @@ namespace ProviderGUI
             dataGridView3.DataSource = dataTable;
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView3.ReadOnly = true;
+            if (flag == true)
+            {
+                flag = false;
+                dataGridView3.KeyDown += Form_KeyDown3;
+            }   
+            else
+                flag = true;
+            
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -506,6 +518,92 @@ namespace ProviderGUI
         private void dataGridView2_KeyPress(object sender, KeyPressEventArgs e)
         {
 
+        }
+
+
+        private void Form_KeyDown2(object sender, KeyEventArgs e)
+        {
+            Plan selectedPlan = null;
+
+            if (e.KeyCode == Keys.I && dataGridView2.SelectedRows.Count > 0)
+            {
+
+
+                DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
+
+                string name = selectedRow.Cells["Name"].Value.ToString();
+                foreach (var plan in plans)
+                {
+                    if (plan.Name == name)
+                    {
+                        selectedPlan = plan;
+                        break;
+                    }
+                }
+
+                string message = "";
+
+                if (selectedPlan is Internet_Plan)
+                {
+                    selectedPlan = new Internet_Plan_Decorator((Internet_Plan)selectedPlan);
+                    message = selectedPlan.ToString();
+                }
+                else if (selectedPlan is TV_Plan)
+                {
+                    selectedPlan = new TV_Plan_Decorator((TV_Plan)selectedPlan);
+                    message = selectedPlan.ToString();
+                }
+                else if (selectedPlan is Combo_Plan)
+                {
+                    selectedPlan = new Combo_Plan_Decorator((Combo_Plan)selectedPlan);
+                    message = selectedPlan.ToString();
+                }
+
+                MessageBox.Show(message, "Plan Details", MessageBoxButtons.OK);
+            }
+        }
+
+        private void Form_KeyDown3(object sender, KeyEventArgs e)
+        {
+            Plan selectedPlan = null;
+
+            if (e.KeyCode == Keys.I && dataGridView3.SelectedRows.Count > 0)
+            {
+
+
+                DataGridViewRow selectedRow = dataGridView3.SelectedRows[0];
+
+                string name = selectedRow.Cells["Name"].Value.ToString();
+                foreach (var plan in activatedPlans)
+                {
+
+                    if (plan.Name == name)
+                    {
+                        selectedPlan = plan;
+                        break;
+                    }
+                }
+
+                string message = "";
+
+                if (selectedPlan is Internet_Plan)
+                {
+                    selectedPlan = new Internet_Plan_Decorator((Internet_Plan)selectedPlan);
+                    message = selectedPlan.ToString();
+                }
+                else if (selectedPlan is TV_Plan)
+                {
+                    selectedPlan = new TV_Plan_Decorator((TV_Plan)selectedPlan);
+                    message = selectedPlan.ToString();
+                }
+                else if (selectedPlan is Combo_Plan)
+                {
+                    selectedPlan = new Combo_Plan_Decorator((Combo_Plan)selectedPlan);
+                    message = selectedPlan.ToString();
+                }
+
+                MessageBox.Show(message, "Plan Details", MessageBoxButtons.OK);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ProviderDatabaseLibrary.Models.Plans.Decorators
 
         public override string ToString()
         {
-            return $"TV PLAN: "+plan.Name+". Ovim planom dobijate: "+plan.Channel_Number+"kanala. Mesecna naknada: " + plan.Price+"dinara.";
+            return $"TV PLAN: "+plan.Name+".\nOvim planom dobijate: "+plan.Channel_Number+" kanala. \nMesecna naknada: " + plan.Price+"dinara.";
         }
     }
 
