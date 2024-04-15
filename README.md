@@ -10,9 +10,9 @@ For importing provider configurations, a simple text file format is employed. Pl
 
 # Running
 
-1.The application executable files are included in the project files for convenience.
+1. The application executable files are included in ProviderApp folder within the project files for convenience.
 
-2.With Visual Studio, you can independently test the GUI project and DLL project. Ensure that you set the startup project to the one you wish to test. Note that if you intend to test the DLL project, you will need to change the output type from "Class Library" to "Console Application." To do so, right-click on the ProviderDatabaseLibrary project, navigate to Properties, and then adjust the Output Type setting.
+2. With Visual Studio, you can independently test the GUI project and DLL project. Ensure that you set the startup project to the one you wish to test. Note that if you intend to test the DLL project, you will need to change the output type from "Class Library" to "Console Application." To do so, right-click on the ProviderDatabaseLibrary project, navigate to Properties, and then adjust the Output Type setting.
 
 3. Database Import: For correct database importing, refer to the "Project Overview" section.
 
