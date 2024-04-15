@@ -2,7 +2,7 @@
 Faculty project for Internet\TV providers that incorporates Design Patterns\Windows Forms\C#\MySQL\SQLite
 
 # Project Overview
-The aim of this project is to utilize the ProviderDatabaseLibrary as a DLL (Class Library) within a Windows Forms GUI project. This project is built on .NET 8.0, so ensure you have it installed if you plan on running the project files in Visual Studio.
+The aim of this project is to utilize the ProviderDatabaseLibrary as a DLL (Class Library) within a Windows Forms ProviderGUI project. This project is built on .NET 8.0, so ensure you have it installed if you plan on running the project files in Visual Studio.
 
 This application utilizes two databases: MySQL and SQLite. Ensure that you have a MySQL server running to access the MySQL database, while the SQLite database is provided within the project files.
 
